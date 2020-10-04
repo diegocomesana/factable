@@ -51,7 +51,7 @@ module.exports = function ({ types: t }) {
 
   const VisitorInitiator = {
     Program(path) {
-      console.log("DIEGO ----- File: ", path.parent.comments);
+      console.log("DIEGO ----- File Comments: ", path.parent.comments);
 
       const commentLineTokens = path.parent.comments.filter(
         (token) => token.type === "CommentLine"
