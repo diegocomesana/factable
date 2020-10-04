@@ -4,8 +4,8 @@
   "description": "A test case generation and managment tool for nodejs babel transpiled projects",
   "main": "./factable/index.js",
   "scripts": {
-    "plugin:test": "jest ./plugin/tests",
-    "plugin:dev": "nodemon ./plugin/dev"
+    "plugin:test": "jest ./factable/plugin/tests",
+    "plugin:dev": "nodemon ./factable/plugin/src/dev"
   },
   "repository": {
     "type": "git",
