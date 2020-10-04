@@ -1,0 +1,37 @@
+{
+  "name": "factable",
+  "version": "1.0.0-alpha.1",
+  "description": "A test case generation and managment tool for nodejs babel transpiled projects",
+  "main": "./factable/index.js",
+  "scripts": {
+    "plugin:test": "jest ./plugin/tests",
+    "plugin:dev": "nodemon ./plugin/dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegocomesana/factable.git"
+  },
+  "keywords": [
+    "test",
+    "case",
+    "generation",
+    "management",
+    "tool",
+    "nodejs"
+  ],
+  "author": "Diego Manuel Comesaña",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/diegocomesana/factable/issues"
+  },
+  "homepage": "https://github.com/diegocomesana/factable#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-tester": "^9.2.0",
+    "babel-template": "^6.26.0",
+    "cardinal": "^2.1.1",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {}
+}
