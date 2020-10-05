@@ -1,6 +1,7 @@
 const {
   excludeThisFunctionNode,
   wrapperOutputName,
+  getAlowedNames,
 } = require("./common/utils");
 
 module.exports = function ({ types: t }) {
@@ -20,8 +21,8 @@ module.exports = function ({ types: t }) {
     //     }
     //   },
     Function: {
-      enter(path) {
-        if (excludeThisFunctionNode(path)) {
+      enter(path, state) {
+        if (excludeThisFunctionNode(path, state)) {
           return;
         }
 
@@ -51,7 +52,7 @@ module.exports = function ({ types: t }) {
 
   const VisitorInitiator = {
     Program(path) {
-      console.log("DIEGO ----- File Comments: ", path.parent.comments);
+      // console.log("DIEGO ----- File Comments: ", path.parent.comments);
 
       const commentLineTokens = path.parent.comments.filter(
         (token) => token.type === "CommentLine"
@@ -67,15 +68,18 @@ module.exports = function ({ types: t }) {
         .shift();
 
       const isFactableOn = !!factableConfigLine;
-      console.log("isFactableOn:", isFactableOn);
+      // console.log("isFactableOn:", isFactableOn);
       if (!isFactableOn) return;
 
       // const grandmasReference = buildGrandmasReference(commentLineTokens);
       // const grandmasRecipes = buildGrandmasRecipe(commentBlockTokens);
 
+      const allowedNames = getAlowedNames(path);
+
+      console.log("allowedNames: ", allowedNames);
+
       path.traverse(Visitor, {
-        //   grandmasReference: grandmasReference,
-        //   grandmasRecipes: grandmasRecipes,
+        allowedNames,
       });
     },
   };

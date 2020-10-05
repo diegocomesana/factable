@@ -10,4 +10,3 @@ function originalFunc(param1, param2) {
   });
   return output;
 }
-//# sourceMappingURL=output.js.map

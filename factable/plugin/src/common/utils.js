@@ -33,11 +33,12 @@ const getParentStatement = (path) => {
   return path.getStatementParent();
 };
 
-const excludeThisFunctionNode = (path) => {
+const excludeThisFunctionNode = (path, state) => {
   const isAnonim = !path.node.id;
   const parentPath = getParentStatement(path);
 
   if (isAnonim) {
+    // return true;
     if (
       parentPath.node.type === "VariableDeclaration" &&
       excludedFunctionNames.includes(parentPath.node.declarations[0].id.name)
@@ -45,7 +46,10 @@ const excludeThisFunctionNode = (path) => {
       return true;
     }
   } else {
-    if (excludedFunctionNames.includes(path.node.id.name)) {
+    if (
+      excludedFunctionNames.includes(path.node.id.name) &&
+      state.allowedNames.includes(path.node.id.name)
+    ) {
       return true;
     }
   }
@@ -62,7 +66,26 @@ const buildAutotrackExpression = template(`
   });
 `);
 
+const getAlowedNames = (path) => {
+  return path.node.body
+    .map((child) => {
+      if (child.type === "FunctionDeclaration") {
+        return child.id && child.id.name;
+      }
+      if (child.type === "VariableDeclaration") {
+        const hasName =
+          child.declarations[0].id && child.declarations[0].id.name;
+        if (child.declarations[0].init.type === "ArrowFunctionExpression") {
+          return hasName;
+        }
+        return false;
+      }
+    })
+    .filter((child) => !!child);
+};
+
 module.exports = {
   excludeThisFunctionNode,
   wrapperOutputName,
+  getAlowedNames,
 };

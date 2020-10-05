@@ -19,3 +19,5 @@ const exprEnroscada = (lala) => {
     return lala;
   };
 };
+
+const lachota = "yeahhh";

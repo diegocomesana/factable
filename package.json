@@ -6,7 +6,7 @@
   "scripts": {
     "plugin:test": "jest ./factable/plugin/tests",
     "plugin:dev": "nodemon ./factable/plugin/src/dev",
-    "plugin:dev-build": "babel -w -s -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/first-test/"
+    "plugin:dev-build": "babel -w -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/first-test/"
   },
   "repository": {
     "type": "git",
