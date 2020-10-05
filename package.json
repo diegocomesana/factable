@@ -5,8 +5,8 @@
   "main": "./factable/index.js",
   "scripts": {
     "plugin:test": "jest ./factable/plugin/tests",
-    "plugin:dev": "nodemon ./factable/plugin/src/dev",
-    "plugin:dev-build": "babel -w -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/first-test/"
+    "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./factable/plugin/src/dev",
+    "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/first-test/"
   },
   "repository": {
     "type": "git",
@@ -32,9 +32,10 @@
     "@babel/generator": "^7.11.6",
     "@babel/node": "^7.10.5",
     "@babel/parser": "^7.11.5",
+    "@babel/template": "^7.10.4",
     "babel-plugin-tester": "^9.2.0",
-    "babel-template": "^6.26.0",
     "cardinal": "^2.1.1",
+    "cross-env": "^7.0.2",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4"
   },

@@ -4,9 +4,16 @@ const {
   getAlowedNames,
   isFactableOn,
   getFunctionData,
+  getRequireExpression,
 } = require("./common/utils");
 
 module.exports = function ({ types: t }) {
+  const FACTABLE_TRANSPILE = process.env.FACTABLE_TRANSPILE;
+  console.log(("FACTABLE_TRANSPILE:", FACTABLE_TRANSPILE));
+  if (FACTABLE_TRANSPILE !== "on") {
+    return {};
+  }
+
   const Visitor = {
     Function: {
       enter(path, state) {
@@ -41,14 +48,18 @@ module.exports = function ({ types: t }) {
   };
 
   const VisitorInitiator = {
-    Program(path) {
-      if (!isFactableOn(path)) return;
+    Program: {
+      enter: (path) => {
+        if (!isFactableOn(path)) return;
 
-      const allowedNames = getAlowedNames(path);
+        const allowedNames = getAlowedNames(path);
 
-      path.traverse(Visitor, {
-        allowedNames,
-      });
+        path.unshiftContainer("body", getRequireExpression());
+
+        path.traverse(Visitor, {
+          allowedNames,
+        });
+      },
     },
   };
 

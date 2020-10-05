@@ -1,30 +1,30 @@
-const template = require("babel-template");
+const { default: template } = require("@babel/template");
 
-const parentIsWrapper = (path) => {
-  const parentPath = getParentStatement(path);
-  //return parentPath.node.id.name === "wrapper";
-  return true;
-  return (
-    parentPath.isVariableDeclarator() && parentPath.node.id.name === "wrapper"
-  );
-  //return false;
-};
+// const parentIsWrapper = (path) => {
+//   const parentPath = getParentStatement(path);
+//   //return parentPath.node.id.name === "wrapper";
+//   return true;
+//   return (
+//     parentPath.isVariableDeclarator() && parentPath.node.id.name === "wrapper"
+//   );
+//   //return false;
+// };
 
-const debugParent = (path) => {
-  const parentPath = getParentStatement(path);
-  console.log("parentDebug", parentPath.node);
-};
+// const debugParent = (path) => {
+//   const parentPath = getParentStatement(path);
+//   console.log("parentDebug", parentPath.node);
+// };
 
-const functionEnterDebug = (path) => {
-  const isAnonim = !path.node.id;
-  const parentPath = getParentStatement(path);
-  console.log();
-  console.log("FUNCTION: ", path.node.id ? path.node.id.name : "ANONIMA!!");
-  if (isAnonim && parentPath.node.type === "VariableDeclaration") {
-    console.log("parent: ", parentPath.node.declarations[0].id.name);
-  }
-  console.log();
-};
+// const functionEnterDebug = (path) => {
+//   const isAnonim = !path.node.id;
+//   const parentPath = getParentStatement(path);
+//   console.log();
+//   console.log("FUNCTION: ", path.node.id ? path.node.id.name : "ANONIMA!!");
+//   if (isAnonim && parentPath.node.type === "VariableDeclaration") {
+//     console.log("parent: ", parentPath.node.declarations[0].id.name);
+//   }
+//   console.log();
+// };
 
 const wrapperOutputName = "output";
 const excludedFunctionNames = [wrapperOutputName];
@@ -101,14 +101,31 @@ const getFunctionData = (path) => {
   return { name, params };
 };
 
-const buildAutotrackExpression = template(`
-  const Heap = require('@babel-plugin-test-case-gen/TestCaseGenerator').default;  
-  Heap.captureTouchablePress(THIS_EXPRESSION, e);
-  TestCaseGenerator.registerFunctionCall(arguments, output, {
-    name: "originalFunc",
-    params: ["param1", "param2"],
+// const buildAutotrackExpression = template(`
+//   const FactableEvidencer = require('factable').evidencer;
+//   Heap.captureTouchablePress(THIS_EXPRESSION, e);
+//   FactableEvidencer.registerFunctionCall(arguments, output, {
+//     name: "originalFunc",
+//     params: ["param1", "param2"],
+//   });
+// `);
+
+// const buildRequire = template(`
+//   var %%importName%% = require(%%source%%);
+// `);
+
+const getFunctionCallExpression = () => {
+  const template = template(`
+  FactableEvidencer.registerFunctionCall(arguments, output, {
+    name: NAME_STRING_LITERAL,
+    params: PARAMS_ARRAY_EXPRESSION,
   });
 `);
+};
+
+const getRequireExpression = () => template.ast`
+  const FactableEvidencer = require('factable').evidencer; 
+`;
 
 const getAlowedNames = (path) => {
   return path.node.body
@@ -134,4 +151,6 @@ module.exports = {
   getAlowedNames,
   isFactableOn,
   getFunctionData,
+  getRequireExpression,
+  getFunctionCallExpression,
 };
