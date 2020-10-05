@@ -83,21 +83,21 @@ const getFunctionName = (path) => {
 };
 
 const getFunctionParams = (path) => {
-  //   const isAnonim = !path.node.id;
-  //   const parentPath = getParentStatement(path);
-  //   if (isAnonim) {
-  //     if (parentPath.node.type == "VariableDeclaration") {
-  //       return parentPath.node.declarations[0].id.name;
-  //     }
-  //     return "";
-  //   }
-  return path.node.params.map((node) => node.name);
+  let params = [];
+  path.find((interPath) => {
+    if (interPath.isArrowFunctionExpression() || interPath.isFunction()) {
+      const currentPathParams = interPath.node.params.map((node) => node.name);
+      params = params.concat([currentPathParams]);
+      return false;
+    }
+    return true;
+  });
+  return params.reverse().flat();
 };
 
 const getFunctionData = (path) => {
   const name = getFunctionName(path);
   const params = getFunctionParams(path);
-
   return { name, params };
 };
 

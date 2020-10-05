@@ -5,7 +5,7 @@ function originalFunc(param1, param2) {
   return param1 + param2;
 }
 
-const originalFuncExpresada = (param1, param2) => {
+const originalFuncExpresada = (param1, param2) => (param3) => {
   console.log("originalFuncExpresada called! ", param1, param2);
   return param1 + param2;
 };

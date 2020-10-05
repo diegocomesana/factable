@@ -8,20 +8,6 @@ const {
 
 module.exports = function ({ types: t }) {
   const Visitor = {
-    //   StringLiteral(path, state) {
-    //     if (path.node.value === "👵") {
-    //       const recipeRef = state.grandmasRecipes[path.node.loc.start.line];
-    //       const recipeMatches = recipeRef && recipeRef.start > path.node.start;
-    //       if (recipeMatches) {
-    //         const recipe = recipeRef.value;
-    //         const domStruc = cookRecipe(recipe, state.grandmasReference);
-
-    //         const typeExpression = genTypeExpression(domStruc);
-
-    //         path.replaceWith(typeExpression);
-    //       }
-    //     }
-    //   },
     Function: {
       enter(path, state) {
         if (excludeThisFunctionNode(path, state)) {
