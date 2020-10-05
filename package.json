@@ -4,7 +4,7 @@
   "description": "A test case generation and managment tool for nodejs babel transpiled projects",
   "main": "./factable/index.js",
   "scripts": {
-    "plugin:test": "jest ./factable/plugin/tests",
+    "plugin:test": "cross-env FACTABLE_TRANSPILE=on jest ./factable/plugin/tests",
     "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./factable/plugin/src/dev",
     "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/first-test/"
   },

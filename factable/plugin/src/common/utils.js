@@ -95,7 +95,7 @@ const getFunctionCallExpression = (functionData) => {
 };
 
 const getRequireExpression = () => template.ast`
-  const FactableEvidencer = require('factable').evidencer; 
+  const FactableEvidencer = require('factable').evidencer;
 `;
 
 const getAlowedNames = (path) => {
