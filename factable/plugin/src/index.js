@@ -5,6 +5,7 @@ const {
   isFactableOn,
   getFunctionData,
   getRequireExpression,
+  getFunctionCallExpression,
 } = require("./common/utils");
 
 module.exports = function ({ types: t }) {
@@ -21,7 +22,7 @@ module.exports = function ({ types: t }) {
           return;
         }
 
-        console.log("FUNCTION DATA: ", getFunctionData(path));
+        // console.log("FUNCTION DATA: ", getFunctionData(path));
 
         const functionExpression = t.functionExpression(
           null,
@@ -40,6 +41,7 @@ module.exports = function ({ types: t }) {
               wrapperCallExpression
             ),
           ]),
+          getFunctionCallExpression(getFunctionData(path)),
         ]);
 
         path.node.body = newBodyBlock;

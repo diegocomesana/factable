@@ -1,30 +1,5 @@
 const { default: template } = require("@babel/template");
-
-// const parentIsWrapper = (path) => {
-//   const parentPath = getParentStatement(path);
-//   //return parentPath.node.id.name === "wrapper";
-//   return true;
-//   return (
-//     parentPath.isVariableDeclarator() && parentPath.node.id.name === "wrapper"
-//   );
-//   //return false;
-// };
-
-// const debugParent = (path) => {
-//   const parentPath = getParentStatement(path);
-//   console.log("parentDebug", parentPath.node);
-// };
-
-// const functionEnterDebug = (path) => {
-//   const isAnonim = !path.node.id;
-//   const parentPath = getParentStatement(path);
-//   console.log();
-//   console.log("FUNCTION: ", path.node.id ? path.node.id.name : "ANONIMA!!");
-//   if (isAnonim && parentPath.node.type === "VariableDeclaration") {
-//     console.log("parent: ", parentPath.node.declarations[0].id.name);
-//   }
-//   console.log();
-// };
+const types = require("@babel/types");
 
 const wrapperOutputName = "output";
 const excludedFunctionNames = [wrapperOutputName];
@@ -101,26 +76,22 @@ const getFunctionData = (path) => {
   return { name, params };
 };
 
-// const buildAutotrackExpression = template(`
-//   const FactableEvidencer = require('factable').evidencer;
-//   Heap.captureTouchablePress(THIS_EXPRESSION, e);
-//   FactableEvidencer.registerFunctionCall(arguments, output, {
-//     name: "originalFunc",
-//     params: ["param1", "param2"],
-//   });
-// `);
-
-// const buildRequire = template(`
-//   var %%importName%% = require(%%source%%);
-// `);
-
-const getFunctionCallExpression = () => {
-  const template = template(`
-  FactableEvidencer.registerFunctionCall(arguments, output, {
+const getFunctionCallExpression = (functionData) => {
+  const buildExpression = template(`
+  FactableEvidencer.registerFunctionCall(ARGUMENTS_ARRAY_EXPRESSION, output, {
     name: NAME_STRING_LITERAL,
     params: PARAMS_ARRAY_EXPRESSION,
   });
 `);
+  return buildExpression({
+    ARGUMENTS_ARRAY_EXPRESSION: types.arrayExpression(
+      functionData.params.map((param) => types.identifier(param))
+    ),
+    NAME_STRING_LITERAL: types.stringLiteral(functionData.name),
+    PARAMS_ARRAY_EXPRESSION: types.arrayExpression(
+      functionData.params.map((param) => types.stringLiteral(param))
+    ),
+  });
 };
 
 const getRequireExpression = () => template.ast`
