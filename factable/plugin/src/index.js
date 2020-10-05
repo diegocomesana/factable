@@ -2,6 +2,8 @@ const {
   excludeThisFunctionNode,
   wrapperOutputName,
   getAlowedNames,
+  isFactableOn,
+  getFunctionData,
 } = require("./common/utils");
 
 module.exports = function ({ types: t }) {
@@ -25,6 +27,8 @@ module.exports = function ({ types: t }) {
         if (excludeThisFunctionNode(path, state)) {
           return;
         }
+
+        console.log("FUNCTION DATA: ", getFunctionData(path));
 
         const functionExpression = t.functionExpression(
           null,
@@ -52,31 +56,9 @@ module.exports = function ({ types: t }) {
 
   const VisitorInitiator = {
     Program(path) {
-      // console.log("DIEGO ----- File Comments: ", path.parent.comments);
-
-      const commentLineTokens = path.parent.comments.filter(
-        (token) => token.type === "CommentLine"
-      );
-      // const commentBlockTokens = path.parent.comments.filter(
-      //   (token) => token.type === "CommentBlock"
-      // );
-
-      if (!commentLineTokens.length) return;
-
-      const factableConfigLine = commentLineTokens
-        .filter((line) => line.value.trim() === "FACTABLE" && line.start === 0)
-        .shift();
-
-      const isFactableOn = !!factableConfigLine;
-      // console.log("isFactableOn:", isFactableOn);
-      if (!isFactableOn) return;
-
-      // const grandmasReference = buildGrandmasReference(commentLineTokens);
-      // const grandmasRecipes = buildGrandmasRecipe(commentBlockTokens);
+      if (!isFactableOn(path)) return;
 
       const allowedNames = getAlowedNames(path);
-
-      console.log("allowedNames: ", allowedNames);
 
       path.traverse(Visitor, {
         allowedNames,

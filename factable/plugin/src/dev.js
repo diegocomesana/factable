@@ -24,7 +24,7 @@ fs.readFile(resolvePath("../tests/fixtures/first-test/code.js"), function (
 
   console.log("--------- INPUT -----------");
   console.log();
-  console.log(cardinal.highlight(src));
+  // console.log(cardinal.highlight(src));
   console.log();
   console.log("--------- OUTPUT -----------");
   console.log();

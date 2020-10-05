@@ -29,6 +29,20 @@ const functionEnterDebug = (path) => {
 const wrapperOutputName = "output";
 const excludedFunctionNames = [wrapperOutputName];
 
+const isFactableOn = (path) => {
+  const commentLineTokens = path.parent.comments.filter(
+    (token) => token.type === "CommentLine"
+  );
+
+  if (!commentLineTokens.length) return false;
+
+  const factableConfigLine = commentLineTokens
+    .filter((line) => line.value.trim() === "FACTABLE" && line.start === 0)
+    .shift();
+
+  return !!factableConfigLine;
+};
+
 const getParentStatement = (path) => {
   return path.getStatementParent();
 };
@@ -37,24 +51,54 @@ const excludeThisFunctionNode = (path, state) => {
   const isAnonim = !path.node.id;
   const parentPath = getParentStatement(path);
 
+  // DONT PROCESS CURRIED CHAIN: WE ARE ONLY INSTERESTED IN WRAPPING FIRST INNER BLOCK
+  if (path.node.body.type !== "BlockStatement") {
+    return true;
+  }
+
   if (isAnonim) {
-    // return true;
+    // ONLY ALLOW ANONIMOUS FUNCTIONS WHOSE PARENT IS A VariableDeclaration AND IS NOT THE WRAPPER
     if (
-      parentPath.node.type === "VariableDeclaration" &&
-      excludedFunctionNames.includes(parentPath.node.declarations[0].id.name)
-    ) {
-      return true;
-    }
-  } else {
-    if (
-      excludedFunctionNames.includes(path.node.id.name) &&
-      state.allowedNames.includes(path.node.id.name)
+      parentPath.node.type !== "VariableDeclaration" ||
+      (parentPath.node.type === "VariableDeclaration" &&
+        excludedFunctionNames.includes(parentPath.node.declarations[0].id.name))
     ) {
       return true;
     }
   }
 
   return false;
+};
+
+const getFunctionName = (path) => {
+  const isAnonim = !path.node.id;
+  const parentPath = getParentStatement(path);
+  if (isAnonim) {
+    if (parentPath.node.type == "VariableDeclaration") {
+      return parentPath.node.declarations[0].id.name;
+    }
+    return "";
+  }
+  return path.node.id.name;
+};
+
+const getFunctionParams = (path) => {
+  //   const isAnonim = !path.node.id;
+  //   const parentPath = getParentStatement(path);
+  //   if (isAnonim) {
+  //     if (parentPath.node.type == "VariableDeclaration") {
+  //       return parentPath.node.declarations[0].id.name;
+  //     }
+  //     return "";
+  //   }
+  return path.node.params.map((node) => node.name);
+};
+
+const getFunctionData = (path) => {
+  const name = getFunctionName(path);
+  const params = getFunctionParams(path);
+
+  return { name, params };
 };
 
 const buildAutotrackExpression = template(`
@@ -88,4 +132,6 @@ module.exports = {
   excludeThisFunctionNode,
   wrapperOutputName,
   getAlowedNames,
+  isFactableOn,
+  getFunctionData,
 };

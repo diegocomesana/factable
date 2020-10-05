@@ -10,9 +10,19 @@ const originalFuncExpresada = (param1, param2) => {
   return param1 + param2;
 };
 
-// const exprEnroscada = (lala) => () => {
-//   return lala;
-// };
+const originalFuncExpresada2 = (param1, param2) => {
+  return (lala) => (otra) => (diego) => {
+    return lala;
+  };
+};
+
+const exprCurriada = (lala) => () => {
+  return lala;
+};
+
+const exprCurriada2 = (lala) => (otra) => (diego) => {
+  return lala;
+};
 
 const exprEnroscada = (lala) => {
   return () => {
@@ -20,4 +30,8 @@ const exprEnroscada = (lala) => {
   };
 };
 
-const lachota = "yeahhh";
+const resultDeAnonimQueSeAutoEjecuta = (function () {
+  return true;
+})();
+
+const johndoe = "yeahhh";
