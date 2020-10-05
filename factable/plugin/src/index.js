@@ -10,7 +10,6 @@ const {
 
 module.exports = function ({ types: t }) {
   const FACTABLE_TRANSPILE = process.env.FACTABLE_TRANSPILE;
-  console.log(("FACTABLE_TRANSPILE:", FACTABLE_TRANSPILE));
   if (FACTABLE_TRANSPILE !== "on") {
     return {};
   }
