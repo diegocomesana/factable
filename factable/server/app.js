@@ -4,8 +4,10 @@ import path from "path";
 import fs from "fs";
 import mime from "mime";
 import WebSocket from "ws";
-import { RunMode } from "./types";
+import { RunMode } from "./common/types";
+import { buildHtml } from "./common/html";
 
+const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
 const IS_TEST = process.env.NODE_ENV === RunMode.TEST;
 
@@ -13,59 +15,15 @@ const resolvePath = (p) => path.resolve(__dirname, p);
 
 const fileExists = (path) => {
   return new Promise((resolve, reject) => {
-    console.log("LOOKING FOR: ", path);
     fs.access(path, (err) => {
       if (err) {
-        console.log("NO EXISTE: ", path);
-        // reject(err);
         resolve({ exists: false, path, isDir: false });
         return;
       }
-
       const isDir = fs.statSync(path).isDirectory();
-
       resolve({ exists: true, path, isDir });
     });
   });
-};
-
-const pageTitle = "Factable Admin";
-
-const getHTML = ({
-  title,
-  styleTags = "",
-  bundles = [],
-  linkTags = "",
-  scriptElements = [],
-  includeScripts = true,
-  rootId = "root",
-  basePath = false,
-  bundlesPath = "/",
-}) => {
-  const _title_ = title;
-  const bundleTags = bundles.map(
-    (bundle) => `<script src="${bundlesPath}${bundle}" defer></script>`
-  );
-
-  const _bundle_tags_ = includeScripts ? bundleTags.join("\n") : ``;
-
-  const _script_elements_ = includeScripts ? scriptElements.join("\n") : ``;
-
-  return `
-    <html>
-      <head>
-          <title>${_title_}</title>
-          ${basePath ? `<base href="${basePath}">` : ""}
-          ${styleTags}
-          ${includeScripts ? linkTags : ""}
-      </head>
-      <body>
-        <div id="${rootId}">loading..</div>
-        ${_bundle_tags_}
-        ${_script_elements_}
-      </body>
-    </html>
-  `;
 };
 
 const createHttpServer = () => {
@@ -79,14 +37,15 @@ const createHttpServer = () => {
 
     if (uri === "/") {
       res.writeHead(200, { "Content-Type": "text/html" });
-      res.write(getHTML({ title: pageTitle }));
+      res.write(
+        buildHtml({ title: pageTitle, bundles: ["vendors.js", "main.js"] })
+      );
       res.end();
       return;
     }
 
     fileExists(filePath)
       .then(({ exists, path, isDir }) => {
-        console.log("PETE: ", path, exists);
         if (!exists) {
           throw new Error("NOT FOUND!!");
         }
@@ -102,8 +61,6 @@ const createHttpServer = () => {
         return { exists, path, isDir };
       })
       .then(({ exists, path, isDir }) => {
-        // if (fs.statSync(path).isDirectory()) path += "/index.html";
-
         fs.readFile(path, "binary", (err, file) => {
           if (err) {
             res.writeHead(500, { "Content-Type": "text/plain" });
@@ -111,7 +68,6 @@ const createHttpServer = () => {
             res.end();
             return;
           }
-
           res.writeHead(200, { "Content-Type": mime.getType(path) });
           res.write(file, "binary");
           res.end();
