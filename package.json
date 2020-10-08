@@ -9,8 +9,9 @@
     "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/full-on",
     "client:build": "webpack --config ./factable/client/webpack.config.js",
     "server:build": "babel -d ./factable/build/server ./factable/server",
+    "build": "npm run client:build && npm run server:build",
     "server:run": "node ./factable/build/server",
-    "build": "npm run client:build && npm run server:build && npm run server:run"
+    "boot": "npm run build && npm run server:run"
   },
   "repository": {
     "type": "git",
