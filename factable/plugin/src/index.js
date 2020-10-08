@@ -21,8 +21,6 @@ module.exports = function ({ types: t }) {
           return;
         }
 
-        // console.log("FUNCTION DATA: ", getFunctionData(path));
-
         const functionExpression = t.functionExpression(
           null,
           [],
