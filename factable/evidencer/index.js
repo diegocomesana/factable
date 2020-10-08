@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
 const path = require("path");
 const crypto = require("crypto");
-const { format } = require("prettier");
+// const { format } = require("prettier");
 
 const resolvePath = (p) => path.resolve(__dirname, p);
 
@@ -46,18 +46,18 @@ class FactableEvidencer {
       },
     ]);
     */
-    // const paramsHash = crypto
-    //   .createHash("md5")
-    //   .update(safeJsonStringify(args))
-    //   .digest("hex");
-    //   console.log(`------------------------------------------------------`);
-    //   console.log(`-> ${functionName}`);
-    //   console.log(`---->${paramsHash}`);
-    //   console.log(`---->${safeJsonStringify(args, 2)}`);
-    //   console.log(`------------------------------------------------------`);
-    //   console.log(`---->${safeJsonStringify(output, 2)}`);
-    //   console.log(`------------------------------------------------------`);
-    //   console.log(`--`);
+    const paramsHash = crypto
+      .createHash("md5")
+      .update(safeJsonStringify(args))
+      .digest("hex");
+    console.log(`------------------------------------------------------`);
+    console.log(`-> ${metadata.name}`);
+    console.log(`---->${paramsHash}`);
+    console.log(`---->${safeJsonStringify(args, 2)}`);
+    console.log(`------------------------------------------------------`);
+    console.log(`---->${safeJsonStringify(output, 2)}`);
+    console.log(`------------------------------------------------------`);
+    console.log(`--`);
     /*
     const fileTemplate = format(
       `
@@ -119,24 +119,6 @@ class FactableEvidencer {
 
   //     return wrappedDeps;
   //   }
-
-  startInteractive() {
-    //   console.log("FactableEvidencer START INTERACTIVE!!:");
-    // term.cyan("Please select a function to record:.\n");
-    // term.singleColumnMenu(Object.keys(this.executions), function (
-    //   error,
-    //   response
-    // ) {
-    //   term("\n").eraseLineAfter.green(
-    //     "#%s selected: %s (%s,%s)\n",
-    //     response.selectedIndex,
-    //     response.selectedText,
-    //     response.x,
-    //     response.y
-    //   );
-    //   process.exit();
-    // });
-  }
 }
 
 class Singleton {

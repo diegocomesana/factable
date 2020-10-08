@@ -1,5 +1,4 @@
 const FactableEvidencer = new require("factable").evidencer().getInstance();
-
 // FACTABLE
 const johndoe = "yeahhh";
 
