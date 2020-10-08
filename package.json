@@ -4,14 +4,18 @@
   "description": "A test case generation and managment tool for nodejs babel transpiled projects",
   "main": "./factable/index.js",
   "scripts": {
+    "clean": "./clean.sh",
     "plugin:test": "cross-env FACTABLE_TRANSPILE=on jest ./factable/plugin/tests",
     "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./factable/plugin/src/dev",
     "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/full-on",
-    "client:build": "webpack --config ./factable/client/webpack.config.js",
-    "server:build": "babel -d ./factable/build/server ./factable/server",
-    "build": "npm run client:build && npm run server:build",
-    "server:run": "node ./factable/build/server",
-    "boot": "npm run build && npm run server:run"
+    "client:build": "cross-env-shell webpack --config ./factable/client/webpack.config.js",
+    "server:build": "cross-env-shell babel -d ./factable/build/server ./factable/server",
+    "build": "cross-env-shell npm run client:build && npm run server:build",
+    "server:run": "cross-env-shell node ./factable/build/server",
+    "boot": "npm run clean && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run server:run",
+    "client:watch": "webpack --config ./factable/client/webpack.config.js --watch",
+    "server:watch": "nodemon --watch ./factable/server --exec babel-node ./factable/server",
+    "dev": "npm run clean && npm run client:watch & npm run server:watch"
   },
   "repository": {
     "type": "git",

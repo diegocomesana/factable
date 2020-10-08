@@ -6,7 +6,7 @@ const namespace = `ui-menu`;
 
 const AppPrestyled = ({ className }) => (
   <div className={classNames(namespace, className)}>
-    <h1>HOLA!!</h1>
+    <h1>VAAAAMOS!!</h1>
   </div>
 );
 

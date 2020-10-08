@@ -29,7 +29,11 @@ const fileExists = (path) => {
 const createHttpServer = () => {
   return http.createServer((req, res) => {
     const uri = url.parse(req.url).pathname;
-    const filePath = resolvePath(`../client/${uri}`);
+
+    console.log("LACHOTA: ", process.env.NODE_ENV);
+
+    const pathPrefix = IS_DEV ? "build/" : "";
+    const filePath = resolvePath(`../${pathPrefix}client/${uri}`); // BABEL NODE VS NODE TOMAN DISTINTO PATH
 
     console.log("NEW REQUEST: ");
     console.log("uri: ", uri);

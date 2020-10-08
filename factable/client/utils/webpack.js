@@ -49,7 +49,8 @@ const buildConfig = ({ name, target, entryPath, outputPath, publicPath }) => {
     externals: target === "node" ? [nodeExternals()] : undefined,
     output: {
       path: outputPath,
-      filename: DEV ? "[name].js" : "[name]-[chunkhash:8].js",
+      // filename: DEV ? "[name].js" : "[name]-[chunkhash:8].js", // NO FUNCA: para recuperarlo usar https://www.npmjs.com/package/assets-webpack-plugin
+      filename: "[name].js",
       publicPath,
       libraryTarget: target === "node" ? "commonjs2" : undefined,
     },

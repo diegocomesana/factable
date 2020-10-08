@@ -8,7 +8,7 @@ const clientConfig = buildConfig({
   target: "web",
   entryPath: resolvePath("./entry.js"),
   outputPath: resolvePath("../build/client"),
-  publicPath: "/dist",
+  publicPath: "/",
 });
 
 module.exports = [clientConfig];
