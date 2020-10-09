@@ -6,8 +6,16 @@ import classNames from "classnames";
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
+const parseJson = (str) => {
+  try {
+    return JSON.parse(str);
+  } catch (ex) {
+    return null;
+  }
+};
+
 const AppPrestyled = ({ className }) => {
-  const [data, setData] = useState([{ functionName: "pepito" }]);
+  const [db, setData] = useState([]);
 
   const socket = new WebSocket("ws://localhost:8888");
 
@@ -16,6 +24,16 @@ const AppPrestyled = ({ className }) => {
   };
   const onSocketMessage = (e) => {
     console.log("Message from server ", e.data);
+    const data = parseJson(e.data);
+    if (
+      data &&
+      data.type &&
+      data.type === "registerFunctionCall" &&
+      data.payload &&
+      data.payload.paramsHash
+    ) {
+      setData([...db, data.payload]);
+    }
   };
 
   useEffect(() => {
@@ -36,8 +54,8 @@ const AppPrestyled = ({ className }) => {
       <div className={classNames(namespace, className)}>
         <h1>VAAAAMOS!!</h1>
         <ul className={nsClassName(`list`)}>
-          {data.map((item) => {
-            return <li>{item.functionName}</li>;
+          {db.map((item) => {
+            return <li>{item.metadata.functionName}</li>;
           })}
         </ul>
       </div>
