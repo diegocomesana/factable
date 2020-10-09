@@ -63,7 +63,9 @@ class FactableEvidencer {
     // this.socket.send("Hello Server!");
     console.log("registerFunctionCall");
 
-    this.pending.push({ args, output, metadata, paramsHash });
+    const rand = Math.random().toString();
+
+    this.pending.push({ args, output, metadata, paramsHash, rand });
     this.processPending();
 
     /*

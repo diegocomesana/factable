@@ -15,7 +15,7 @@ const parseJson = (str) => {
 };
 
 const AppPrestyled = ({ className }) => {
-  const [db, setData] = useState([]);
+  const [dataStore, setDataStore] = useState({});
 
   const socket = new WebSocket("ws://localhost:8888");
 
@@ -23,7 +23,7 @@ const AppPrestyled = ({ className }) => {
     socket.send("Hello Server!");
   };
   const onSocketMessage = (e) => {
-    console.log("Message from server ", e.data);
+    // console.log("Message from server ", e.data);
     const data = parseJson(e.data);
     if (
       data &&
@@ -32,7 +32,16 @@ const AppPrestyled = ({ className }) => {
       data.payload &&
       data.payload.paramsHash
     ) {
-      setData([...db, data.payload]);
+      console.log("Message from server ", data.payload);
+
+      const current = dataStore[data.payload.metadata.name] || [];
+
+      setDataStore({
+        ...dataStore,
+        [data.payload.metadata.name]: [...current, data.payload],
+      });
+
+      console.log("dataStore:", dataStore);
     }
   };
 
@@ -47,15 +56,16 @@ const AppPrestyled = ({ className }) => {
       socket.removeEventListener("open", onSocketOpen);
       socket.removeEventListener("message", onSocketMessage);
     };
-  }, []);
+  }, [dataStore]);
 
   return (
     <Style>
       <div className={classNames(namespace, className)}>
         <h1>VAAAAMOS!!</h1>
+        <p>Cuenta: {dataStore.length}</p>
         <ul className={nsClassName(`list`)}>
-          {db.map((item) => {
-            return <li>{item.metadata.functionName}</li>;
+          {Object.keys(dataStore).map((key, i) => {
+            return <li key={`${key}`}>{key}</li>;
           })}
         </ul>
       </div>

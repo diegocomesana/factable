@@ -7,7 +7,7 @@ FactableEvidencer.registerFunctionCall(
   [],
   { test_salida: "yeahh" },
   {
-    name: "originalFuncExpresada",
+    name: "laReChota",
     params: ["param1", "param2", "param3"],
   }
 );

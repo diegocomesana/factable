@@ -38,9 +38,8 @@ const fileExists = (path) => {
 };
 
 const onMessage = (wss, ws, msg) => {
-  console.log("onMessage: ", msg);
   const data = parseJson(msg);
-  console.log(data);
+  console.log("onMessage: ", data);
 
   if (
     data &&
