@@ -2,19 +2,19 @@
   "name": "factable",
   "version": "1.0.0-alpha.1",
   "description": "A test case generation and managment tool for nodejs babel transpiled projects",
-  "main": "./factable/index.js",
+  "main": "./src/index.js",
   "scripts": {
     "clean": "./clean.sh",
-    "plugin:test": "cross-env FACTABLE_TRANSPILE=on jest ./factable/plugin/tests",
-    "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./factable/plugin/src/dev",
-    "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./factable/plugin/build-test ./factable/plugin/tests/fixtures/full-on",
-    "client:build": "cross-env-shell webpack --config ./factable/client/webpack.config.js",
-    "server:build": "cross-env-shell babel -d ./factable/build/server ./factable/server",
+    "plugin:test": "cross-env FACTABLE_TRANSPILE=on jest ./src/plugin/tests",
+    "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./src/plugin/src/dev",
+    "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./src/plugin/build-test ./src/plugin/tests/fixtures/full-on",
+    "client:build": "cross-env-shell webpack --config ./src/client/webpack.config.js",
+    "server:build": "cross-env-shell babel -d ./build/server ./src/server",
     "build": "cross-env-shell npm run client:build && npm run server:build",
-    "server:run": "cross-env-shell node ./factable/build/server",
+    "server:run": "cross-env-shell node ./build/server",
     "boot": "npm run clean && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run server:run",
-    "client:watch": "webpack --config ./factable/client/webpack.config.js --watch",
-    "server:watch": "nodemon --watch ./factable/server --exec babel-node ./factable/server",
+    "client:watch": "webpack --config ./src/client/webpack.config.js --watch",
+    "server:watch": "nodemon --watch ./src/server --exec babel-node ./src/server",
     "dev": "npm run clean && npm run client:watch & npm run server:watch"
   },
   "repository": {
@@ -68,6 +68,7 @@
     "open": "^7.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "simple-hashtable": "^1.0.0",
     "styled-components": "^5.2.0",
     "styled-normalize": "^8.0.7"
   }

@@ -1,7 +1,7 @@
 // REFERENCIA:
 //github.com/babel/babel/blob/master/babel.config.js
 
-const plugin = require("./factable/plugin/src");
+const plugin = require("./src/plugin/src");
 
 function isWebTarget(caller) {
   return Boolean(caller && caller.target === "web");

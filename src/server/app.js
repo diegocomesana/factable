@@ -4,8 +4,19 @@ import path from "path";
 import fs from "fs";
 import mime from "mime";
 import WebSocket from "ws";
+import SimpleHashTable from "simple-hashtable";
 import { RunMode } from "./common/types";
 import { buildHtml } from "./common/html";
+import {
+  prettyJson,
+  safeJsonStringify,
+  camelToDash,
+  parseJson,
+  msgWrapper,
+} from "../common/utils";
+// import { format } from "prettier";
+
+const hashtable = new SimpleHashTable();
 
 const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
@@ -26,18 +37,39 @@ const fileExists = (path) => {
   });
 };
 
+const onMessage = (wss, ws, msg) => {
+  console.log("onMessage: ", msg);
+  const data = parseJson(msg);
+  console.log(data);
+
+  if (
+    data &&
+    data.type &&
+    data.type === "registerFunctionCall" &&
+    data.payload &&
+    data.payload.paramsHash
+  ) {
+    hashtable.put(data.payload.paramsHash, data.payload);
+
+    wss.clients.forEach(function each(client) {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        client.send(
+          safeJsonStringify(msgWrapper("registerFunctionCall", data.payload))
+        );
+      }
+    });
+  }
+};
+
 const createHttpServer = () => {
   return http.createServer((req, res) => {
     const uri = url.parse(req.url).pathname;
-
-    console.log("LACHOTA: ", process.env.NODE_ENV);
-
-    const pathPrefix = IS_DEV ? "build/" : "";
+    const pathPrefix = IS_DEV ? "../build/" : "";
     const filePath = resolvePath(`../${pathPrefix}client/${uri}`); // BABEL NODE VS NODE TOMAN DISTINTO PATH
 
-    console.log("NEW REQUEST: ");
-    console.log("uri: ", uri);
-    console.log("filename: ", filePath);
+    // console.log("NEW REQUEST: ");
+    // console.log("uri: ", uri);
+    // console.log("filename: ", filePath);
 
     if (uri === "/") {
       res.writeHead(200, { "Content-Type": "text/html" });
@@ -91,12 +123,13 @@ const App = (done) => {
   const httpServer = createHttpServer();
   const wss = new WebSocket.Server({ server: httpServer });
 
-  wss.on("connection", function connection(ws) {
-    ws.on("message", function incoming(message) {
-      console.log("received: %s", message);
+  wss.on("connection", (ws) => {
+    ws.on("message", (msg) => {
+      // console.log("received: %s", msg);
+      onMessage(wss, ws, msg);
     });
 
-    ws.send("something");
+    ws.send("hellooooo from server!!");
   });
 
   const doneInternal = (from) => () => {

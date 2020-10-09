@@ -15,7 +15,6 @@ export const buildHtml = ({
   );
   const _bundle_tags_ = includeScripts ? bundleTags.join("\n") : ``;
   const _script_elements_ = includeScripts ? scriptElements.join("\n") : ``;
-  console.log("_bundle_tags_: ", _bundle_tags_);
   return `
     <html>
       <head>

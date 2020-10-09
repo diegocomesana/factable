@@ -7,7 +7,7 @@ const clientConfig = buildConfig({
   name: "factable-client",
   target: "web",
   entryPath: resolvePath("./entry.js"),
-  outputPath: resolvePath("../build/client"),
+  outputPath: resolvePath("../../build/client"),
   publicPath: "/",
 });
 
