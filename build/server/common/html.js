@@ -23,7 +23,6 @@ const buildHtml = ({
 
   const _script_elements_ = includeScripts ? scriptElements.join("\n") : ``;
 
-  console.log("_bundle_tags_: ", _bundle_tags_);
   return `
     <html>
       <head>

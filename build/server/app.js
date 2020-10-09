@@ -17,12 +17,17 @@ var _mime = _interopRequireDefault(require("mime"));
 
 var _ws = _interopRequireDefault(require("ws"));
 
+var _simpleHashtable = _interopRequireDefault(require("simple-hashtable"));
+
 var _types = require("./common/types");
 
 var _html = require("./common/html");
 
+var _utils = require("./common/utils");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const hashtable = new _simpleHashtable.default();
 const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== _types.RunMode.PROD;
 const IS_TEST = process.env.NODE_ENV === _types.RunMode.TEST;
@@ -52,16 +57,26 @@ const fileExists = path => {
   });
 };
 
+const onMessage = (wss, ws, msg) => {
+  const data = (0, _utils.parseJson)(msg);
+  console.log("onMessage: ", data);
+
+  if (data && data.type && data.type === "registerFunctionCall" && data.payload && data.payload.paramsHash) {
+    hashtable.put(data.payload.paramsHash, data.payload);
+    wss.clients.forEach(function each(client) {
+      if (client !== ws && client.readyState === _ws.default.OPEN) {
+        client.send((0, _utils.safeJsonStringify)((0, _utils.msgWrapper)("registerFunctionCall", data.payload)));
+      }
+    });
+  }
+};
+
 const createHttpServer = () => {
   return _http.default.createServer((req, res) => {
     const uri = _url.default.parse(req.url).pathname;
 
-    console.log("LACHOTA: ", process.env.NODE_ENV);
     const pathPrefix = IS_DEV ? "../build/" : "";
     const filePath = resolvePath(`../${pathPrefix}client/${uri}`);
-    console.log("NEW REQUEST: ");
-    console.log("uri: ", uri);
-    console.log("filename: ", filePath);
 
     if (uri === "/") {
       res.writeHead(200, {
@@ -145,11 +160,11 @@ const App = done => {
   const wss = new _ws.default.Server({
     server: httpServer
   });
-  wss.on("connection", function connection(ws) {
-    ws.on("message", function incoming(message) {
-      console.log("received: %s", message);
+  wss.on("connection", ws => {
+    ws.on("message", msg => {
+      onMessage(wss, ws, msg);
     });
-    ws.send("something");
+    ws.send("hellooooo from server!!");
   });
 
   const doneInternal = from => () => {

@@ -1,7 +1,7 @@
 const WebSocket = require("ws");
 const path = require("path");
 const crypto = require("crypto");
-const { safeJsonStringify, msgWrapper } = require("../common/utils");
+const { safeJsonStringify, msgWrapper } = require("../server/common/utils");
 
 const resolvePath = (p) => path.resolve(__dirname, p);
 
@@ -42,7 +42,7 @@ class FactableEvidencer {
     // Delay should be equal to the interval at which your server
     // sends out pings plus a conservative assumption of the latency.
     this.pingTimeout = setTimeout(() => {
-      this.terminate();
+      // this.terminate();
     }, 30000 + 1000);
   }
 

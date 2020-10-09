@@ -13,7 +13,7 @@ import {
   camelToDash,
   parseJson,
   msgWrapper,
-} from "../common/utils";
+} from "./common/utils";
 // import { format } from "prettier";
 
 const hashtable = new SimpleHashTable();
