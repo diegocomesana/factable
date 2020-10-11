@@ -101,7 +101,12 @@ export const App = styled(AppPrestyled)`
     list-style: none;
 
     li {
-      background-color: pink;
+      /* background-color: pink; */
+      border: solid grey 1px;
+
+      &:not(:last-child) {
+        border-bottom: none;
+      }
     }
   }
 `;

@@ -20,7 +20,6 @@ const msgFactory = (wss, hashtable, store) => {
       },
       onMessage: (msg) => {
         const data = parseJson(msg);
-        // console.log("onMessage: ", data);
 
         if (
           data &&
