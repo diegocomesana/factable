@@ -9,14 +9,14 @@ import {
   getCallUniqueId,
 } from "./utils";
 
-const msgFactory = (wss, hashtable, callState) => {
-  console.log("msgFactory RECIBÍ WSS Y HASHTABLE", hashtable.keys());
+const msgFactory = (wss, hashtable, store) => {
+  console.log("msgFactory RECIBÍ WSS Y HASHTABLE", store.getState());
   return (ws) => {
     console.log("msgFactory RECIBÍ WS");
     return {
       onConnection: () => {
-        console.log("SE CONECTÓ UN CHANGO!!");
-        ws.send(safeJsonStringify(msgWrapper("init", "nadaaaa")));
+        console.log("SE CONECTÓ UN CHANGO!!", store.getState());
+        ws.send(safeJsonStringify(msgWrapper("init", store.getState())));
       },
       onMessage: (msg) => {
         const data = parseJson(msg);
@@ -41,17 +41,19 @@ const msgFactory = (wss, hashtable, callState) => {
 
           hashtable.put(hash, callInfoWithHash);
 
-          const currentValue = callState[callInfo.metadata.name] || {
-            calls: [],
-          };
+          store.onMessage(callInfoWithHash);
 
-          callState = {
-            ...callState,
-            [currentValue]: {
-              ...currentValue,
-              calls: [...currentValue.calls, hash],
-            },
-          };
+          //   const currentValue = callState[callInfo.metadata.name] || {
+          //     calls: [],
+          //   };
+
+          //   callState = {
+          //     ...callState,
+          //     [currentValue]: {
+          //       ...currentValue,
+          //       calls: [...currentValue.calls, hash],
+          //     },
+          //   };
 
           wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {

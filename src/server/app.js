@@ -9,17 +9,12 @@ import { RunMode } from "./common/types";
 import { buildHtml } from "./common/html";
 
 import msgFactory from "./common/msg-behavior";
-// import {
-//   prettyJson,
-//   safeJsonStringify,
-//   camelToDash,
-//   parseJson,
-//   msgWrapper,
-// } from "./common/utils";
-// import { format } from "prettier";
+import storeFactory from "./store";
 
 const hashtable = new SimpleHashTable();
-const callState = {};
+const initialState = {};
+
+const store = storeFactory(initialState);
 
 const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
@@ -102,7 +97,7 @@ const App = (done) => {
   const httpServer = createHttpServer();
   const wss = new WebSocket.Server({ server: httpServer });
 
-  const msgBehaviorInit = msgFactory(wss, hashtable, callState);
+  const msgBehaviorInit = msgFactory(wss, hashtable, store);
 
   wss.on("connection", (ws) => {
     const { onMessage, onConnection } = msgBehaviorInit(ws);
