@@ -18,16 +18,39 @@ const onMessage = (prevState) => (callInfo) => {
   };
 };
 
-export const storeFactory = (initialState) => {
-  let state = initialState;
+let stateDefault = {};
+
+const onStateChangeDefault = (newState) => {
+  console.log("onStateChangeDefault: ", newState);
+  stateDefault = newState;
+};
+
+const onStateGetDefault = () => {
+  console.log("onStateGetDefault", stateDefault);
+  console.log("Clarksville state:", stateDefault["Clarksville"]);
+  return stateDefault;
+};
+
+const defaultObj = {
+  initialState: { algo: true, otracosa: "yeahh" },
+  onStateChange: onStateChangeDefault,
+  onStateGet: onStateGetDefault,
+};
+
+export const storeFactory = ({
+  initialState,
+  onStateChange,
+  onStateGet,
+} = defaultObj) => {
+  onStateChange(initialState);
   const applyState = (newState) => {
-    state = newState;
-    return state;
+    onStateChange(newState);
+    return onStateGet();
   };
 
   return {
-    getState: () => state,
-    onMessage: (callInfo) => applyState(onMessage(state)(callInfo)),
+    getState: () => onStateGet(),
+    onMessage: (callInfo) => applyState(onMessage(onStateGet())(callInfo)),
   };
 };
 

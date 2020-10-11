@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Style from "./style";
 import classNames from "classnames";
+import store from "../server/store";
 
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -16,6 +17,8 @@ const parseJson = (str) => {
 
 const AppPrestyled = ({ className }) => {
   const [dataStore, setDataStore] = useState({});
+
+  // const store = storeFactory(state);
 
   const socket = new WebSocket("ws://localhost:8888");
 

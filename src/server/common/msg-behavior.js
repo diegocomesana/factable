@@ -15,12 +15,12 @@ const msgFactory = (wss, hashtable, store) => {
     console.log("msgFactory RECIBÍ WS");
     return {
       onConnection: () => {
-        console.log("SE CONECTÓ UN CHANGO!!", store.getState());
+        console.log("SE CONECTÓ UN CHANGO!!");
         ws.send(safeJsonStringify(msgWrapper("init", store.getState())));
       },
       onMessage: (msg) => {
         const data = parseJson(msg);
-        console.log("onMessage: ", data);
+        // console.log("onMessage: ", data);
 
         if (
           data &&
@@ -42,18 +42,6 @@ const msgFactory = (wss, hashtable, store) => {
           hashtable.put(hash, callInfoWithHash);
 
           store.onMessage(callInfoWithHash);
-
-          //   const currentValue = callState[callInfo.metadata.name] || {
-          //     calls: [],
-          //   };
-
-          //   callState = {
-          //     ...callState,
-          //     [currentValue]: {
-          //       ...currentValue,
-          //       calls: [...currentValue.calls, hash],
-          //     },
-          //   };
 
           wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {

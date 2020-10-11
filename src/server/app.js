@@ -12,9 +12,9 @@ import msgFactory from "./common/msg-behavior";
 import storeFactory from "./store";
 
 const hashtable = new SimpleHashTable();
-const initialState = {};
 
-const store = storeFactory(initialState);
+// const state = {};
+const store = storeFactory();
 
 const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
