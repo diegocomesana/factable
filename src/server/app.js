@@ -13,7 +13,6 @@ import storeFactory from "./store";
 
 const hashtable = new SimpleHashTable();
 
-// const state = {};
 const store = storeFactory();
 
 const pageTitle = "Factable Admin";

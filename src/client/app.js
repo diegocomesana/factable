@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Style from "./style";
 import classNames from "classnames";
-import store from "../server/store";
+import storeFactory from "../server/store";
 
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -16,17 +16,25 @@ const parseJson = (str) => {
 };
 
 const AppPrestyled = ({ className }) => {
+  const [stateInited, setInited] = useState(false);
   const [dataStore, setDataStore] = useState({});
 
-  // const store = storeFactory(state);
+  const onStateChange = (newState) => {
+    setDataStore(newState);
+  };
+
+  const onStateGet = () => dataStore;
+
+  const store = storeFactory({ onStateChange, onStateGet });
 
   const socket = new WebSocket("ws://localhost:8888");
 
   const onSocketOpen = (e) => {
-    socket.send("Hello Server!");
+    console.log("onSocketOpen");
+    socket.send("Hello Server!", e.data);
   };
+
   const onSocketMessage = (e) => {
-    // console.log("Message from server ", e.data);
     const data = parseJson(e.data);
     if (
       data &&
@@ -35,16 +43,18 @@ const AppPrestyled = ({ className }) => {
       data.payload &&
       data.payload.hash
     ) {
-      console.log("Message from server ", data.payload);
+      store.onMessage(data.payload);
+    }
 
-      const current = dataStore[data.payload.metadata.name] || [];
-
-      setDataStore({
-        ...dataStore,
-        [data.payload.metadata.name]: [...current, data.payload],
-      });
-
-      console.log("dataStore:", dataStore);
+    if (
+      data &&
+      data.type &&
+      data.type === "init" &&
+      data.payload &&
+      !stateInited
+    ) {
+      setInited(true);
+      store.initState(data.payload);
     }
   };
 
@@ -59,13 +69,13 @@ const AppPrestyled = ({ className }) => {
       socket.removeEventListener("open", onSocketOpen);
       socket.removeEventListener("message", onSocketMessage);
     };
-  }, [dataStore]);
+  }, [dataStore, stateInited]);
 
   return (
     <Style>
       <div className={classNames(namespace, className)}>
         <h1>VAAAAMOS!!</h1>
-        <p>Cuenta: {dataStore.length}</p>
+        <p>Cuenta</p>
         <ul className={nsClassName(`list`)}>
           {Object.keys(dataStore).map((key, i) => {
             return <li key={`${key}`}>{key}</li>;

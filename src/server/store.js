@@ -32,17 +32,11 @@ const onStateGetDefault = () => {
 };
 
 const defaultObj = {
-  initialState: { algo: true, otracosa: "yeahh" },
   onStateChange: onStateChangeDefault,
   onStateGet: onStateGetDefault,
 };
 
-export const storeFactory = ({
-  initialState,
-  onStateChange,
-  onStateGet,
-} = defaultObj) => {
-  onStateChange(initialState);
+export const storeFactory = ({ onStateChange, onStateGet } = defaultObj) => {
   const applyState = (newState) => {
     onStateChange(newState);
     return onStateGet();
@@ -50,6 +44,7 @@ export const storeFactory = ({
 
   return {
     getState: () => onStateGet(),
+    initState: (initialState) => applyState(initialState),
     onMessage: (callInfo) => applyState(onMessage(onStateGet())(callInfo)),
   };
 };
