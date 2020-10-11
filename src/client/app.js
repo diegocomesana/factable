@@ -30,7 +30,7 @@ const AppPrestyled = ({ className }) => {
       data.type &&
       data.type === "registerFunctionCall" &&
       data.payload &&
-      data.payload.paramsHash
+      data.payload.hash
     ) {
       console.log("Message from server ", data.payload);
 

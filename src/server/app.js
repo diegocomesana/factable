@@ -7,16 +7,19 @@ import WebSocket from "ws";
 import SimpleHashTable from "simple-hashtable";
 import { RunMode } from "./common/types";
 import { buildHtml } from "./common/html";
-import {
-  prettyJson,
-  safeJsonStringify,
-  camelToDash,
-  parseJson,
-  msgWrapper,
-} from "./common/utils";
+
+import msgFactory from "./common/msg-behavior";
+// import {
+//   prettyJson,
+//   safeJsonStringify,
+//   camelToDash,
+//   parseJson,
+//   msgWrapper,
+// } from "./common/utils";
 // import { format } from "prettier";
 
 const hashtable = new SimpleHashTable();
+const callState = {};
 
 const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
@@ -35,29 +38,6 @@ const fileExists = (path) => {
       resolve({ exists: true, path, isDir });
     });
   });
-};
-
-const onMessage = (wss, ws, msg) => {
-  const data = parseJson(msg);
-  console.log("onMessage: ", data);
-
-  if (
-    data &&
-    data.type &&
-    data.type === "registerFunctionCall" &&
-    data.payload &&
-    data.payload.paramsHash
-  ) {
-    hashtable.put(data.payload.paramsHash, data.payload);
-
-    wss.clients.forEach(function each(client) {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(
-          safeJsonStringify(msgWrapper("registerFunctionCall", data.payload))
-        );
-      }
-    });
-  }
 };
 
 const createHttpServer = () => {
@@ -122,13 +102,14 @@ const App = (done) => {
   const httpServer = createHttpServer();
   const wss = new WebSocket.Server({ server: httpServer });
 
-  wss.on("connection", (ws) => {
-    ws.on("message", (msg) => {
-      // console.log("received: %s", msg);
-      onMessage(wss, ws, msg);
-    });
+  const msgBehaviorInit = msgFactory(wss, hashtable, callState);
 
-    ws.send("hellooooo from server!!");
+  wss.on("connection", (ws) => {
+    const { onMessage, onConnection } = msgBehaviorInit(ws);
+    onConnection();
+    ws.on("message", (msg) => {
+      onMessage(msg);
+    });
   });
 
   const doneInternal = (from) => () => {

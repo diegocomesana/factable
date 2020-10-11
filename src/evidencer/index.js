@@ -1,13 +1,13 @@
 const WebSocket = require("ws");
 const path = require("path");
-const crypto = require("crypto");
+
 const { safeJsonStringify, msgWrapper } = require("../server/common/utils");
 
 const resolvePath = (p) => path.resolve(__dirname, p);
 
 class FactableEvidencer {
   constructor(config) {
-    console.log("FactableEvidencer CONSTRUCTOR fuckck:", config);
+    console.log("FactableEvidencer STARTING..", config);
     this.pending = [];
     this.socket_ready = false;
     this.socket = false;
@@ -17,18 +17,19 @@ class FactableEvidencer {
   }
 
   initConnection() {
-    console.log("initConnection ");
+    console.log("CONNECTING..");
     if (this.reatemptTimeout) {
       clearTimeout(this.reatemptTimeout);
     }
     this.socket = new WebSocket("ws://localhost:8888");
     this.socket.on("error", (err) => {
       this.socket_ready = false;
-      console.error(
-        "Socket encountered error: ",
-        err.message,
-        "Closing socket"
-      );
+      console.log("SOCKET ERROR");
+      // console.error(
+      //   "Socket encountered error: ",
+      //   err.message,
+      //   "Closing socket"
+      // );
       this.socket.close();
       this.reatemptTimeout = setTimeout(() => {
         this.initConnection();
@@ -38,7 +39,6 @@ class FactableEvidencer {
     // this.socket.on("ping", this.heartbeat.bind(this));
     this.socket.on("close", () => {
       this.socket_ready = false;
-      // clearTimeout(this.pingTimeout);
       this.initConnection();
     });
   }
@@ -47,7 +47,7 @@ class FactableEvidencer {
     if (this.socket_ready) {
       while (this.pending.length) {
         const current = this.pending.shift();
-        console.log("registerFunctionCall REAL");
+        console.log("sending call..");
         this.socket.send(
           safeJsonStringify(msgWrapper("registerFunctionCall", current))
         );
@@ -55,21 +55,15 @@ class FactableEvidencer {
     }
   }
 
-  // https://github.com/websockets/ws#client-authentication
   heartbeat() {
-    console.log("heartbeat");
     this.socket_ready = true;
     this.processPending();
   }
 
   registerFunctionCall(args, output, metadata) {
-    const paramsHash = crypto
-      .createHash("md5")
-      .update(safeJsonStringify(args))
-      .digest("hex");
-    // console.log("registerFunctionCall");
-    const rand = Math.random().toString();
-    this.pending.push({ args, output, metadata, paramsHash, rand });
+    console.log("registerFunctionCall: ", metadata.name);
+    const millis = new Date().valueOf().toString();
+    this.pending.push({ args, output, metadata, millis });
     this.processPending();
   }
 }

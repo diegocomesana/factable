@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 const prettyJson = (obj) => JSON.stringify(obj, null, 2);
 
 const safeJsonStringify = (obj, indent = 2) => {
@@ -34,10 +36,17 @@ const msgWrapper = (type, payload) => {
   };
 };
 
+const getCallUniqueId = (functionName, args, millis) =>
+  crypto
+    .createHash("md5")
+    .update(`${functionName}${safeJsonStringify(args)}${millis}`)
+    .digest("hex");
+
 module.exports = {
   prettyJson,
   safeJsonStringify,
   camelToDash,
   parseJson,
   msgWrapper,
+  getCallUniqueId,
 };
