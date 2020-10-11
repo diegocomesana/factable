@@ -106,3 +106,4 @@ dist
 
 src/plugin/build-test
 build
+build-tests
