@@ -2,7 +2,7 @@ const FactableEvidencer = new require("factable").evidencer().getInstance();
 // FACTABLE
 const johndoe = "yeahhh";
 
-function originalFunc(param1, param2) {
+function originalFunc(param1, param2 = "default_value") {
   const output = (function () {
     console.log("originalFunc called! ", param1, param2);
     return param1 + param2;

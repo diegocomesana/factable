@@ -1,7 +1,7 @@
 // FACTABLE
 const johndoe = "yeahhh";
 
-function originalFunc(param1, param2) {
+function originalFunc(param1, param2 = "default_value") {
   console.log("originalFunc called! ", param1, param2);
   return param1 + param2;
 }

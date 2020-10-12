@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "./clean.sh",
     "plugin:test": "cross-env FACTABLE_TRANSPILE=on jest ./src/plugin/tests",
-    "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./src/plugin/dev",
+    "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./src/plugin/dev.js",
     "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./build-tests ./src/plugin/tests/fixtures/full-on",
     "client:build": "cross-env-shell webpack --config ./src/client/webpack.config.js",
     "server:build": "cross-env-shell babel -d ./build/server ./src/server",

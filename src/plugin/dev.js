@@ -9,7 +9,7 @@ const plugin = require(".");
 const resolvePath = (p) => path.resolve(__dirname, p);
 
 // read the code from this file
-fs.readFile(resolvePath("../tests/fixtures/full-on/code.js"), function (
+fs.readFile(resolvePath("./tests/fixtures/full-on/code.js"), function (
   err,
   data
 ) {

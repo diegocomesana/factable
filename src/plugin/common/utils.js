@@ -57,11 +57,21 @@ const getFunctionName = (path) => {
   return path.node.id.name;
 };
 
+const getParamNameFromParamNode = (node) => {
+  if (node.type == "AssignmentPattern") {
+    // If param has default value
+    return node.left.name;
+  }
+  return node.name;
+};
+
 const getFunctionParams = (path) => {
   let params = [];
   path.find((interPath) => {
     if (interPath.isArrowFunctionExpression() || interPath.isFunction()) {
-      const currentPathParams = interPath.node.params.map((node) => node.name);
+      const currentPathParams = interPath.node.params.map(
+        getParamNameFromParamNode
+      );
       params = params.concat([currentPathParams]);
       return false;
     }
