@@ -39,7 +39,6 @@ const excludeThisFunctionNode = (path, state) => {
       (parentPath.node.type === "VariableDeclaration" &&
         excludedFunctionNames.includes(parentPath.node.declarations[0].id.name))
     ) {
-      console.log("devuelvo TRUE!!");
       return true;
     }
   }
