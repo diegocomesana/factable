@@ -13,10 +13,10 @@
     "plugin:build": "cross-env-shell babel -d ./build/plugin ./src/plugin --ignore ./src/plugin/dev.js --ignore ./src/plugin/tests",
     "evidencer:build": "cross-env-shell babel -d ./build/evidencer ./src/evidencer",
     "build": "cross-env-shell npm run client:build && npm run server:build && npm run plugin:build && npm run evidencer:build",
-    "server:run": "cross-env-shell node ./build/server",
+    "server:run": "cross-env-shell node ./build/server/run.js",
     "boot": "npm run clean && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run server:run",
     "client:watch": "webpack --config ./src/client/webpack.config.js --watch",
-    "server:watch": "nodemon --watch ./src/server --exec babel-node ./src/server",
+    "server:watch": "nodemon --watch ./src/server --exec babel-node ./src/server/run.js",
     "dev": "npm run clean && npm run client:watch & npm run server:watch"
   },
   "repository": {

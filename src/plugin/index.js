@@ -6,6 +6,7 @@ const {
   getFunctionData,
   getRequireExpression,
   getFunctionCallExpression,
+  getReturnExpression,
 } = require("./common/utils");
 
 module.exports = function ({ types: t }) {
@@ -39,6 +40,7 @@ module.exports = function ({ types: t }) {
             ),
           ]),
           getFunctionCallExpression(getFunctionData(path)),
+          getReturnExpression(),
         ]);
 
         path.node.body = newBodyBlock;

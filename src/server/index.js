@@ -37,4 +37,8 @@ process.once("SIGUSR2", () => {
   }
 });
 
-app(done);
+const run = () => {
+  app(done);
+};
+
+export default run;

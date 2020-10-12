@@ -106,8 +106,12 @@ const getFunctionCallExpression = (functionData) => {
 };
 
 const getRequireExpression = () => template.ast`
-  //const FactableEvidencer = require('factable').evidencer;
-  const FactableEvidencer = new require("factable").evidencer().getInstance();
+  const Evid = require("factable").evidencer;
+  const FactableEvidencer = new Evid().getInstance();
+`;
+
+const getReturnExpression = () => template.ast`
+  return output;
 `;
 
 const getAlowedNames = (path) => {
@@ -136,4 +140,5 @@ module.exports = {
   getFunctionData,
   getRequireExpression,
   getFunctionCallExpression,
+  getReturnExpression,
 };
