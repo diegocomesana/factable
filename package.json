@@ -19,6 +19,9 @@
     "server:watch": "nodemon --watch ./src/server --exec babel-node ./src/server/run.js",
     "dev": "npm run clean && npm run client:watch & npm run server:watch"
   },
+  "bin": {
+    "factable-server-run": "./build/server/run-cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/diegocomesana/factable.git"
