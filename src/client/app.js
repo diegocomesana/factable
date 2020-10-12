@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Style from "./style";
 import classNames from "classnames";
@@ -18,6 +18,8 @@ const parseJson = (str) => {
 const AppPrestyled = ({ className }) => {
   const [stateInited, setInited] = useState(false);
   const [dataStore, setDataStore] = useState({});
+  const ws = useRef(null);
+  const reconect_timeout = useRef(null);
 
   const onStateChange = (newState) => {
     setDataStore(newState);
@@ -26,13 +28,6 @@ const AppPrestyled = ({ className }) => {
   const onStateGet = () => dataStore;
 
   const store = storeFactory({ onStateChange, onStateGet });
-
-  const socket = new WebSocket("ws://localhost:8888");
-
-  const onSocketOpen = (e) => {
-    console.log("onSocketOpen");
-    socket.send("Hello Server!", e.data);
-  };
 
   const onSocketMessage = (e) => {
     const data = parseJson(e.data);
@@ -58,24 +53,40 @@ const AppPrestyled = ({ className }) => {
     }
   };
 
-  useEffect(() => {
-    // Connection opened
-    socket.addEventListener("open", onSocketOpen);
-
-    // Listen for messages
-    socket.addEventListener("message", onSocketMessage);
-
-    return () => {
-      socket.removeEventListener("open", onSocketOpen);
-      socket.removeEventListener("message", onSocketMessage);
+  const connect = () => {
+    ws.current = new WebSocket("ws://localhost:8888");
+    ws.current.onopen = () => {
+      if (reconect_timeout.current) {
+        clearTimeout(reconect_timeout.current);
+      }
     };
-  }, [dataStore, stateInited]);
+    ws.current.oncerror = () => {
+      reconect_timeout.current = setTimeout(() => {
+        connect();
+      }, 3000);
+    };
+    ws.current.onclose = () => {
+      reconect_timeout.current = setTimeout(() => {
+        connect();
+      }, 3000);
+    };
+  };
+
+  useEffect(() => {
+    connect();
+    return () => {
+      ws.current.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!ws.current) return;
+    ws.current.onmessage = onSocketMessage;
+  }, [dataStore]);
 
   return (
     <Style>
       <div className={classNames(namespace, className)}>
-        <h1>VAAAAMOS!!</h1>
-        <p>Cuenta</p>
         <ul className={nsClassName(`list`)}>
           {Object.keys(dataStore).map((key, i) => {
             return <li key={`${key}`}>{key}</li>;
@@ -95,7 +106,8 @@ export const App = styled(AppPrestyled)`
   .${nsClassName(`list`)} {
     color: #1890ff;
     font-size: 12px;
-    margin-right: 10px;
+    margin: 30px;
+    padding: 0;
     font-weight: bold;
 
     list-style: none;
@@ -103,6 +115,7 @@ export const App = styled(AppPrestyled)`
     li {
       /* background-color: pink; */
       border: solid grey 1px;
+      padding: 5px;
 
       &:not(:last-child) {
         border-bottom: none;
