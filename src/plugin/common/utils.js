@@ -32,7 +32,6 @@ const excludeThisFunctionNode = (path, state) => {
   }
 
   if (isAnonim) {
-    console.log("cami: ", parentPath.node.type);
     // ONLY ALLOW ANONIMOUS FUNCTIONS WHOSE PARENT IS A VariableDeclaration AND IS NOT THE WRAPPER
     if (
       (parentPath.node.type !== "VariableDeclaration" &&
