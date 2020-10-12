@@ -34,3 +34,8 @@ const exprEnroscada = (lala) => {
 const resultDeAnonimQueSeAutoEjecuta = (function () {
   return true;
 })();
+
+export const exportada = (str1, str2) => (arr) => {
+  console.log("arrayElementsWrapper called! ", str1, str2);
+  return arr.map((elem) => `${str1}${elem}${str2}`);
+};
