@@ -1,6 +1,6 @@
 {
   "name": "factable",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "A test case generation and managment tool for nodejs babel transpiled projects",
   "main": "./src/index.js",
   "scripts": {
@@ -40,7 +40,8 @@
     "url": "https://github.com/diegocomesana/factable/issues"
   },
   "homepage": "https://github.com/diegocomesana/factable#readme",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
     "@babel/generator": "^7.11.6",
@@ -54,6 +55,14 @@
     "babel-plugin-styled-components": "^1.11.1",
     "babel-plugin-tester": "^9.2.0",
     "babel-polyfill": "^6.26.0",
+    "classnames": "^2.2.6",
+    "core-js": "^3.6.5",
+    "open": "^7.3.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "simple-hashtable": "^1.0.0",
+    "styled-components": "^5.2.0",
+    "styled-normalize": "^8.0.7",
     "cardinal": "^2.1.1",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^7.0.2",
@@ -68,15 +77,5 @@
     "webpack-dev-middleware": "^3.7.2",
     "webpack-node-externals": "^2.5.2",
     "ws": "^7.3.1"
-  },
-  "dependencies": {
-    "classnames": "^2.2.6",
-    "core-js": "^3.6.5",
-    "open": "^7.3.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "simple-hashtable": "^1.0.0",
-    "styled-components": "^5.2.0",
-    "styled-normalize": "^8.0.7"
   }
 }
