@@ -10,12 +10,9 @@ import {
 } from "./utils";
 
 const msgFactory = (wss, hashtable, store) => {
-  console.log("msgFactory RECIBÍ WSS Y HASHTABLE", store.getState());
   return (ws) => {
-    console.log("msgFactory RECIBÍ WS");
     return {
       onConnection: () => {
-        console.log("SE CONECTÓ UN CHANGO!!");
         ws.send(safeJsonStringify(msgWrapper("init", store.getState())));
       },
       onMessage: (msg) => {

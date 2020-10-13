@@ -4,6 +4,12 @@ const types = require("@babel/types");
 const wrapperOutputName = "output";
 const excludedFunctionNames = [wrapperOutputName];
 
+const isValidPortNumber = (portStr) => {
+  return /^()([1-9]|[1-5]?[0-9]{2,4}|6[1-4][0-9]{3}|65[1-4][0-9]{2}|655[1-2][0-9]|6553[1-5])$/.test(
+    portStr
+  );
+};
+
 const isFactableOn = (path) => {
   const commentLineTokens = path.parent.comments.filter(
     (token) => token.type === "CommentLine"
@@ -110,9 +116,9 @@ const getFunctionCallExpression = (functionData) => {
   });
 };
 
-const getRequireExpression = () => template.ast`
+const getRequireExpression = (port) => template.ast`
   const Evid = require("factable").evidencer;
-  const FactableEvidencer = new Evid().getInstance();
+  const FactableEvidencer = new Evid({ port: ${port} }).getInstance();
 `;
 
 const getReturnExpression = () => template.ast`
@@ -146,4 +152,5 @@ module.exports = {
   getRequireExpression,
   getFunctionCallExpression,
   getReturnExpression,
+  isValidPortNumber,
 };

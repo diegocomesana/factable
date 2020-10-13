@@ -5,9 +5,9 @@
   "main": "./src/index.js",
   "scripts": {
     "clean": "./clean.sh",
-    "plugin:test": "cross-env FACTABLE_TRANSPILE=on jest ./src/plugin/tests",
-    "plugin:dev": "cross-env FACTABLE_TRANSPILE=on nodemon ./src/plugin/dev.js",
-    "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=on babel -w -d ./build-tests ./src/plugin/tests/fixtures/full-on",
+    "plugin:test": "cross-env FACTABLE_TRANSPILE=6789 jest ./src/plugin/tests",
+    "plugin:dev": "cross-env FACTABLE_TRANSPILE=6789 nodemon ./src/plugin/dev.js",
+    "plugin:dev-build": "cross-env FACTABLE_TRANSPILE=6789 babel -w -d ./build-tests ./src/plugin/tests/fixtures/full-on",
     "client:build": "cross-env-shell webpack --config ./src/client/webpack.config.js",
     "server:build": "cross-env-shell babel -d ./build/server ./src/server",
     "plugin:build": "cross-env-shell babel -d ./build/plugin ./src/plugin --ignore ./src/plugin/dev.js --ignore ./src/plugin/tests",
@@ -16,7 +16,7 @@
     "server:run": "cross-env-shell node ./build/server/run.js",
     "boot": "npm run clean && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run server:run",
     "client:watch": "webpack --config ./src/client/webpack.config.js --watch",
-    "server:watch": "nodemon --watch ./src/server --exec babel-node ./src/server/run.js 2345",
+    "server:watch": "cross-env FACTABLE_DEV=true nodemon --watch ./src/server --exec babel-node ./src/server/run.js 6789",
     "dev": "npm run clean && npm run client:watch & npm run server:watch"
   },
   "bin": {

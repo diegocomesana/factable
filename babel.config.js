@@ -20,7 +20,7 @@ module.exports = (api) => {
   const web = api.caller(isWebTarget);
   const webpack = api.caller(isWebpack);
 
-  const TEST_MODE = process.env.TEST_MODE;
+  // const TEST_MODE = process.env.TEST_MODE;
   const FACTABLE_TRANSPILE = process.env.FACTABLE_TRANSPILE;
 
   if (FACTABLE_TRANSPILE === "on") {

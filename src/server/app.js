@@ -44,10 +44,6 @@ const createHttpServer = (port) => {
     const pathPrefix = IS_DEV ? "../build/" : "";
     const filePath = resolvePath(`../${pathPrefix}client/${uri}`); // BABEL NODE VS NODE TOMAN DISTINTO PATH
 
-    // console.log("NEW REQUEST: ");
-    // console.log("uri: ", uri);
-    // console.log("filename: ", filePath);
-
     if (uri === "/") {
       res.writeHead(200, { "Content-Type": "text/html" });
       res.write(

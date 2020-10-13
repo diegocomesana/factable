@@ -8,6 +8,7 @@ const resolvePath = (p) => path.resolve(__dirname, p);
 class FactableEvidencer {
   constructor(config) {
     console.log("FactableEvidencer STARTING..", config);
+    this.port = config.port;
     this.pending = [];
     this.socket_ready = false;
     this.socket = false;
@@ -21,7 +22,7 @@ class FactableEvidencer {
     if (this.reatemptTimeout) {
       clearTimeout(this.reatemptTimeout);
     }
-    this.socket = new WebSocket("ws://localhost:8888");
+    this.socket = new WebSocket(`ws://localhost:${this.port}`);
     this.socket.on("error", (err) => {
       this.socket_ready = false;
       console.log("SOCKET ERROR");

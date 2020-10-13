@@ -4,13 +4,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const DEV = process.env.NODE_ENV !== "production";
-// const TEST_MODE = process.env.TEST_MODE;
-// const DEV_MODE = process.env.DEV_MODE;
-// const resolvePath = (p) => path.resolve(__dirname, p);
-// const PATH_SRC = resolvePath("../../../src/");
-// const PATH_PACKAGES = resolvePath("../../../src/packages/");
-// const PATH_BUILD = resolvePath("../../");
-// console.log("PATH_BUILD: ", PATH_BUILD);
 
 const babelConfigOptions = (target, isWebpack = true) => {
   const isWeb = target === "web";
@@ -38,18 +31,9 @@ const buildConfig = ({ name, target, entryPath, outputPath, publicPath }) => {
     target,
     entry: entryPath,
     devtool: DEV ? "cheap-module-eval-source-map" : false,
-    // resolve: {
-    //   extensions: [".js", ".jsx"],
-    //   alias: {
-    //     "@src": PATH_SRC,
-    //     "@packages": PATH_PACKAGES,
-    //     "@build": PATH_BUILD,
-    //   },
-    // },
     externals: target === "node" ? [nodeExternals()] : undefined,
     output: {
       path: outputPath,
-      // filename: DEV ? "[name].js" : "[name]-[chunkhash:8].js", // NO FUNCA: para recuperarlo usar https://www.npmjs.com/package/assets-webpack-plugin
       filename: "[name].js",
       publicPath,
       libraryTarget: target === "node" ? "commonjs2" : undefined,

@@ -7,11 +7,14 @@ const {
   getRequireExpression,
   getFunctionCallExpression,
   getReturnExpression,
+  isValidPortNumber,
 } = require("./common/utils");
 
 module.exports = function ({ types: t }) {
   const FACTABLE_TRANSPILE = process.env.FACTABLE_TRANSPILE;
-  if (FACTABLE_TRANSPILE !== "on") {
+  const isValidPort = isValidPortNumber(FACTABLE_TRANSPILE);
+  const PORT = FACTABLE_TRANSPILE;
+  if (!isValidPort) {
     return {};
   }
 
@@ -55,7 +58,7 @@ module.exports = function ({ types: t }) {
 
         const allowedNames = getAlowedNames(path);
 
-        path.unshiftContainer("body", getRequireExpression());
+        path.unshiftContainer("body", getRequireExpression(PORT));
 
         path.traverse(Visitor, {
           allowedNames,

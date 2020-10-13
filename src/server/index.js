@@ -2,8 +2,11 @@ import open from "open";
 import app from "./app";
 import { RunMode } from "./common/types";
 
+const IS_FACTABLE_DEV = process.env.FACTABLE_DEV === "true";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
 const IS_TEST = process.env.NODE_ENV === RunMode.TEST;
+
+console.log("process.env.FACTABLE_DEV: ", process.env.FACTABLE_DEV);
 
 let server = null;
 const done = (from, app, port) => () => {
@@ -12,7 +15,7 @@ const done = (from, app, port) => () => {
       from,
       msg: `🚀 Server ready at http://${"localhost"}:${port}`,
     });
-    if (!IS_DEV) {
+    if (!IS_FACTABLE_DEV) {
       open(`http://${"localhost"}:${port}`);
     }
   });

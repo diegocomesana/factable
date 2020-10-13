@@ -1,7 +1,7 @@
 // const FactableEvidencer = new require("factable").evidencer().getInstance();
 
 const Evid = require(".");
-const FactableEvidencer = new Evid().getInstance();
+const FactableEvidencer = new Evid({ port: 6789 }).getInstance();
 
 const names = [
   "Aberdeen",
