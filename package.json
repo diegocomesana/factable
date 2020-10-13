@@ -16,11 +16,11 @@
     "server:run": "cross-env-shell node ./build/server/run.js",
     "boot": "npm run clean && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run server:run",
     "client:watch": "webpack --config ./src/client/webpack.config.js --watch",
-    "server:watch": "nodemon --watch ./src/server --exec babel-node ./src/server/run.js",
+    "server:watch": "nodemon --watch ./src/server --exec babel-node ./src/server/run.js 2345",
     "dev": "npm run clean && npm run client:watch & npm run server:watch"
   },
   "bin": {
-    "factable-server-run": "./build/server/run-cli.js"
+    "factable-server-run": "./build/server/run.js"
   },
   "repository": {
     "type": "git",

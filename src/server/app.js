@@ -7,6 +7,7 @@ import WebSocket from "ws";
 import SimpleHashTable from "simple-hashtable";
 import { RunMode } from "./common/types";
 import { buildHtml } from "./common/html";
+import { settings } from "./settings";
 
 import msgFactory from "./common/msg-behavior";
 import storeFactory from "./store";
@@ -34,7 +35,10 @@ const fileExists = (path) => {
   });
 };
 
-const createHttpServer = () => {
+const getClientConfigScript = (port) =>
+  `<script>window.__LOADABLE_CLIENT_CONFIG__ = { port: ${port} }</script>`;
+
+const createHttpServer = (port) => {
   return http.createServer((req, res) => {
     const uri = url.parse(req.url).pathname;
     const pathPrefix = IS_DEV ? "../build/" : "";
@@ -47,7 +51,11 @@ const createHttpServer = () => {
     if (uri === "/") {
       res.writeHead(200, { "Content-Type": "text/html" });
       res.write(
-        buildHtml({ title: pageTitle, bundles: ["vendors.js", "main.js"] })
+        buildHtml({
+          title: pageTitle,
+          bundles: ["vendors.js", "main.js"],
+          scriptElements: [getClientConfigScript(port)],
+        })
       );
       res.end();
       return;
@@ -92,8 +100,8 @@ const createHttpServer = () => {
   });
 };
 
-const App = (done) => {
-  const httpServer = createHttpServer();
+const App = (done, port = settings.APP.PORT) => {
+  const httpServer = createHttpServer(port);
   const wss = new WebSocket.Server({ server: httpServer });
 
   const msgBehaviorInit = msgFactory(wss, hashtable, store);
@@ -108,7 +116,7 @@ const App = (done) => {
 
   const doneInternal = (from) => () => {
     if (typeof done === "function") {
-      done(from, httpServer)();
+      done(from, httpServer, port)();
     }
   };
 

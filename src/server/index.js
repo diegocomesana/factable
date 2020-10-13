@@ -1,20 +1,19 @@
 import open from "open";
 import app from "./app";
 import { RunMode } from "./common/types";
-import { settings } from "./settings";
 
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
 const IS_TEST = process.env.NODE_ENV === RunMode.TEST;
 
 let server = null;
-const done = (from, app) => () => {
-  server = app.listen({ port: settings.APP.PORT, host: "0.0.0.0" }, () => {
+const done = (from, app, port) => () => {
+  server = app.listen({ port, host: "0.0.0.0" }, () => {
     console.log("index.js", {
       from,
-      msg: `🚀 Server ready at http://${"localhost"}:${settings.APP.PORT}`,
+      msg: `🚀 Server ready at http://${"localhost"}:${port}`,
     });
     if (!IS_DEV) {
-      open(`http://${"localhost"}:${settings.APP.PORT}`);
+      open(`http://${"localhost"}:${port}`);
     }
   });
 };
@@ -37,8 +36,8 @@ process.once("SIGUSR2", () => {
   }
 });
 
-const run = () => {
-  app(done);
+const run = (port) => {
+  app(done, port);
 };
 
 export default run;

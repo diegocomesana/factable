@@ -1,3 +1,6 @@
-import run from ".";
+#!/usr/bin/env node
 
-run();
+import run from ".";
+const cliArgs = process.argv.slice(2);
+const port = cliArgs[0];
+run(port);

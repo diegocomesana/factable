@@ -54,7 +54,8 @@ const AppPrestyled = ({ className }) => {
   };
 
   const connect = () => {
-    ws.current = new WebSocket("ws://localhost:8888");
+    const { port } = window.__LOADABLE_CLIENT_CONFIG__;
+    ws.current = new WebSocket(`ws://localhost:${port}`);
     ws.current.onopen = () => {
       if (reconect_timeout.current) {
         clearTimeout(reconect_timeout.current);
