@@ -88,6 +88,9 @@ const AppPrestyled = ({ className }) => {
   return (
     <Style>
       <div className={classNames(namespace, className)}>
+        <div className={nsClassName(`header`)}>
+          <h2>Factable</h2>
+        </div>
         <ul className={nsClassName(`list`)}>
           {Object.keys(dataStore).map((key, i) => {
             return <li key={`${key}`}>{key}</li>;

@@ -49,9 +49,14 @@ const excludeThisFunctionNode = (path, state) => {
 const getFunctionName = (path) => {
   const isAnonim = !path.node.id;
   const parentPath = getParentStatement(path);
+  console.log("aaa: ", parentPath.node.type);
   if (isAnonim) {
-    if (parentPath.node.type == "VariableDeclaration") {
+    if (parentPath.node.type === "VariableDeclaration") {
       return parentPath.node.declarations[0].id.name;
+    }
+
+    if (parentPath.node.type === "ExportNamedDeclaration") {
+      return parentPath.node.declaration.declarations[0].id.name;
     }
     return "";
   }
