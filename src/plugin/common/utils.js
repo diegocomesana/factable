@@ -55,7 +55,6 @@ const excludeThisFunctionNode = (path, state) => {
 const getFunctionName = (path) => {
   const isAnonim = !path.node.id;
   const parentPath = getParentStatement(path);
-  console.log("aaa: ", parentPath.node.type);
   if (isAnonim) {
     if (parentPath.node.type === "VariableDeclaration") {
       return parentPath.node.declarations[0].id.name;

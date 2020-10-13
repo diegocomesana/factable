@@ -21,15 +21,10 @@ const onMessage = (prevState) => (callInfo) => {
 let stateDefault = {};
 
 const onStateChangeDefault = (newState) => {
-  console.log("onStateChangeDefault: ", newState);
   stateDefault = newState;
 };
 
-const onStateGetDefault = () => {
-  console.log("onStateGetDefault", stateDefault);
-  console.log("Clarksville state:", stateDefault["Clarksville"]);
-  return stateDefault;
-};
+const onStateGetDefault = () => stateDefault;
 
 const defaultObj = {
   onStateChange: onStateChangeDefault,
