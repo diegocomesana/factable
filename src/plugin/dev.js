@@ -8,6 +8,7 @@ const plugin = require(".");
 // var fileName = process.argv[2];
 const resolvePath = (p) => path.resolve(__dirname, p);
 
+// @TODO: REPLACE WITH UTILS FUNCTIONS
 // read the code from this file
 fs.readFile(resolvePath("./tests/fixtures/full-on/code.js"), function (
   err,
@@ -20,6 +21,15 @@ fs.readFile(resolvePath("./tests/fixtures/full-on/code.js"), function (
   const out = babel.transform(src, {
     sourceType: "module", // default: "script"
     plugins: [plugin], // default: []
+    presets: [
+      [
+        "@babel/preset-env",
+        {
+          targets: { node: "current" },
+          modules: "commonjs",
+        },
+      ],
+    ],
   });
 
   console.log("--------- INPUT -----------");

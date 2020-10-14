@@ -35,6 +35,8 @@ const msgFactory = (wss, hashtable, store) => {
 
           const callInfoWithHash = { hash, ...callInfo };
 
+          console.log("callInfoWithHash:", callInfoWithHash);
+
           hashtable.put(hash, callInfoWithHash);
 
           store.onMessage(callInfoWithHash);

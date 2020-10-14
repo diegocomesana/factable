@@ -1,3 +1,5 @@
+const { isValidPortNumber } = require("./src/plugin/common/utils");
+
 // REFERENCIA:
 //github.com/babel/babel/blob/master/babel.config.js
 
@@ -20,25 +22,25 @@ module.exports = (api) => {
   const web = api.caller(isWebTarget);
   const webpack = api.caller(isWebpack);
 
-  // const TEST_MODE = process.env.TEST_MODE;
-  const FACTABLE_TRANSPILE = process.env.FACTABLE_TRANSPILE;
+  presets.push([
+    "@babel/preset-env",
+    {
+      useBuiltIns: web ? "entry" : undefined,
+      corejs: web ? "core-js@3" : false,
+      targets: !web ? { node: "current" } : undefined,
+      modules: webpack ? false : "commonjs",
+    },
+  ]);
 
-  if (FACTABLE_TRANSPILE === "on") {
+  const FACTABLE_TRANSPILE = process.env.FACTABLE_TRANSPILE;
+  const isValidPort = isValidPortNumber(FACTABLE_TRANSPILE);
+  if (isValidPort) {
     plugins.push(plugin);
   } else {
     presets.push("@babel/preset-react");
-    presets.push([
-      "@babel/preset-env",
-      {
-        useBuiltIns: web ? "entry" : undefined,
-        corejs: web ? "core-js@3" : false,
-        targets: !web ? { node: "current" } : undefined,
-        modules: webpack ? false : "commonjs",
-      },
-    ]);
   }
 
-  console.log("BABEL ENV: ", env);
+  // console.log("BABEL ENV: ", env);
 
   return {
     comments: false,

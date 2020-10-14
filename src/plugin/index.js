@@ -35,6 +35,13 @@ module.exports = function ({ types: t }) {
 
         const wrapperCallExpression = t.callExpression(functionExpression, []);
 
+        // const functionFilename =
+        //   state.file && state.file.opts && state.file.opts.filename
+        //     ? state.file.opts.filename
+        //     : "";
+
+        console.log("functionFilename: ", state);
+
         const newBodyBlock = t.blockStatement([
           t.variableDeclaration("const", [
             t.variableDeclarator(
@@ -42,7 +49,7 @@ module.exports = function ({ types: t }) {
               wrapperCallExpression
             ),
           ]),
-          getFunctionCallExpression(getFunctionData(path)),
+          getFunctionCallExpression(getFunctionData(path), " "),
           getReturnExpression(),
         ]);
 
@@ -53,16 +60,35 @@ module.exports = function ({ types: t }) {
 
   const VisitorInitiator = {
     Program: {
-      enter: (path) => {
+      enter: (path, state) => {
         if (!isFactableOn(path)) return;
 
+        // filename: undefined,
+        // auxiliaryCommentBefore: undefined,
+        // auxiliaryCommentAfter: undefined,
+        // retainLines: undefined,
+        // comments: false,
+        // shouldPrintComment: undefined,
+        // compact: 'auto',
+        // minified: undefined,
+        // sourceMaps: false,
+        // sourceRoot: undefined,
+        // sourceFileName: 'unknown'
+
+        // console.log("JAJAJA: ", state.file.opts);
+
+        // const sourceRoot = state.file.opts.sourceRoot || " ";
+        const sourceRoot = " ";
+
         const allowedNames = getAlowedNames(path);
-
-        path.unshiftContainer("body", getRequireExpression(PORT));
-
-        path.traverse(Visitor, {
+        const customState = {
+          ...state,
           allowedNames,
-        });
+        };
+
+        path.unshiftContainer("body", getRequireExpression(PORT, sourceRoot));
+
+        path.traverse(Visitor, customState);
       },
     },
   };
