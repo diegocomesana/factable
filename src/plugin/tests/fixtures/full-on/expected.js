@@ -21,7 +21,8 @@ function originalFunc(param1, param2 = "default_value") {
   FactableEvidencer.registerFunctionCall([param1, param2], output, {
     name: "originalFunc",
     params: ["param1", "param2"],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 }
@@ -35,7 +36,8 @@ const originalFuncExpresada = (param1, param2) => param3 => {
   FactableEvidencer.registerFunctionCall([param1, param2, param3], output, {
     name: "originalFuncExpresada",
     params: ["param1", "param2", "param3"],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 };
@@ -50,7 +52,8 @@ const originalFuncExpresada2 = (param1, param2) => {
   FactableEvidencer.registerFunctionCall([param1, param2], output, {
     name: "originalFuncExpresada2",
     params: ["param1", "param2"],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 };
@@ -63,7 +66,8 @@ const exprCurriada = lala => () => {
   FactableEvidencer.registerFunctionCall([lala], output, {
     name: "exprCurriada",
     params: ["lala"],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 };
@@ -76,7 +80,8 @@ const exprCurriada2 = lala => otra => diego => {
   FactableEvidencer.registerFunctionCall([lala, otra, diego], output, {
     name: "exprCurriada2",
     params: ["lala", "otra", "diego"],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 };
@@ -91,7 +96,8 @@ const exprEnroscada = lala => {
   FactableEvidencer.registerFunctionCall([lala], output, {
     name: "exprEnroscada",
     params: ["lala"],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 };
@@ -104,7 +110,8 @@ const resultDeAnonimQueSeAutoEjecuta = function () {
   FactableEvidencer.registerFunctionCall([], output, {
     name: "resultDeAnonimQueSeAutoEjecuta",
     params: [],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 }();
@@ -118,7 +125,8 @@ const exportada = (str1, str2) => arr => {
   FactableEvidencer.registerFunctionCall([str1, str2, arr], output, {
     name: "exportada",
     params: ["str1", "str2", "arr"],
-    filename: __filename
+    filename: '',
+    root: '/Users/dcomesana/proy/factable'
   });
   return output;
 };

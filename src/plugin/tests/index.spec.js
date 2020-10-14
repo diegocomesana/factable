@@ -19,7 +19,7 @@ describe("test pligin", () => {
 
     const output = transformSrc(code, plugin);
 
-    await generateExpected(resolvePath("."), "it should transform ok", output); // NICE TRICK: use it to regenerate expectation
+    // await generateExpected(resolvePath("."), "it should transform ok", output); // NICE TRICK: use it to regenerate expectation
 
     expect(output).toEqual(expectedOutput);
 
@@ -35,7 +35,7 @@ describe("test pligin", () => {
 
     const output = transformSrc(code, plugin);
 
-    await generateExpected(resolvePath("."), "it should not transform", output); // NICE TRICK: use it to regenerate expectation
+    // await generateExpected(resolvePath("."), "it should not transform", output); // NICE TRICK: use it to regenerate expectation
 
     expect(output).toEqual(expectedOutput);
 

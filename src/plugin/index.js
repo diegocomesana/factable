@@ -35,12 +35,15 @@ module.exports = function ({ types: t }) {
 
         const wrapperCallExpression = t.callExpression(functionExpression, []);
 
-        // const functionFilename =
-        //   state.file && state.file.opts && state.file.opts.filename
-        //     ? state.file.opts.filename
-        //     : "";
+        const filename =
+          state.file && state.file.opts && state.file.opts.filename
+            ? state.file.opts.filename
+            : "";
 
-        console.log("functionFilename: ", state);
+        const root =
+          state.file && state.file.opts && state.file.opts.root
+            ? state.file.opts.root
+            : "";
 
         const newBodyBlock = t.blockStatement([
           t.variableDeclaration("const", [
@@ -49,7 +52,7 @@ module.exports = function ({ types: t }) {
               wrapperCallExpression
             ),
           ]),
-          getFunctionCallExpression(getFunctionData(path), " "),
+          getFunctionCallExpression(getFunctionData(path), filename, root),
           getReturnExpression(),
         ]);
 
@@ -63,30 +66,13 @@ module.exports = function ({ types: t }) {
       enter: (path, state) => {
         if (!isFactableOn(path)) return;
 
-        // filename: undefined,
-        // auxiliaryCommentBefore: undefined,
-        // auxiliaryCommentAfter: undefined,
-        // retainLines: undefined,
-        // comments: false,
-        // shouldPrintComment: undefined,
-        // compact: 'auto',
-        // minified: undefined,
-        // sourceMaps: false,
-        // sourceRoot: undefined,
-        // sourceFileName: 'unknown'
-
-        // console.log("JAJAJA: ", state.file.opts);
-
-        // const sourceRoot = state.file.opts.sourceRoot || " ";
-        const sourceRoot = " ";
-
         const allowedNames = getAlowedNames(path);
         const customState = {
           ...state,
           allowedNames,
         };
 
-        path.unshiftContainer("body", getRequireExpression(PORT, sourceRoot));
+        path.unshiftContainer("body", getRequireExpression(PORT));
 
         path.traverse(Visitor, customState);
       },

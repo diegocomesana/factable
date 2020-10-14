@@ -97,12 +97,13 @@ const getFunctionData = (path) => {
   return { name, params };
 };
 
-const getFunctionCallExpression = (functionData, functionFilename) => {
+const getFunctionCallExpression = (functionData, filename, root) => {
   const buildExpression = template(`
   FactableEvidencer.registerFunctionCall(ARGUMENTS_ARRAY_EXPRESSION, output, {
     name: NAME_STRING_LITERAL,
     params: PARAMS_ARRAY_EXPRESSION,
-    filename: '${functionFilename}',
+    filename: '${filename}',
+    root: '${root}',
   });
 `);
   return buildExpression({
@@ -116,9 +117,9 @@ const getFunctionCallExpression = (functionData, functionFilename) => {
   });
 };
 
-const getRequireExpression = (port, sourceRoot) => template.ast`
+const getRequireExpression = (port) => template.ast`
   const Evid = require("factable").evidencer;
-  const FactableEvidencer = new Evid({ port: ${port}, sourceRoot: '${sourceRoot}' }).getInstance();
+  const FactableEvidencer = new Evid({ port: ${port} }).getInstance();
 `;
 
 const getReturnExpression = () => template.ast`
