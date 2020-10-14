@@ -63,7 +63,7 @@ const generateExpected = (basePath, caseString, content) => {
     .catch((err) => console.log(err));
 };
 
-export const camelToDash = (str) =>
+const camelToDash = (str) =>
   str.replace(/([A-Z])/g, ($1) => "-" + $1.toLowerCase());
 
 module.exports = {

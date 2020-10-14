@@ -7,7 +7,7 @@ const resolvePath = (p) => path.resolve(__dirname, p);
 
 class FactableEvidencer {
   constructor(config) {
-    console.log("FactableEvidencer STARTING..", config);
+    // console.log("FactableEvidencer STARTING..", config);
     this.port = config.port;
     this.pending = [];
     this.socket_ready = false;
@@ -18,14 +18,14 @@ class FactableEvidencer {
   }
 
   initConnection() {
-    console.log("CONNECTING..");
+    // console.log("CONNECTING..");
     if (this.reatemptTimeout) {
       clearTimeout(this.reatemptTimeout);
     }
     this.socket = new WebSocket(`ws://localhost:${this.port}`);
     this.socket.on("error", (err) => {
       this.socket_ready = false;
-      console.log("SOCKET ERROR");
+      // console.log("SOCKET ERROR");
       // console.error(
       //   "Socket encountered error: ",
       //   err.message,
@@ -34,7 +34,7 @@ class FactableEvidencer {
       this.socket.close();
       this.reatemptTimeout = setTimeout(() => {
         this.initConnection();
-      }, 1000);
+      }, 2000);
     });
     this.socket.on("open", this.heartbeat.bind(this));
     // this.socket.on("ping", this.heartbeat.bind(this));
@@ -48,7 +48,7 @@ class FactableEvidencer {
     if (this.socket_ready) {
       while (this.pending.length) {
         const current = this.pending.shift();
-        console.log("sending call..");
+        // console.log("sending call..");
         this.socket.send(
           safeJsonStringify(msgWrapper("registerFunctionCall", current))
         );
@@ -62,7 +62,7 @@ class FactableEvidencer {
   }
 
   registerFunctionCall(args, output, metadata) {
-    console.log("registerFunctionCall: ", metadata.name);
+    // console.log("registerFunctionCall: ", metadata.name);
     const millis = new Date().valueOf().toString();
     this.pending.push({ args, output, metadata, millis });
     this.processPending();
