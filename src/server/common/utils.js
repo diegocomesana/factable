@@ -1,8 +1,9 @@
+import fs from "fs";
 import crypto from "crypto";
 
-const prettyJson = (obj) => JSON.stringify(obj, null, 2);
+export const prettyJson = (obj) => JSON.stringify(obj, null, 2);
 
-const safeJsonStringify = (obj, indent = 2) => {
+export const safeJsonStringify = (obj, indent = 2) => {
   let cache = [];
   const retVal = JSON.stringify(
     obj,
@@ -18,10 +19,10 @@ const safeJsonStringify = (obj, indent = 2) => {
   return retVal;
 };
 
-const camelToDash = (str) =>
+export const camelToDash = (str) =>
   str.replace(/([A-Z])/g, ($1) => "-" + $1.toLowerCase());
 
-const parseJson = (str) => {
+export const parseJson = (str) => {
   try {
     return JSON.parse(str);
   } catch (ex) {
@@ -29,24 +30,48 @@ const parseJson = (str) => {
   }
 };
 
-const msgWrapper = (type, payload) => {
+export const msgWrapper = (type, payload) => {
   return {
     type,
     payload,
   };
 };
 
-const getCallUniqueId = (functionName, args, millis) =>
+export const getCallUniqueId = (functionName, args, millis) =>
   crypto
     .createHash("md5")
     .update(`${functionName}${safeJsonStringify(args)}${millis}`)
     .digest("hex");
 
-module.exports = {
-  prettyJson,
-  safeJsonStringify,
-  camelToDash,
-  parseJson,
-  msgWrapper,
-  getCallUniqueId,
+export const ensureDirExists = (path) => {
+  return new Promise((resolve, reject) => {
+    fs.mkdir(path, { recursive: true }, (err) => {
+      if (err) {
+        if (err.code == "EEXIST") resolve("existed");
+        // ignore the error if the folder already exists
+        else reject(err); // something else went wrong
+      } else resolve(path); // successfully created folder
+    });
+  });
 };
+
+export const createFile = (path, content) => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(path, content, (err) => {
+      if (err) reject(err);
+      resolve(path);
+    });
+  });
+};
+
+export const getFileContent = (path) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, (err, data) => {
+      if (err) reject(err);
+      resolve(data.toString());
+    });
+  });
+};
+
+export const getRelativeFilePath = (root, filename) =>
+  filename.substring(root.length + 1);

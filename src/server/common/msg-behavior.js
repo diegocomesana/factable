@@ -1,4 +1,5 @@
 import WebSocket from "ws";
+import { SocketMessageType } from "./types";
 
 import {
   prettyJson,
@@ -7,13 +8,20 @@ import {
   parseJson,
   msgWrapper,
   getCallUniqueId,
+  getRelativeFilePath,
 } from "./utils";
+
+import actions from "../store/actions";
 
 const msgFactory = (wss, hashtable, store) => {
   return (ws) => {
     return {
       onConnection: () => {
-        ws.send(safeJsonStringify(msgWrapper("init", store.getState())));
+        ws.send(
+          safeJsonStringify(
+            msgWrapper(SocketMessageType.INIT, store.getState())
+          )
+        );
       },
       onMessage: (msg) => {
         const data = parseJson(msg);
@@ -21,7 +29,7 @@ const msgFactory = (wss, hashtable, store) => {
         if (
           data &&
           data.type &&
-          data.type === "registerFunctionCall" &&
+          data.type === SocketMessageType.REGISTER_FUNCTION_CALL &&
           data.payload &&
           data.payload.millis
         ) {
@@ -33,20 +41,28 @@ const msgFactory = (wss, hashtable, store) => {
             callInfo.millis
           );
 
-          const callInfoWithHash = { hash, ...callInfo };
+          const callInfoWithHash = {
+            hash,
+            ...callInfo,
+            metadata: {
+              ...callInfo.metadata,
+            },
+            relativeFilePath: getRelativeFilePath(
+              callInfo.metadata.root,
+              callInfo.metadata.filename
+            ),
+          };
 
           console.log("callInfoWithHash:", callInfoWithHash);
 
           hashtable.put(hash, callInfoWithHash);
 
-          store.onMessage(callInfoWithHash);
+          store.dispatch(actions.onMessage)(callInfoWithHash);
 
           wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
               client.send(
-                safeJsonStringify(
-                  msgWrapper("registerFunctionCall", callInfoWithHash)
-                )
+                safeJsonStringify(msgWrapper(data.type, callInfoWithHash))
               );
             }
           });

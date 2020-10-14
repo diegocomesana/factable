@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Style from "./style";
 import classNames from "classnames";
 import storeFactory from "../server/store";
+import actions from "../server/store/actions";
+import { SocketMessageType } from "../server/common/types";
 
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -27,24 +29,24 @@ const AppPrestyled = ({ className }) => {
 
   const onStateGet = () => dataStore;
 
-  const store = storeFactory({ onStateChange, onStateGet });
+  const store = storeFactory({ onStateChange, onStateGet, debug: true });
 
   const onSocketMessage = (e) => {
     const data = parseJson(e.data);
     if (
       data &&
       data.type &&
-      data.type === "registerFunctionCall" &&
+      data.type === SocketMessageType.REGISTER_FUNCTION_CALL &&
       data.payload &&
       data.payload.hash
     ) {
-      store.onMessage(data.payload);
+      store.dispatch(actions.onMessage)(data.payload);
     }
 
     if (
       data &&
       data.type &&
-      data.type === "init" &&
+      data.type === SocketMessageType.INIT &&
       data.payload &&
       !stateInited
     ) {

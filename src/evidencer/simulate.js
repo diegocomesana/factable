@@ -394,12 +394,19 @@ const names = [
 const interval = setInterval(() => {
   const name = names[Math.floor(Math.random() * names.length)];
 
-  FactableEvidencer.registerFunctionCall(
-    [],
-    { test_salida: "yeahh" },
-    {
-      name: name,
-      params: ["param1", "param2", "param3"],
-    }
-  );
+  const str1 = "value de string1";
+  const str2 = "value de string2";
+  const arr = ["algo", "otro", "lala"];
+  const output = {
+    str1,
+    str2,
+    arr,
+  };
+
+  FactableEvidencer.registerFunctionCall([str1, str2, arr], output, {
+    name: name,
+    params: ["str1", "str2", "arr"],
+    filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
+    root: "/Users/dcomesana/proy/factable-test-project",
+  });
 }, 50);
