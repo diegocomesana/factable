@@ -34,12 +34,13 @@ export const Func = styled(FuncPrestyled)`
 
   .${nsClassName(`name`)} {
     color: #8e44ad;
+    padding: 8px 0 0 8px;
   }
 
   .${nsClassName(`calls`)} {
     color: #1890ff;
     font-size: 12px;
-    margin: 4px 4px 4px 6px;
+    margin: 4px 4px 4px 4px;
     padding: 0;
     font-weight: bold;
 

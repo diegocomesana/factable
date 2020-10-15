@@ -24,16 +24,24 @@ export const Case = styled(CasePrestyled)`
   align-items: center;
   justify-content: space-between;
   padding: 4px 6px 4px 6px;
-  transition: background-color 0.1s ease-in;
+  /* transition: background-color 0.1s ease-in; */
 
   &:hover {
-    background-color: rgba(50, 50, 50, 0.1);
+    background-color: rgba(0, 0, 0, 0.9);
+    .${nsClassName(`name`)} {
+      color: white;
+      font-style: bold;
+    }
+    .${nsClassName(`view-btn`)} {
+      background-color: transparent;
+    }
   }
 
   .${nsClassName(`name`)} {
     color: #1890ff;
-    font-weight: 400;
-    font-size: 12px;
+    font-weight: 300;
+    font-size: 11px;
+    font-style: italic;
   }
 
   .${nsClassName(`menu`)} {
@@ -49,7 +57,7 @@ export const Case = styled(CasePrestyled)`
     cursor: pointer;
     color: #666666;
     font-size: 11px;
-
+    outline: none;
     padding: 4px 8px;
     text-decoration: none;
     text-shadow: 0px 1px 0px #ffffff;
@@ -58,11 +66,6 @@ export const Case = styled(CasePrestyled)`
       background: linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
       background-color: #f6f6f6;
       color: #1890ff;
-    }
-
-    &:active {
-      position: relative;
-      top: 1px;
     }
   }
 `;

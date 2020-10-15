@@ -50,10 +50,12 @@ export const File = styled(FilePrestyled)`
 
   .${nsClassName(`list-item`)} {
     border: solid rgba(0, 0, 0, 0.15) 1px;
-    padding: 12px 6px 1px 12px;
+    padding: 0px;
+    margin-bottom: 8px;
 
+    border-radius: 5px;
     &:not(:last-child) {
-      border-bottom: none;
+      /* border-bottom: none; */
     }
   }
 `;
