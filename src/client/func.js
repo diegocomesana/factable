@@ -7,7 +7,7 @@ import Case from "./case";
 const namespace = `ui-func`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const FuncPrestyled = ({ className, name, calls }) => {
+const FuncPrestyled = ({ className, name, calls, fileName, onCaseClick }) => {
   return (
     <div className={classNames(namespace, className)}>
       <div className={nsClassName(`name`)}>{name}</div>
@@ -18,6 +18,10 @@ const FuncPrestyled = ({ className, name, calls }) => {
               {...{
                 key: callHash,
                 name: callHash,
+                hash: callHash,
+                fileName,
+                functionName: name,
+                onCaseClick,
               }}
             />
           </li>

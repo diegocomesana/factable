@@ -7,7 +7,7 @@ import Func from "./func";
 const namespace = `ui-file`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const FilePrestyled = ({ className, name, data }) => {
+const FilePrestyled = ({ className, name, data, onCaseClick }) => {
   return (
     <div className={classNames(namespace, className)}>
       <div className={nsClassName(`filename`)}>{name}</div>
@@ -19,6 +19,8 @@ const FilePrestyled = ({ className, name, data }) => {
                 key,
                 name: key,
                 calls: data[key].calls,
+                onCaseClick,
+                fileName: name,
               }}
             />
           </li>

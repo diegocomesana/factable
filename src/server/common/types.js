@@ -10,5 +10,7 @@ export const DevMode = {
 
 export const SocketMessageType = {
   REGISTER_FUNCTION_CALL: "registerFunctionCall",
+  ON_CASE_CLICKED: "onCaseClicked",
+  CASE_VIEW: "caseView",
   INIT: "init",
 };

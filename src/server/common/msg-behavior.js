@@ -26,9 +26,13 @@ const msgFactory = (wss, hashtable, store) => {
       onMessage: (msg) => {
         const data = parseJson(msg);
 
+        console.log("onMessage: ", msg, data);
+
+        if (!(data && data.type)) {
+          return;
+        }
+
         if (
-          data &&
-          data.type &&
           data.type === SocketMessageType.REGISTER_FUNCTION_CALL &&
           data.payload &&
           data.payload.millis
@@ -53,7 +57,7 @@ const msgFactory = (wss, hashtable, store) => {
             ),
           };
 
-          console.log("callInfoWithHash:", callInfoWithHash);
+          // console.log("callInfoWithHash:", callInfoWithHash);
 
           hashtable.put(hash, callInfoWithHash);
 
@@ -63,6 +67,28 @@ const msgFactory = (wss, hashtable, store) => {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
               client.send(
                 safeJsonStringify(msgWrapper(data.type, callInfoWithHash))
+              );
+            }
+          });
+        }
+
+        if (
+          data.type === SocketMessageType.ON_CASE_CLICKED &&
+          data.payload &&
+          data.payload.hash
+        ) {
+          // console.log("data.payload:", data.payload.hash);
+
+          const caseInfo = hashtable.get(data.payload.hash);
+
+          // console.log("caseInfo:", caseInfo);
+
+          wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+              client.send(
+                safeJsonStringify(
+                  msgWrapper(SocketMessageType.CASE_VIEW, { caseInfo })
+                )
               );
             }
           });

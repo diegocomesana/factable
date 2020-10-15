@@ -5,12 +5,24 @@ import classNames from "classnames";
 const namespace = `ui-case`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const CasePrestyled = ({ className, name }) => {
+const CasePrestyled = ({
+  className,
+  name,
+  hash,
+  fileName,
+  functionName,
+  onCaseClick,
+}) => {
   return (
     <div className={classNames(namespace, className)}>
       <div className={nsClassName(`name`)}>{name}</div>
       <div className={nsClassName(`menu`)}>
-        <button className={nsClassName(`view-btn`)}>view case details</button>
+        <button
+          className={nsClassName(`view-btn`)}
+          onClick={(e) => onCaseClick({ e, hash, fileName, functionName })}
+        >
+          view case details
+        </button>
       </div>
     </div>
   );
@@ -45,9 +57,8 @@ export const Case = styled(CasePrestyled)`
   }
 
   .${nsClassName(`view-btn`)} {
-    /* display: inline-block; */
-    /* padding: 0.35em 1.2em; */
     border: 2px solid magenta;
+    /* border: none; */
     margin: 0 0.3em 0.3em 0;
     border-radius: 5px;
     box-sizing: border-box;

@@ -32,6 +32,14 @@ export const onMessage = (prevState) => (callInfo) => {
   };
 };
 
+export const onCaseView = (prevState) => (payload) => {
+  console.log("onCaseView:", payload);
+  return {
+    ...prevState,
+  };
+};
+
 export default {
   onMessage,
+  onCaseView,
 };

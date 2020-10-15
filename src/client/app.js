@@ -5,18 +5,11 @@ import classNames from "classnames";
 import storeFactory from "../server/store";
 import actions from "../server/store/actions";
 import { SocketMessageType } from "../server/common/types";
+import { msgWrapper, parseJson } from "./utils";
 import File from "./file";
 
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
-
-const parseJson = (str) => {
-  try {
-    return JSON.parse(str);
-  } catch (ex) {
-    return null;
-  }
-};
 
 const AppPrestyled = ({ className }) => {
   const [stateInited, setInited] = useState(false);
@@ -33,10 +26,14 @@ const AppPrestyled = ({ className }) => {
   const store = storeFactory({ onStateChange, onStateGet, debug: true });
 
   const onSocketMessage = (e) => {
+    console.log("onSocketMessage:", e.data);
     const data = parseJson(e.data);
+
+    if (!(data && data.type)) {
+      return;
+    }
+
     if (
-      data &&
-      data.type &&
       data.type === SocketMessageType.REGISTER_FUNCTION_CALL &&
       data.payload &&
       data.payload.hash
@@ -44,15 +41,15 @@ const AppPrestyled = ({ className }) => {
       store.dispatch(actions.onMessage)(data.payload);
     }
 
-    if (
-      data &&
-      data.type &&
-      data.type === SocketMessageType.INIT &&
-      data.payload &&
-      !stateInited
-    ) {
+    if (data.type === SocketMessageType.INIT && data.payload && !stateInited) {
       setInited(true);
+      console.log(data.payload);
       store.initState(data.payload);
+    }
+
+    if (data.type === SocketMessageType.CASE_VIEW && data.payload) {
+      console.log(data.payload);
+      store.dispatch(actions.onCaseView)(data.payload);
     }
   };
 
@@ -88,6 +85,17 @@ const AppPrestyled = ({ className }) => {
     ws.current.onmessage = onSocketMessage;
   }, [dataStore]);
 
+  const onCaseClick = ({ e, hash, fileName, functionName }) => {
+    e.preventDefault();
+
+    console.log("onCaseClick: ", fileName, functionName, hash);
+    // console.log("onCaseClick: ", dataStore[fileName][functionName]);
+    // console.log("onCaseClick: ", dataStore[fileName][functionName]);
+    ws.current.send(
+      JSON.stringify(msgWrapper(SocketMessageType.ON_CASE_CLICKED, { hash }))
+    );
+  };
+
   return (
     <Style>
       <div className={classNames(namespace, className)}>
@@ -102,6 +110,7 @@ const AppPrestyled = ({ className }) => {
                   key,
                   name: key,
                   data: dataStore[key],
+                  onCaseClick,
                 }}
               />
             </li>

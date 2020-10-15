@@ -19,7 +19,7 @@ export const storeFactory = ({
 } = defaultObj) => {
   const applyState = (newState) => {
     onStateChange(newState);
-    if (debug) console.log("NEW STATE: ", newState);
+    // if (debug) console.log("NEW STATE: ", newState);
     return onStateGet();
   };
 
