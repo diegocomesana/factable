@@ -15,6 +15,7 @@ import storeFactory from "./store";
 const hashtable = new SimpleHashTable();
 
 const store = storeFactory();
+store.initState({ cases: {} });
 
 const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;

@@ -26,7 +26,7 @@ const msgFactory = (wss, hashtable, store) => {
       onMessage: (msg) => {
         const data = parseJson(msg);
 
-        console.log("onMessage: ", msg, data);
+        // console.log("onMessage: ", msg, data);
 
         if (!(data && data.type)) {
           return;
@@ -61,7 +61,7 @@ const msgFactory = (wss, hashtable, store) => {
 
           hashtable.put(hash, callInfoWithHash);
 
-          store.dispatch(actions.onMessage)(callInfoWithHash);
+          store.dispatch(actions.onRegisterFunctionCall)(callInfoWithHash);
 
           wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -77,21 +77,15 @@ const msgFactory = (wss, hashtable, store) => {
           data.payload &&
           data.payload.hash
         ) {
-          // console.log("data.payload:", data.payload.hash);
-
           const caseInfo = hashtable.get(data.payload.hash);
 
-          // console.log("caseInfo:", caseInfo);
-
-          wss.clients.forEach(function each(client) {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-              client.send(
-                safeJsonStringify(
-                  msgWrapper(SocketMessageType.CASE_VIEW, { caseInfo })
-                )
-              );
-            }
-          });
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(
+              safeJsonStringify(
+                msgWrapper(SocketMessageType.CASE_VIEW, caseInfo)
+              )
+            );
+          }
         }
       },
     };

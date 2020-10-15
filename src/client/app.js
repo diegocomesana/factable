@@ -4,9 +4,10 @@ import Style from "./style";
 import classNames from "classnames";
 import storeFactory from "../server/store";
 import actions from "../server/store/actions";
-import { SocketMessageType } from "../server/common/types";
+import { SocketMessageType, LayoutView } from "../server/common/types";
 import { msgWrapper, parseJson } from "./utils";
-import File from "./file";
+import Cases from "./cases";
+import CaseView from "./case-view";
 
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -26,11 +27,23 @@ const AppPrestyled = ({ className }) => {
   const store = storeFactory({ onStateChange, onStateGet, debug: true });
 
   const onSocketMessage = (e) => {
-    console.log("onSocketMessage:", e.data);
+    // console.log("onSocketMessage:", e.data);
     const data = parseJson(e.data);
 
     if (!(data && data.type)) {
       return;
+    }
+
+    if (data.type === SocketMessageType.INIT && data.payload && !stateInited) {
+      setInited(true);
+      // console.log();
+      store.initState({
+        layoutState: {
+          currentView: "cases",
+        },
+        caseInfo: false,
+        ...data.payload,
+      });
     }
 
     if (
@@ -38,17 +51,10 @@ const AppPrestyled = ({ className }) => {
       data.payload &&
       data.payload.hash
     ) {
-      store.dispatch(actions.onMessage)(data.payload);
-    }
-
-    if (data.type === SocketMessageType.INIT && data.payload && !stateInited) {
-      setInited(true);
-      console.log(data.payload);
-      store.initState(data.payload);
+      store.dispatch(actions.onRegisterFunctionCall)(data.payload);
     }
 
     if (data.type === SocketMessageType.CASE_VIEW && data.payload) {
-      console.log(data.payload);
       store.dispatch(actions.onCaseView)(data.payload);
     }
   };
@@ -87,14 +93,16 @@ const AppPrestyled = ({ className }) => {
 
   const onCaseClick = ({ e, hash, fileName, functionName }) => {
     e.preventDefault();
-
-    console.log("onCaseClick: ", fileName, functionName, hash);
-    // console.log("onCaseClick: ", dataStore[fileName][functionName]);
-    // console.log("onCaseClick: ", dataStore[fileName][functionName]);
     ws.current.send(
       JSON.stringify(msgWrapper(SocketMessageType.ON_CASE_CLICKED, { hash }))
     );
   };
+
+  const onBack = () => {
+    store.dispatch(actions.onBack)();
+  };
+
+  const { cases, caseInfo, layoutState } = dataStore;
 
   return (
     <Style>
@@ -102,20 +110,13 @@ const AppPrestyled = ({ className }) => {
         <div className={nsClassName(`header`)}>
           <h2>Factable</h2>
         </div>
-        <ul className={nsClassName(`list`)}>
-          {Object.keys(dataStore).map((key) => (
-            <li key={`${key}`} className={nsClassName(`list-item`)}>
-              <File
-                {...{
-                  key,
-                  name: key,
-                  data: dataStore[key],
-                  onCaseClick,
-                }}
-              />
-            </li>
-          ))}
-        </ul>
+        {layoutState &&
+        layoutState.currentView === LayoutView.CASE_VIEW &&
+        caseInfo ? (
+          <CaseView {...{ ...caseInfo, onBack }} />
+        ) : (
+          <Cases {...{ cases, onCaseClick }} />
+        )}
       </div>
     </Style>
   );
@@ -130,24 +131,6 @@ export const App = styled(AppPrestyled)`
     font-family: Righteous;
     padding: 12px 12px 0;
     color: #ad1457;
-  }
-
-  .${nsClassName(`list`)} {
-    color: #1890ff;
-    font-size: 14px;
-    margin: 0 8px 8px;
-    padding: 10px;
-    font-weight: bold;
-
-    list-style: none;
-  }
-
-  .${nsClassName(`list-item`)} {
-    padding: 0;
-
-    &:not(:last-child) {
-      border-bottom: none;
-    }
   }
 `;
 

@@ -1,3 +1,5 @@
+import { LayoutView } from "../common/types";
+
 const getCurrentFileValue = (state, key) => {
   return state[key] || {};
 };
@@ -10,9 +12,10 @@ const getCurrentFunctionValue = (file, key) => {
   );
 };
 
-export const onMessage = (prevState) => (callInfo) => {
+export const onRegisterFunctionCall = (prevState) => (callInfo) => {
+  console.log("lalalla:", prevState);
   const currentFileValue = getCurrentFileValue(
-    prevState,
+    prevState.cases,
     callInfo.relativeFilePath
   );
   const currentFunctionValue = getCurrentFunctionValue(
@@ -22,24 +25,43 @@ export const onMessage = (prevState) => (callInfo) => {
 
   return {
     ...prevState,
-    [callInfo.relativeFilePath]: {
-      ...currentFileValue,
-      [callInfo.metadata.name]: {
-        ...currentFunctionValue,
-        calls: [...currentFunctionValue.calls, callInfo.hash],
+    cases: {
+      ...prevState.cases,
+      [callInfo.relativeFilePath]: {
+        ...currentFileValue,
+        [callInfo.metadata.name]: {
+          ...currentFunctionValue,
+          calls: [...currentFunctionValue.calls, callInfo.hash],
+        },
       },
     },
   };
 };
 
-export const onCaseView = (prevState) => (payload) => {
-  console.log("onCaseView:", payload);
+export const onCaseView = (prevState) => (caseInfo) => {
+  console.log("caseInfo: ", caseInfo);
   return {
     ...prevState,
+    caseInfo,
+    layoutState: {
+      ...prevState.layoutState,
+      currentView: LayoutView.CASE_VIEW,
+    },
+  };
+};
+
+export const onBack = (prevState) => () => {
+  return {
+    ...prevState,
+    layoutState: {
+      ...prevState.layoutState,
+      currentView: LayoutView.CASES,
+    },
   };
 };
 
 export default {
-  onMessage,
+  onRegisterFunctionCall,
   onCaseView,
+  onBack,
 };

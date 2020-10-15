@@ -14,3 +14,8 @@ export const SocketMessageType = {
   CASE_VIEW: "caseView",
   INIT: "init",
 };
+
+export const LayoutView = {
+  CASES: "cases",
+  CASE_VIEW: "caseView",
+};
