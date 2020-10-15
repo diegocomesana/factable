@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 
+import Case from "./case";
+
 const namespace = `ui-func`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
@@ -11,7 +13,14 @@ const FuncPrestyled = ({ className, name, calls }) => {
       <div className={nsClassName(`name`)}>{name}</div>
       <ul className={nsClassName(`calls`)}>
         {calls.map((callHash) => (
-          <li key={`${callHash}`}>{callHash}</li>
+          <li key={`${callHash}`} className={nsClassName(`list-item`)}>
+            <Case
+              {...{
+                key: callHash,
+                name: callHash,
+              }}
+            />
+          </li>
         ))}
       </ul>
     </div>
@@ -30,19 +39,19 @@ export const Func = styled(FuncPrestyled)`
   .${nsClassName(`calls`)} {
     color: #1890ff;
     font-size: 12px;
-    margin: 4px;
+    margin: 4px 4px 4px 6px;
     padding: 0;
     font-weight: bold;
 
     list-style: none;
+  }
 
-    li {
-      border: solid rgba(215, 40, 40, 0.2) 1px;
-      padding: 5px;
+  .${nsClassName(`list-item`)} {
+    /* border: solid rgba(215, 40, 40, 0.2) 1px; */
+    padding: 0;
 
-      &:not(:last-child) {
-        border-bottom: none;
-      }
+    &:not(:last-child) {
+      border-bottom: none;
     }
   }
 `;

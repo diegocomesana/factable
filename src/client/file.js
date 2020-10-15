@@ -36,6 +36,7 @@ export const File = styled(FilePrestyled)`
   .${nsClassName(`filename`)} {
     color: magenta;
     margin-left: 4px;
+    font-style: italic;
   }
 
   .${nsClassName(`functions`)} {
@@ -49,7 +50,7 @@ export const File = styled(FilePrestyled)`
 
   .${nsClassName(`list-item`)} {
     border: solid rgba(0, 0, 0, 0.15) 1px;
-    padding: 5px;
+    padding: 12px 6px 1px 12px;
 
     &:not(:last-child) {
       border-bottom: none;
