@@ -5,6 +5,7 @@ import classNames from "classnames";
 import storeFactory from "../server/store";
 import actions from "../server/store/actions";
 import { SocketMessageType } from "../server/common/types";
+import File from "./file";
 
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -94,9 +95,17 @@ const AppPrestyled = ({ className }) => {
           <h2>Factable</h2>
         </div>
         <ul className={nsClassName(`list`)}>
-          {Object.keys(dataStore).map((key, i) => {
-            return <li key={`${key}`}>{key}</li>;
-          })}
+          {Object.keys(dataStore).map((key) => (
+            <li key={`${key}`} className={nsClassName(`list-item`)}>
+              <File
+                {...{
+                  key,
+                  name: key,
+                  data: dataStore[key],
+                }}
+              />
+            </li>
+          ))}
         </ul>
       </div>
     </Style>
@@ -107,25 +116,28 @@ export const App = styled(AppPrestyled)`
   width: 100%;
   margin: 0;
   padding: 0;
-  /* background-color: orange; */
+
+  .${nsClassName(`header`)} {
+    font-family: Righteous;
+    padding: 12px 12px 0;
+    color: #ad1457;
+  }
 
   .${nsClassName(`list`)} {
     color: #1890ff;
-    font-size: 12px;
-    margin: 30px;
-    padding: 0;
+    font-size: 14px;
+    margin: 0 8px 8px;
+    padding: 10px;
     font-weight: bold;
 
     list-style: none;
+  }
 
-    li {
-      /* background-color: pink; */
-      border: solid grey 1px;
-      padding: 5px;
+  .${nsClassName(`list-item`)} {
+    padding: 0;
 
-      &:not(:last-child) {
-        border-bottom: none;
-      }
+    &:not(:last-child) {
+      border-bottom: none;
     }
   }
 `;
