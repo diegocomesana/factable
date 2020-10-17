@@ -48,6 +48,12 @@ export const getCallUniqueId = (functionName, args, millis) =>
     .update(`${functionName}${safeJsonStringify(args)}${millis}`)
     .digest("hex");
 
+export const getHash = (input) =>
+  crypto
+    .createHash("md5")
+    .update(`${safeJsonStringify(input)}`)
+    .digest("hex");
+
 export const ensureDirExists = (path) => {
   return new Promise((resolve, reject) => {
     fs.mkdir(path, { recursive: true }, (err) => {

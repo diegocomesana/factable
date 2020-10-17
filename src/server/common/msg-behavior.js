@@ -9,6 +9,7 @@ import {
   msgWrapper,
   getCallUniqueId,
   getRelativeFilePath,
+  getHash,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -45,8 +46,13 @@ const msgFactory = (wss, hashtable, store) => {
             callInfo.millis
           );
 
+          const inputHash = getHash(callInfo.args);
+          const outputHash = getHash(callInfo.output);
+
           const callInfoWithHash = {
             hash,
+            inputHash,
+            outputHash,
             ...callInfo,
             metadata: {
               ...callInfo.metadata,

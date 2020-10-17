@@ -37,11 +37,14 @@ export const Case = styled(CasePrestyled)`
   justify-content: space-between;
   padding: 4px 6px 4px 6px;
   /* transition: background-color 0.1s ease-in; */
+  border: 1px solid transparent;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.9);
+    /* background-color: rgba(0, 0, 0, 0.2); */
+    border: 1px solid magenta;
+
     .${nsClassName(`name`)} {
-      color: white;
+      /* color: white; */
       font-style: bold;
     }
   }
@@ -76,8 +79,8 @@ export const Case = styled(CasePrestyled)`
 
     &:hover {
       /* background-color: #f6f6f6; */
-      border-color: white;
-      color: white;
+      /* border-color: white; */
+      /* color: white; */
     }
   }
 `;

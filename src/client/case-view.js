@@ -21,6 +21,7 @@ const CaseViewPrestyled = ({
   metadata,
   relativeFilePath,
   args,
+  output,
 }) => {
   const inputData = buildInputData(metadata.params, args);
   return (
@@ -36,60 +37,127 @@ const CaseViewPrestyled = ({
           {`(${relativeFilePath})`}
         </span>
       </div>
-      <ul className={nsClassName(`input`)}>
-        {inputData.map(({ name, type, value }) => (
-          <li key={`${name}`} className={nsClassName(`input-list-item`)}>
-            <div className={nsClassName(`input-names`)}>
-              <span className={nsClassName(`input-name`)}>{name}</span>
-              <span className={nsClassName(`input-type`)}>{`(${type})`}</span>
-            </div>
-            <div className={nsClassName(`input-value`)}>{value}</div>
-          </li>
-        ))}
-      </ul>
-      {/* <div className={nsClassName(`menu`)}>
-        <button
-          className={nsClassName(`view-btn`)}
-          onClick={(e) => onCaseClick({ e, hash, fileName, functionName })}
-        >
-          view case details
-        </button>
-      </div> */}
+      <div className={nsClassName(`input`)}>
+        <div className={nsClassName(`input-title`)}>{"input"}</div>
+        <ul className={nsClassName(`input-value`)}>
+          {inputData.map(({ name, type, value }) => (
+            <li key={`${name}`} className={nsClassName(`input-list-item`)}>
+              <div className={nsClassName(`input-names`)}>
+                <span className={nsClassName(`input-name`)}>{name}</span>
+                <span className={nsClassName(`input-type`)}>{`(${type})`}</span>
+              </div>
+              <div className={nsClassName(`input-item-value`)}>{value}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className={nsClassName(`output`)}>
+        <div className={nsClassName(`output-title`)}>{"output"}</div>
+        <div className={nsClassName(`output-value`)}>
+          {JSON.stringify(output, null, 2)}
+        </div>
+      </div>
     </div>
   );
 };
 
 export const CaseView = styled(CaseViewPrestyled)`
-  width: 100%;
-  margin: 0;
+  /* width: 100%; */
+  margin: 30px;
   padding: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center;
   justify-content: space-between;
-  padding: 4px 6px 4px 6px;
-  /* transition: background-color 0.1s ease-in; */
+  padding: 4px 6px 4px 6px; */
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.9);
-    .${nsClassName(`name`)} {
-      color: white;
-      font-style: bold;
-    }
+  .${nsClassName(`top`)} {
+    padding: 5px 0;
   }
 
   .${nsClassName(`name`)} {
-    color: #1890ff;
-    font-weight: 300;
-    font-size: 11px;
+    padding: 5px 0;
+  }
+
+  .${nsClassName(`function-name`)} {
+    color: magenta;
+  }
+  .${nsClassName(`relative-file-path`)} {
+    margin-left: 10px;
+    font-weight: 400;
     font-style: italic;
+    font-size: 12px;
   }
 
-  .${nsClassName(`menu`)} {
-  }
-
-  .${nsClassName(`view-btn`)} {
+  .${nsClassName(`input`)} {
     border: 2px solid magenta;
-    /* border: none; */
+  }
+
+  .${nsClassName(`input-title`)} {
+    font-weight: bold;
+    padding: 5px;
+    text-transform: capitalize;
+  }
+
+  .${nsClassName(`output-title`)} {
+    text-transform: capitalize;
+  }
+  .${nsClassName(`input-value`)} {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .${nsClassName(`input-list-item`)} {
+    display: flex;
+    align-items: stretch;
+    /* justify-content: stretch; */
+    border-top: 2px solid magenta;
+
+    &:last-child {
+      /* border-bottom: 1px solid magenta; */
+    }
+  }
+
+  .${nsClassName(`input-names`)} {
+    font-size: 13px;
+    min-width: 200px;
+    max-width: 300px;
+    overflow-wrap: break-word;
+    text-align: right;
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .${nsClassName(`input-name`)} {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .${nsClassName(`input-type`)} {
+    margin-left: 6px;
+    font-style: italic;
+    color: magenta;
+  }
+
+  .${nsClassName(`input-item-value`)} {
+    background-color: #333333;
+    margin: 0;
+    font-size: 12px;
+    color: white;
+    min-height: 30px;
+    text-align: left;
+    padding: 10px;
+    flex-grow: 1;
+  }
+
+  .${nsClassName(`output-value`)} {
+  }
+
+  .${nsClassName(`back-btn`)} {
+    border: 1px solid magenta;
     margin: 0 0.3em 0.3em 0;
     border-radius: 5px;
     box-sizing: border-box;
@@ -98,18 +166,11 @@ export const CaseView = styled(CaseViewPrestyled)`
     font-weight: 600;
     color: magenta;
     text-align: center;
-    /* transition: all 0.2s; */
 
     font-size: 11px;
     outline: none;
     padding: 4px 8px;
     background-color: transparent;
-
-    &:hover {
-      /* background-color: #f6f6f6; */
-      border-color: white;
-      color: white;
-    }
   }
 `;
 
