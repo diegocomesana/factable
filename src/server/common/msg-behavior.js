@@ -10,7 +10,7 @@ import {
   getCallUniqueId,
   getRelativeFilePath,
   getHash,
-  prettyPrintString,
+  jsonParse,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -67,9 +67,16 @@ const msgFactory = (wss, hashtable, store) => {
               return {
                 type,
                 valueString:
-                  type === "function" ? JSON.parse(valueString) : valueString,
+                  type === "function" ? jsonParse(valueString) : valueString,
               };
             }),
+            output: {
+              type: callInfo.output.type,
+              valueString:
+                callInfo.output.type === "function"
+                  ? jsonParse(callInfo.output.valueString)
+                  : callInfo.output.valueString,
+            },
           };
 
           console.log("callInfoWithHash:", callInfoWithHash);

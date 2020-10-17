@@ -25,6 +25,22 @@ export const safeJsonStringify = (obj, indent = 2) => {
   return retVal;
 };
 
+export const jsonParse = (obj, indent = 2) => {
+  let cache = [];
+  const retVal = JSON.stringify(
+    obj,
+    (key, value) => {
+      if (typeof value === "string" && value !== null) {
+        return value;
+      }
+      return value;
+    },
+    indent
+  );
+  cache = null;
+  return retVal;
+};
+
 export const camelToDash = (str) =>
   str.replace(/([A-Z])/g, ($1) => "-" + $1.toLowerCase());
 

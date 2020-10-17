@@ -57,9 +57,16 @@ const CaseViewPrestyled = ({
         </ul>
       </div>
       <div className={nsClassName(`output`)}>
-        <div className={nsClassName(`output-title`)}>{"output"}</div>
+        <div className={nsClassName(`output-title`)}>
+          {"output"}
+          <span
+            className={nsClassName(`output-type`)}
+          >{`(${output.type})`}</span>
+        </div>
         <div className={nsClassName(`output-value`)}>
-          {JSON.stringify(output, null, 2)}
+          <pre>
+            <code>{output.valueString}</code>
+          </pre>
         </div>
       </div>
     </div>
@@ -124,7 +131,7 @@ export const CaseView = styled(CaseViewPrestyled)`
     text-align: right;
     padding: 10px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-end;
   }
 
@@ -157,17 +164,43 @@ export const CaseView = styled(CaseViewPrestyled)`
   }
 
   .${nsClassName(`output`)} {
+    margin-top: 20px;
     border: 2px solid magenta;
     border-radius: 5px;
   }
 
   .${nsClassName(`output-title`)} {
+    display: flex;
+    align-items: center;
     font-weight: bold;
     padding: 5px;
     text-transform: capitalize;
   }
 
+  .${nsClassName(`output-type`)} {
+    margin-left: 6px;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: normal;
+    color: magenta;
+  }
+
   .${nsClassName(`output-value`)} {
+    border-top: 2px solid magenta;
+    background-color: #333333;
+    margin: 0;
+    font-size: 12px;
+    color: white;
+    min-height: 30px;
+    text-align: left;
+    padding: 10px;
+    flex-grow: 1;
+
+    code,
+    pre {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   .${nsClassName(`back-btn`)} {

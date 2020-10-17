@@ -11,6 +11,13 @@ const isFunction = (functionToCheck) => {
   );
 };
 
+const getValueMetadata = (value) => ({
+  type: typeof value,
+  valueString: safeJsonStringify(value),
+});
+
+const getArgsRuntimeMetadata = (args) => args.map(getValueMetadata);
+
 class FactableEvidencer {
   constructor(config) {
     // console.log("FactableEvidencer STARTING..", config);
@@ -67,25 +74,15 @@ class FactableEvidencer {
     this.processPending();
   }
 
-  getArgsRuntimeMetadata(args) {
-    return args.map((arg) => {
-      return {
-        type: typeof arg,
-        valueString: safeJsonStringify(arg),
-      };
-    });
-  }
-
   registerFunctionCall(args, output, metadata) {
     // console.log("registerFunctionCall: ", metadata.name);
     const millis = new Date().valueOf().toString();
 
     const callData = {
-      // args,
-      output,
+      output: getValueMetadata(output),
       metadata,
       millis,
-      args: this.getArgsRuntimeMetadata(args),
+      args: getArgsRuntimeMetadata(args),
     };
 
     this.pending.push(callData);
