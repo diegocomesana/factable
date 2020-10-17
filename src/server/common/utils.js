@@ -27,7 +27,7 @@ export const safeJsonStringify = (obj, indent = 2) => {
 
 export const jsonParse = (obj, indent = 2) => {
   let cache = [];
-  const retVal = JSON.stringify(
+  const retVal = JSON.parse(
     obj,
     (key, value) => {
       if (typeof value === "string" && value !== null) {

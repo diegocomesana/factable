@@ -84,22 +84,31 @@ export const CaseView = styled(CaseViewPrestyled)`
   }
 
   .${nsClassName(`name`)} {
-    padding: 5px 0;
+    font-size: 16px;
+    /* padding: 5px 0; */
+    padding: 8px;
+
+    border: 2px solid magenta;
+    border-radius: 5px;
   }
 
   .${nsClassName(`function-name`)} {
-    color: magenta;
+    color: black;
+    font-weight: bold;
   }
+
   .${nsClassName(`relative-file-path`)} {
     margin-left: 10px;
     font-weight: 400;
     font-style: italic;
     font-size: 12px;
+    color: magenta;
   }
 
   .${nsClassName(`input`)} {
     border: 2px solid magenta;
     border-radius: 5px;
+    margin-top: 15px;
   }
 
   .${nsClassName(`input-title`)} {
@@ -164,7 +173,7 @@ export const CaseView = styled(CaseViewPrestyled)`
   }
 
   .${nsClassName(`output`)} {
-    margin-top: 20px;
+    margin-top: 15px;
     border: 2px solid magenta;
     border-radius: 5px;
   }
