@@ -12,3 +12,5 @@ export const parseJson = (str) => {
     return null;
   }
 };
+
+export const prettyJson = (obj) => JSON.stringify(obj, null, 2);

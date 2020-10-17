@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
+// import { prettyPrintString } from "./utils";
 
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -46,7 +47,11 @@ const CaseViewPrestyled = ({
                 <span className={nsClassName(`input-name`)}>{name}</span>
                 <span className={nsClassName(`input-type`)}>{`(${type})`}</span>
               </div>
-              <div className={nsClassName(`input-item-value`)}>{value}</div>
+              <div className={nsClassName(`input-item-value`)}>
+                <pre>
+                  <code>{value}</code>
+                </pre>
+              </div>
             </li>
           ))}
         </ul>
@@ -62,14 +67,10 @@ const CaseViewPrestyled = ({
 };
 
 export const CaseView = styled(CaseViewPrestyled)`
-  /* width: 100%; */
   margin: 30px;
   padding: 0;
   display: flex;
   flex-direction: column;
-  /* align-items: center;
-  justify-content: space-between;
-  padding: 4px 6px 4px 6px; */
 
   .${nsClassName(`top`)} {
     padding: 5px 0;
@@ -91,6 +92,7 @@ export const CaseView = styled(CaseViewPrestyled)`
 
   .${nsClassName(`input`)} {
     border: 2px solid magenta;
+    border-radius: 5px;
   }
 
   .${nsClassName(`input-title`)} {
@@ -111,12 +113,7 @@ export const CaseView = styled(CaseViewPrestyled)`
   .${nsClassName(`input-list-item`)} {
     display: flex;
     align-items: stretch;
-    /* justify-content: stretch; */
     border-top: 2px solid magenta;
-
-    &:last-child {
-      /* border-bottom: 1px solid magenta; */
-    }
   }
 
   .${nsClassName(`input-names`)} {
@@ -151,6 +148,23 @@ export const CaseView = styled(CaseViewPrestyled)`
     text-align: left;
     padding: 10px;
     flex-grow: 1;
+
+    code,
+    pre {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .${nsClassName(`output`)} {
+    border: 2px solid magenta;
+    border-radius: 5px;
+  }
+
+  .${nsClassName(`output-title`)} {
+    font-weight: bold;
+    padding: 5px;
+    text-transform: capitalize;
   }
 
   .${nsClassName(`output-value`)} {

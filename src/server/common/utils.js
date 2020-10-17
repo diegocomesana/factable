@@ -1,5 +1,6 @@
 import fs from "fs";
 import crypto from "crypto";
+import prettier from "prettier";
 
 export const prettyJson = (obj) => JSON.stringify(obj, null, 2);
 
@@ -86,3 +87,6 @@ export const getFileContent = (path) => {
 
 export const getRelativeFilePath = (root, filename) =>
   filename.substring(root.length + 1);
+
+export const prettyPrintString = (str) =>
+  prettier.format(str, { semi: true, parser: "babel" });

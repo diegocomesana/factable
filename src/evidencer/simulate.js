@@ -416,6 +416,8 @@ const interval = setInterval(() => {
     return funcaparam + "tail";
   };
 
+  const lachota = null;
+
   const output = {
     str1,
     str2,
@@ -426,11 +428,11 @@ const interval = setInterval(() => {
   };
 
   FactableEvidencer.registerFunctionCall(
-    [str1, str2, arr, obj, funca, booleano],
+    [str1, str2, arr, obj, funca, booleano, lachota],
     output,
     {
       name: name,
-      params: ["str1", "str2", "arr", "obj", "funca", "boleano"],
+      params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lachota"],
       filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
       root: "/Users/dcomesana/proy/factable-test-project",
     }
