@@ -397,16 +397,42 @@ const interval = setInterval(() => {
   const str1 = "value de string1";
   const str2 = "value de string2";
   const arr = ["algo", "otro", "lala"];
+  const obj = {
+    prop1: true,
+    cadena: "yeahh",
+    arbol: {
+      rama1: {
+        lala: true,
+      },
+      rama2: {
+        lala: false,
+        pepe: "groso",
+      },
+    },
+  };
+  const booleano = true;
+
+  const funca = (funcaparam) => {
+    return funcaparam + "tail";
+  };
+
   const output = {
     str1,
     str2,
     arr,
+    obj,
+    booleano,
+    funca,
   };
 
-  FactableEvidencer.registerFunctionCall([str1, str2, arr], output, {
-    name: name,
-    params: ["str1", "str2", "arr"],
-    filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
-    root: "/Users/dcomesana/proy/factable-test-project",
-  });
+  FactableEvidencer.registerFunctionCall(
+    [str1, str2, arr, obj, funca, booleano],
+    output,
+    {
+      name: name,
+      params: ["str1", "str2", "arr", "obj", "funca", "boleano"],
+      filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
+      root: "/Users/dcomesana/proy/factable-test-project",
+    }
+  );
 }, 50);

@@ -5,13 +5,48 @@ import classNames from "classnames";
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const CaseViewPrestyled = ({ className, onBack, metadata }) => {
+const buildInputData = (paramNames, args) => {
+  return paramNames.map((name, i) => {
+    return {
+      name,
+      type: args[i].type,
+      value: args[i].valueString,
+    };
+  });
+};
+
+const CaseViewPrestyled = ({
+  className,
+  onBack,
+  metadata,
+  relativeFilePath,
+  args,
+}) => {
+  const inputData = buildInputData(metadata.params, args);
   return (
     <div className={classNames(namespace, className)}>
-      <button className={nsClassName(`back-btn`)} onClick={(e) => onBack()}>
-        volver
-      </button>
-      <div className={nsClassName(`name`)}>{metadata.filename}</div>
+      <div className={nsClassName(`top`)}>
+        <button className={nsClassName(`back-btn`)} onClick={(e) => onBack()}>
+          {"< Back"}
+        </button>
+      </div>
+      <div className={nsClassName(`name`)}>
+        <span className={nsClassName(`function-name`)}>{metadata.name}</span>
+        <span className={nsClassName(`relative-file-path`)}>
+          {`(${relativeFilePath})`}
+        </span>
+      </div>
+      <ul className={nsClassName(`input`)}>
+        {inputData.map(({ name, type, value }) => (
+          <li key={`${name}`} className={nsClassName(`input-list-item`)}>
+            <div className={nsClassName(`input-names`)}>
+              <span className={nsClassName(`input-name`)}>{name}</span>
+              <span className={nsClassName(`input-type`)}>{`(${type})`}</span>
+            </div>
+            <div className={nsClassName(`input-value`)}>{value}</div>
+          </li>
+        ))}
+      </ul>
       {/* <div className={nsClassName(`menu`)}>
         <button
           className={nsClassName(`view-btn`)}

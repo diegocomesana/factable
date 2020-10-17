@@ -79,6 +79,8 @@ const msgFactory = (wss, hashtable, store) => {
         ) {
           const caseInfo = hashtable.get(data.payload.hash);
 
+          console.log("case INFO: ", caseInfo);
+
           if (ws.readyState === WebSocket.OPEN) {
             ws.send(
               safeJsonStringify(

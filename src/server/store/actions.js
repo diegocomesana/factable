@@ -13,7 +13,8 @@ const getCurrentFunctionValue = (file, key) => {
 };
 
 export const onRegisterFunctionCall = (prevState) => (callInfo) => {
-  console.log("lalalla:", prevState);
+  // console.log("prevState:", prevState);
+  console.log("callInfo:", callInfo);
   const currentFileValue = getCurrentFileValue(
     prevState.cases,
     callInfo.relativeFilePath

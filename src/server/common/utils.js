@@ -7,12 +7,17 @@ export const safeJsonStringify = (obj, indent = 2) => {
   let cache = [];
   const retVal = JSON.stringify(
     obj,
-    (key, value) =>
-      typeof value === "object" && value !== null
-        ? cache.includes(value)
+    (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        return cache.includes(value)
           ? undefined // Duplicate reference found, discard key
-          : cache.push(value) && value // Store value in our collection
-        : value,
+          : cache.push(value) && value; // Store value in our collection
+      }
+      if (typeof value === "function" && value !== null) {
+        return value.toString();
+      }
+      return value;
+    },
     indent
   );
   cache = null;
