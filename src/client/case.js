@@ -36,15 +36,12 @@ export const Case = styled(CasePrestyled)`
   align-items: center;
   justify-content: space-between;
   padding: 4px 6px 4px 6px;
-  /* transition: background-color 0.1s ease-in; */
   border: 1px solid transparent;
 
   &:hover {
-    /* background-color: rgba(0, 0, 0, 0.2); */
     border: 1px solid magenta;
 
     .${nsClassName(`name`)} {
-      /* color: white; */
       font-style: bold;
     }
   }
@@ -60,27 +57,21 @@ export const Case = styled(CasePrestyled)`
   }
 
   .${nsClassName(`view-btn`)} {
-    border: 2px solid magenta;
-    /* border: none; */
-    margin: 0 0.3em 0.3em 0;
+    border: 2px solid grey;
     border-radius: 5px;
     box-sizing: border-box;
     text-decoration: none;
     font-family: "Roboto", sans-serif;
     font-weight: 600;
-    color: magenta;
+    color: grey;
     text-align: center;
-    /* transition: all 0.2s; */
-
-    font-size: 11px;
+    font-size: 12px;
     outline: none;
     padding: 4px 8px;
     background-color: transparent;
-
     &:hover {
-      /* background-color: #f6f6f6; */
-      /* border-color: white; */
-      /* color: white; */
+      border-color: magenta;
+      color: magenta;
     }
   }
 `;

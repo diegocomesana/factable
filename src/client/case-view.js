@@ -74,22 +74,20 @@ const CaseViewPrestyled = ({
 };
 
 export const CaseView = styled(CaseViewPrestyled)`
-  margin: 30px;
+  margin: 10px 30px;
   padding: 0;
   display: flex;
   flex-direction: column;
 
   .${nsClassName(`top`)} {
     padding: 5px 0;
+    margin-bottom: 10px;
   }
 
   .${nsClassName(`name`)} {
     font-size: 16px;
-    /* padding: 5px 0; */
-    padding: 8px;
-
-    border: 2px solid magenta;
-    border-radius: 5px;
+    padding: 4px;
+    margin-bottom: 10px;
   }
 
   .${nsClassName(`function-name`)} {
@@ -108,7 +106,7 @@ export const CaseView = styled(CaseViewPrestyled)`
   .${nsClassName(`input`)} {
     border: 2px solid magenta;
     border-radius: 5px;
-    margin-top: 15px;
+    margin-bottom: 15px;
   }
 
   .${nsClassName(`input-title`)} {
@@ -173,7 +171,7 @@ export const CaseView = styled(CaseViewPrestyled)`
   }
 
   .${nsClassName(`output`)} {
-    margin-top: 15px;
+    margin-bottom: 15px;
     border: 2px solid magenta;
     border-radius: 5px;
   }
@@ -213,20 +211,23 @@ export const CaseView = styled(CaseViewPrestyled)`
   }
 
   .${nsClassName(`back-btn`)} {
-    border: 1px solid magenta;
-    margin: 0 0.3em 0.3em 0;
+    border: 2px solid grey;
     border-radius: 5px;
     box-sizing: border-box;
     text-decoration: none;
     font-family: "Roboto", sans-serif;
     font-weight: 600;
-    color: magenta;
+    color: grey;
     text-align: center;
-
-    font-size: 11px;
+    font-size: 12px;
     outline: none;
     padding: 4px 8px;
     background-color: transparent;
+
+    &:hover {
+      border-color: magenta;
+      color: magenta;
+    }
   }
 `;
 

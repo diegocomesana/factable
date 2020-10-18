@@ -129,8 +129,10 @@ export const App = styled(AppPrestyled)`
 
   .${nsClassName(`header`)} {
     font-family: Righteous;
-    padding: 12px 12px 0;
-    color: #ad1457;
+    padding: 8px 12px;
+    color: magenta;
+    border-bottom: 2px solid magenta;
+    background-color: #222222;
   }
 `;
 
