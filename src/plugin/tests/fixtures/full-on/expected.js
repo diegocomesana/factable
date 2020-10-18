@@ -124,9 +124,9 @@ const destructuredProps = ({
     return foo + bar + vamos + meGusta;
   }();
 
-  FactableEvidencer.registerFunctionCall([foo, bar, vamos, meGusta], output, {
+  FactableEvidencer.registerFunctionCall([{foo, bar}, vamos, meGusta], output, {
     name: "destructuredProps",
-    params: ["foo", "bar", "vamos", "meGusta"],
+    params: ["{foo, bar}", "vamos", "meGusta"],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });

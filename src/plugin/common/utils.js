@@ -75,7 +75,7 @@ const getParamNameFromParamNode = (node) => {
   }
   if (node.type == "ObjectPattern") {
     // If param is a destructured object
-    return node.properties.map((node) => node.key.name);
+    return `{${node.properties.map((node) => node.key.name).join(', ')}}`;
   }
   return node.name;
 };
