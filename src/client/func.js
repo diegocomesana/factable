@@ -37,27 +37,36 @@ export const Func = styled(FuncPrestyled)`
   padding: 0;
 
   .${nsClassName(`name`)} {
-    color: #8e44ad;
-    padding: 8px 0 0 8px;
+    /* color: #8e44ad;
+    padding: 8px 0 0 8px; */
+    color: black;
+    font-weight: bold;
+    padding: 5px;
+    text-transform: capitalize;
   }
 
   .${nsClassName(`calls`)} {
-    color: #1890ff;
+    /* color: #1890ff;
     font-size: 12px;
     margin: 4px 4px 4px 4px;
+    
+    font-weight: bold; */
+    margin: 0;
     padding: 0;
-    font-weight: bold;
-
     list-style: none;
   }
 
   .${nsClassName(`list-item`)} {
     /* border: solid rgba(215, 40, 40, 0.2) 1px; */
     padding: 0;
-
-    &:not(:last-child) {
+    margin: 0;
+    /* &:not(:last-child) {
       border-bottom: none;
-    }
+    } */
+
+    display: flex;
+    align-items: stretch;
+    border-top: 2px solid magenta;
   }
 `;
 

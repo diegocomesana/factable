@@ -6,7 +6,7 @@ import storeFactory from "../server/store";
 import actions from "../server/store/actions";
 import { SocketMessageType, LayoutView } from "../server/common/types";
 import { msgWrapper, parseJson } from "./utils";
-import Cases from "./cases";
+import Files from "./files";
 import CaseView from "./case-view";
 
 const namespace = `ui-app`;
@@ -115,7 +115,7 @@ const AppPrestyled = ({ className }) => {
         caseInfo ? (
           <CaseView {...{ ...caseInfo, onBack }} />
         ) : (
-          <Cases {...{ cases, onCaseClick }} />
+          <Files {...{ cases, onCaseClick }} />
         )}
       </div>
     </Style>

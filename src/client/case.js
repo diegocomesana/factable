@@ -39,10 +39,10 @@ export const Case = styled(CasePrestyled)`
   border: 1px solid transparent;
 
   &:hover {
-    border: 1px solid magenta;
+    /* border: 1px solid magenta; */
 
     .${nsClassName(`name`)} {
-      font-style: bold;
+      /* font-style: bold; */
     }
   }
 

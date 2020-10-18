@@ -4,10 +4,10 @@ import classNames from "classnames";
 
 import File from "./file";
 
-const namespace = `ui-cases`;
+const namespace = `ui-files`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const CasesPrestyled = ({ className, cases, onCaseClick }) => {
+const FilesPrestyled = ({ className, cases, onCaseClick }) => {
   return (
     <div className={classNames(namespace, className)}>
       <ul className={nsClassName(`list`)}>
@@ -29,7 +29,7 @@ const CasesPrestyled = ({ className, cases, onCaseClick }) => {
   );
 };
 
-export const Cases = styled(CasesPrestyled)`
+export const Files = styled(FilesPrestyled)`
   width: 100%;
   margin: 0;
   padding: 0;
@@ -53,4 +53,4 @@ export const Cases = styled(CasesPrestyled)`
   }
 `;
 
-export default Cases;
+export default Files;
