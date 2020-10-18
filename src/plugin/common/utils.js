@@ -73,6 +73,10 @@ const getParamNameFromParamNode = (node) => {
     // If param has default value
     return node.left.name;
   }
+  if (node.type == "ObjectPattern") {
+    // If param is a destructured object
+    return node.properties.map((node) => node.key.name);
+  }
   return node.name;
 };
 
@@ -83,7 +87,7 @@ const getFunctionParams = (path) => {
       const currentPathParams = interPath.node.params.map(
         getParamNameFromParamNode
       );
-      params = params.concat([currentPathParams]);
+      params = params.concat([currentPathParams.flat()]);
       return false;
     }
     return true;

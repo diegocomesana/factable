@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.exportada = void 0;
+exports.destructuredProps = void 0;
 
 const Evid = require("factable").evidencer;
 
@@ -116,19 +116,21 @@ const resultDeAnonimQueSeAutoEjecuta = function () {
   return output;
 }();
 
-const exportada = (str1, str2) => arr => {
+const destructuredProps = ({
+  foo,
+  bar
+}, vamos = "yeahh") => meGusta => {
   const output = function () {
-    console.log("arrayElementsWrapper called! ", str1, str2);
-    return arr.map(elem => `${str1}${elem}${str2}`);
+    return foo + bar + vamos + meGusta;
   }();
 
-  FactableEvidencer.registerFunctionCall([str1, str2, arr], output, {
-    name: "exportada",
-    params: ["str1", "str2", "arr"],
+  FactableEvidencer.registerFunctionCall([foo, bar, vamos, meGusta], output, {
+    name: "destructuredProps",
+    params: ["foo", "bar", "vamos", "meGusta"],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
   return output;
 };
 
-exports.exportada = exportada;
+exports.destructuredProps = destructuredProps;

@@ -1,8 +1,12 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.destructuredProps = void 0;
 const johndoe = "yeahhh";
 
-function originalFunc(param1, param2) {
+function originalFunc(param1, param2 = "default_value") {
   console.log("originalFunc called! ", param1, param2);
   return param1 + param2;
 }
@@ -35,3 +39,12 @@ const exprEnroscada = lala => {
 const resultDeAnonimQueSeAutoEjecuta = function () {
   return true;
 }();
+
+const destructuredProps = ({
+  foo,
+  bar
+}, vamos = "yeahh") => meGusta => {
+  return foo + bar + vamos + meGusta;
+};
+
+exports.destructuredProps = destructuredProps;

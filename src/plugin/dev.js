@@ -13,7 +13,7 @@ const resolvePath = (p) => path.resolve(__dirname, p);
 
 const run = async () => {
   const code = await getFileSrc(
-    resolvePath("./tests/fixtures/full-off/code.js")
+    resolvePath("./tests/fixtures/full-on/code.js")
   );
 
   const output = transformSrc(code, plugin);

@@ -70,13 +70,18 @@ const msgFactory = (wss, hashtable, store) => {
                   type === "function" ? jsonParse(valueString) : valueString,
               };
             }),
-            output: {
-              type: callInfo.output.type,
-              valueString:
-                callInfo.output.type === "function"
-                  ? jsonParse(callInfo.output.valueString)
-                  : callInfo.output.valueString,
-            },
+            output: callInfo.output
+              ? {
+                  type: callInfo.output.type,
+                  valueString:
+                    callInfo.output.type === "function"
+                      ? jsonParse(callInfo.output.valueString)
+                      : callInfo.output.valueString,
+                }
+              : {
+                  type: "undefined",
+                  valueString: "undefined",
+                },
           };
 
           console.log("callInfoWithHash:", callInfoWithHash);

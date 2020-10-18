@@ -162,7 +162,7 @@ export const CaseView = styled(CaseViewPrestyled)`
     text-align: left;
     padding: 10px;
     flex-grow: 1;
-
+    overflow: auto;
     code,
     pre {
       margin: 0;
@@ -202,7 +202,7 @@ export const CaseView = styled(CaseViewPrestyled)`
     text-align: left;
     padding: 10px;
     flex-grow: 1;
-
+    overflow: auto;
     code,
     pre {
       margin: 0;

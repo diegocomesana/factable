@@ -12,12 +12,12 @@
     "server:build": "cross-env-shell babel -d ./build/server ./src/server",
     "plugin:build": "cross-env-shell babel -d ./build/plugin ./src/plugin --ignore ./src/plugin/dev.js --ignore ./src/plugin/tests",
     "evidencer:build": "cross-env-shell babel -d ./build/evidencer ./src/evidencer",
-    "build": "cross-env-shell npm run client:build && npm run server:build && npm run plugin:build && npm run evidencer:build",
+    "build": "cross-env-shell npm run clean && npm run client:build && npm run server:build && npm run plugin:build && npm run evidencer:build",
     "server:run": "cross-env-shell node ./build/server/run.js",
-    "boot": "npm run clean && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run server:run",
+    "boot": "cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run server:run",
     "client:watch": "webpack --config ./src/client/webpack.config.js --watch",
     "server:watch": "cross-env FACTABLE_DEV=true nodemon --watch ./src/server --exec babel-node ./src/server/run.js 6789",
-    "dev": "npm run clean && npm run client:watch & npm run server:watch"
+    "dev": "npm run client:watch & npm run server:watch"
   },
   "bin": {
     "factable-server-run": "./build/server/run.js"

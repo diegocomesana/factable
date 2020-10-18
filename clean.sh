@@ -1,4 +1,4 @@
 #!/bin/bash
 echo "Removing build directories.."
-rm -rf ./factable/build
+rm -rf ./build
 
