@@ -36,20 +36,15 @@ export const File = styled(FilePrestyled)`
   padding: 0;
 
   .${nsClassName(`filename`)} {
-    margin-left: 10px;
+    margin: 6px 0 2px 6px;
     font-weight: 400;
-    font-style: italic;
+    /* font-style: italic; */
     font-size: 12px;
     color: magenta;
+    font-size: 14px;
   }
 
   .${nsClassName(`functions`)} {
-    /* color: #1890ff;
-    font-size: 12px;
-    margin: 4px;
-    padding: 0;
-    font-weight: bold;
-     */
     list-style: none;
     border: 2px solid magenta;
     border-radius: 5px;
@@ -59,10 +54,6 @@ export const File = styled(FilePrestyled)`
   }
 
   .${nsClassName(`list-item`)} {
-    /* border: solid rgba(0, 0, 0, 0.15) 1px;
-    padding: 0px;
-    margin-bottom: 8px;
-    border-radius: 5px; */
     border-bottom: 2px solid magenta;
     &:last-child {
       border-bottom: none;

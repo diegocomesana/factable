@@ -14,16 +14,16 @@ const CasePrestyled = ({
   onCaseClick,
 }) => {
   return (
-    <div className={classNames(namespace, className)}>
+    <div className={classNames(namespace, className)} onClick={(e) => onCaseClick({ e, hash, fileName, functionName })}>
       <div className={nsClassName(`name`)}>{name}</div>
-      <div className={nsClassName(`menu`)}>
+      {/* <div className={nsClassName(`menu`)}>
         <button
           className={nsClassName(`view-btn`)}
           onClick={(e) => onCaseClick({ e, hash, fileName, functionName })}
         >
-          view case details
+          case details
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -37,9 +37,10 @@ export const Case = styled(CasePrestyled)`
   justify-content: space-between;
   padding: 4px 6px 4px 6px;
   border: 1px solid transparent;
+  cursor: pointer;
 
   &:hover {
-    /* border: 1px solid magenta; */
+    border: 1px solid magenta;
 
     .${nsClassName(`name`)} {
       /* font-style: bold; */
@@ -47,10 +48,12 @@ export const Case = styled(CasePrestyled)`
   }
 
   .${nsClassName(`name`)} {
-    color: #1890ff;
+    /* color: #1890ff; */
     font-weight: 300;
     font-size: 11px;
     font-style: italic;
+    padding: 6px;
+    
   }
 
   .${nsClassName(`menu`)} {
