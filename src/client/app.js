@@ -27,7 +27,6 @@ const AppPrestyled = ({ className }) => {
   const store = storeFactory({ onStateChange, onStateGet, debug: true });
 
   const onSocketMessage = (e) => {
-    // console.log("onSocketMessage:", e.data);
     const data = parseJson(e.data);
 
     if (!(data && data.type)) {

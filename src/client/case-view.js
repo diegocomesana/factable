@@ -1,20 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
-// import { prettyPrintString } from "./utils";
+import { buildInputData } from "./utils";
 
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const buildInputData = (paramNames, args) => {
-  return paramNames.map((name, i) => {
-    return {
-      name,
-      type: args[i].type,
-      value: args[i].valueString,
-    };
-  });
-};
+
 
 const CaseViewPrestyled = ({
   className,

@@ -14,3 +14,13 @@ export const parseJson = (str) => {
 };
 
 export const prettyJson = (obj) => JSON.stringify(obj, null, 2);
+
+export const buildInputData = (paramNames, args) => {
+  return paramNames.map((name, i) => {
+    return {
+      name,
+      type: args[i].type,
+      value: args[i].valueString,
+    };
+  });
+};

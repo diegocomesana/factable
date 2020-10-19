@@ -16,14 +16,6 @@ const CasePrestyled = ({
   return (
     <div className={classNames(namespace, className)} onClick={(e) => onCaseClick({ e, hash, fileName, functionName })}>
       <div className={nsClassName(`name`)}>{name}</div>
-      {/* <div className={nsClassName(`menu`)}>
-        <button
-          className={nsClassName(`view-btn`)}
-          onClick={(e) => onCaseClick({ e, hash, fileName, functionName })}
-        >
-          case details
-        </button>
-      </div> */}
     </div>
   );
 };
