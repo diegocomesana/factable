@@ -12,13 +12,13 @@ const FuncPrestyled = ({ className, name, calls, fileName, onCaseClick }) => {
     <div className={classNames(namespace, className)}>
       <div className={nsClassName(`name`)}>{name}</div>
       <ul className={nsClassName(`calls`)}>
-        {calls.map((callHash) => (
-          <li key={`${callHash}`} className={nsClassName(`list-item`)}>
+        {calls.map(({ hash, caseString }) => (
+          <li key={`${hash}`} className={nsClassName(`list-item`)}>
             <Case
               {...{
-                key: callHash,
-                name: callHash,
-                hash: callHash,
+                key: hash,
+                caseString,
+                hash,
                 fileName,
                 functionName: name,
                 onCaseClick,
@@ -54,7 +54,7 @@ export const Func = styled(FuncPrestyled)`
     margin: 0;
     display: flex;
     align-items: stretch;
-    border-top: 1px solid magenta;
+    border-top: 5px solid magenta;
     background-color: #333333;
     color: white;
   }

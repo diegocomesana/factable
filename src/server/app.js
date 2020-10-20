@@ -38,7 +38,7 @@ const fileExists = (path) => {
 };
 
 const getClientConfigScript = (port) =>
-  `<script>window.__LOADABLE_CLIENT_CONFIG__ = { port: ${port} }</script>`;
+  `<script>window.__FACTABLE_CLIENT_CONFIG__ = { port: ${port} }</script>`;
 
 const createHttpServer = (port) => {
   return http.createServer((req, res) => {

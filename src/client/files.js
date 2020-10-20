@@ -37,8 +37,8 @@ export const Files = styled(FilesPrestyled)`
   .${nsClassName(`list`)} {
     color: #1890ff;
     font-size: 14px;
-    margin: 0 8px 8px;
-    padding: 10px;
+    padding: 0;
+    margin: 0;
     font-weight: bold;
 
     list-style: none;

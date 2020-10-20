@@ -6,8 +6,6 @@ import { buildInputData } from "./utils";
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-
-
 const CaseViewPrestyled = ({
   className,
   onBack,
@@ -19,11 +17,6 @@ const CaseViewPrestyled = ({
   const inputData = buildInputData(metadata.params, args);
   return (
     <div className={classNames(namespace, className)}>
-      <div className={nsClassName(`top`)}>
-        <button className={nsClassName(`back-btn`)} onClick={(e) => onBack()}>
-          {"< Back"}
-        </button>
-      </div>
       <div className={nsClassName(`name`)}>
         <span className={nsClassName(`function-name`)}>{metadata.name}</span>
         <span className={nsClassName(`relative-file-path`)}>
@@ -66,8 +59,8 @@ const CaseViewPrestyled = ({
 };
 
 export const CaseView = styled(CaseViewPrestyled)`
-  margin: 10px 30px;
-  padding: 0;
+  padding-top: 50px;
+  margin: 0;
   display: flex;
   flex-direction: column;
 
@@ -199,26 +192,6 @@ export const CaseView = styled(CaseViewPrestyled)`
     pre {
       margin: 0;
       padding: 0;
-    }
-  }
-
-  .${nsClassName(`back-btn`)} {
-    border: 2px solid grey;
-    border-radius: 5px;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: "Roboto", sans-serif;
-    font-weight: 600;
-    color: grey;
-    text-align: center;
-    font-size: 12px;
-    outline: none;
-    padding: 4px 8px;
-    background-color: transparent;
-
-    &:hover {
-      border-color: magenta;
-      color: magenta;
     }
   }
 `;

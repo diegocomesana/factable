@@ -11,6 +11,7 @@ import {
   getRelativeFilePath,
   getHash,
   jsonParse,
+  getCaseString,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -27,8 +28,6 @@ const msgFactory = (wss, hashtable, store) => {
       },
       onMessage: (msg) => {
         const data = parseJson(msg);
-
-        // console.log("onMessage: ", msg, data);
 
         if (!(data && data.type)) {
           return;
@@ -50,10 +49,23 @@ const msgFactory = (wss, hashtable, store) => {
           const inputHash = getHash(callInfo.args);
           const outputHash = getHash(callInfo.output);
 
+          const transformedArgs = callInfo.args.map(({ type, valueString }) => {
+            // REPARSE STRINGIFIED FUNCTIONS
+            return {
+              type,
+              valueString:
+                type === "function" ? jsonParse(valueString) : valueString,
+            };
+          });
+
           const callInfoWithHash = {
             hash,
             inputHash,
             outputHash,
+            caseString: getCaseString(
+              callInfo.metadata.params,
+              transformedArgs
+            ),
             ...callInfo,
             metadata: {
               ...callInfo.metadata,
@@ -62,14 +74,7 @@ const msgFactory = (wss, hashtable, store) => {
               callInfo.metadata.root,
               callInfo.metadata.filename
             ),
-            args: callInfo.args.map(({ type, valueString }) => {
-              // REPARSE STRINGIFIED FUNCTIONS
-              return {
-                type,
-                valueString:
-                  type === "function" ? jsonParse(valueString) : valueString,
-              };
-            }),
+            args: transformedArgs,
             output: callInfo.output
               ? {
                   type: callInfo.output.type,

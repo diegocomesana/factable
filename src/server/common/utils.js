@@ -106,3 +106,15 @@ export const getRelativeFilePath = (root, filename) =>
 
 export const prettyPrintString = (str) =>
   prettier.format(str, { semi: true, parser: "babel" });
+
+const trim = (str, length) => {
+  return str.length > length ? str.substring(0, length - 3) + "..." : str;
+};
+
+export const getCaseString = (paramNames, args) => {
+  return paramNames
+    .map((name, i) => {
+      return trim(`${name}: ${args[i].valueString}`, 50);
+    })
+    .join(" | ");
+};

@@ -14,7 +14,7 @@ const getCurrentFunctionValue = (file, key) => {
 
 export const onRegisterFunctionCall = (prevState) => (callInfo) => {
   // console.log("prevState:", prevState);
-  console.log("callInfo:", callInfo);
+  // console.log("callInfo:", callInfo);
   const currentFileValue = getCurrentFileValue(
     prevState.cases,
     callInfo.relativeFilePath
@@ -32,7 +32,10 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
         ...currentFileValue,
         [callInfo.metadata.name]: {
           ...currentFunctionValue,
-          calls: [...currentFunctionValue.calls, callInfo.hash],
+          calls: [
+            ...currentFunctionValue.calls,
+            { hash: callInfo.hash, caseString: callInfo.caseString },
+          ],
         },
       },
     },
@@ -40,7 +43,7 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
 };
 
 export const onCaseView = (prevState) => (caseInfo) => {
-  console.log("caseInfo: ", caseInfo);
+  // console.log("caseInfo: ", caseInfo);
   return {
     ...prevState,
     caseInfo,
