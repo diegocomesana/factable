@@ -116,6 +116,18 @@ const AppPrestyled = ({ className }) => {
             <div className={nsClassName(`header-content`)}>
               <div className={nsClassName(`header`)}>
                 <h2>Factable</h2>
+                <a
+                  className={`buy-me-a-coffee`}
+                  href="https://www.buymeacoffee.com/diegocomesana"
+                  target="_blank"
+                >
+                  <img
+                    src="https://cdn.buymeacoffee.com/buttons/v2/default-white.png"
+                    alt="Buy Me A Coffee"
+                    height="139"
+                    width="39"
+                  />
+                </a>
               </div>
             </div>
           </div>
@@ -173,11 +185,17 @@ export const App = styled(AppPrestyled)`
     }
   }
 
+  .buy-me-a-coffee {
+    img {
+      height: 39px;
+      width: 139px;
+    }
+  }
+
   .${nsClassName(`top`)} {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #222222;
     border-bottom: 3px solid magenta;
     position: fixed;
     flex-direction: column;
@@ -186,7 +204,7 @@ export const App = styled(AppPrestyled)`
 
   .${nsClassName(`wrapper-header`)} {
     width: 100%;
-    background-color: #222222;
+    background-color: rgba(0, 0, 0, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,17 +219,19 @@ export const App = styled(AppPrestyled)`
 
   .${nsClassName(`wrapper-submenu`)} {
     width: 100%;
-    background-color: #555555;
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .${nsClassName(`header`)} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-family: Righteous;
     padding: 0;
     color: magenta;
-    background-color: #222222;
   }
 
   .${nsClassName(`layout`)} {
