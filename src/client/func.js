@@ -54,7 +54,7 @@ export const Func = styled(FuncPrestyled)`
     margin: 0;
     display: flex;
     align-items: stretch;
-    border-top: 5px solid magenta;
+    border-top: 2px solid magenta;
     background-color: #333333;
     color: white;
   }

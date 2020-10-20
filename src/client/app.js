@@ -106,6 +106,8 @@ const AppPrestyled = ({ className }) => {
   const isCaseView =
     layoutState && layoutState.currentView === LayoutView.CASE_VIEW && caseInfo;
 
+  const hasCases = !!cases && Object.keys(cases).length;
+
   return (
     <Style>
       <div className={classNames(namespace, className)}>
@@ -131,8 +133,13 @@ const AppPrestyled = ({ className }) => {
           <div className={classNames(nsClassName(`main-content`))}>
             {isCaseView ? (
               <CaseView {...{ ...caseInfo, onBack }} />
-            ) : (
+            ) : hasCases ? (
               <Files {...{ cases, onCaseClick }} />
+            ) : (
+              <p>
+                There are no cases yet detected. Please run your application to
+                get some calls feedback!
+              </p>
             )}
           </div>
         </div>

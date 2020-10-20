@@ -89,7 +89,7 @@ const msgFactory = (wss, hashtable, store) => {
                 },
           };
 
-          console.log("callInfoWithHash:", callInfoWithHash);
+          // console.log("callInfoWithHash:", callInfoWithHash);
 
           hashtable.put(hash, callInfoWithHash);
 
