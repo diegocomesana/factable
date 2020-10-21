@@ -13,6 +13,8 @@ import {
   jsonParse,
   getCaseString,
   prettyFormatString,
+  buildInputData,
+  getFilenameForImportFromPath,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -47,7 +49,10 @@ const msgFactory = (wss, hashtable, store) => {
             callInfo.millis
           );
 
-          const inputHash = getHash(callInfo.args);
+          const inputHash = getHash({
+            a: callInfo.metadata.name,
+            b: callInfo.args,
+          });
           const outputHash = getHash(callInfo.output);
           const ioHash = getHash({
             a: callInfo.metadata.name,
@@ -176,14 +181,58 @@ const msgFactory = (wss, hashtable, store) => {
           data.payload.ioHash
         ) {
           const callInfo = hashtable.get(data.payload.ioHash);
-          console.log("ON_BUILD_TEST: ", callInfo);
 
-          const fileTemplate = prettyFormatString(
-            `
-              const givenInput = ${safeJsonStringify(callInfo.args, 2)};
-              const expectedOutput = ${safeJsonStringify(output, 2)};
-            `
+          // console.log("callInfo:", callInfo);
+
+          const inputData = buildInputData(
+            callInfo.metadata.params,
+            callInfo.args
           );
+
+          const inputConstDeclarations = inputData
+            .map(({ name, value }) => `const ${name} = ${value};`)
+            .join("\n");
+
+          const functionCallDeclaration = `const output = ${
+            callInfo.metadata.name
+          }(${callInfo.metadata.params.join(", ")});`;
+
+          const expectedOutputDeclaration = `const expectedOutput = ${callInfo.output.valueString};`;
+
+          const fileTemplate = `
+            import { ${
+              callInfo.metadata.name
+            } } from '../${getFilenameForImportFromPath(
+            callInfo.relativeFilePath
+          )}';
+          
+          describe("${callInfo.metadata.name}", () => {
+
+            test("it should not transform", async (done) => {
+              ${inputConstDeclarations}
+              ${expectedOutputDeclaration}
+              ${functionCallDeclaration}
+              expect(output).toEqual(expectedOutput);
+              done();
+            });
+
+          });
+          `;
+
+          const { code, error } = prettyFormatString(fileTemplate);
+
+          if (code) {
+            console.log(code);
+          } else {
+            console.log(error);
+          }
+
+          // const fileTemplate = prettyFormatString(
+          //   `
+          //     const givenInput = ${safeJsonStringify(callInfo.args, 2)};
+          //     const expectedOutput = ${safeJsonStringify(output, 2)};
+          //   `
+          // );
 
           // const inputInfo = hashtable.get(data.payload.inputHash);
           // const currentState = store.getState();

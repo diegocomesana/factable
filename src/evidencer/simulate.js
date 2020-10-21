@@ -443,25 +443,25 @@ const interval = setInterval(() => {
     }
   );
 
-  // FactableEvidencer.registerFunctionCall(
-  //   [str1, str2, arr, obj, funca, booleano, lastvar],
-  //   output2,
-  //   {
-  //     name: name,
-  //     params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
-  //     filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
-  //     root: "/Users/dcomesana/proy/factable-test-project",
-  //   }
-  // );
+  FactableEvidencer.registerFunctionCall(
+    [str1, str2, arr, obj, funca, booleano, lastvar],
+    output2,
+    {
+      name: name,
+      params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
+      filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
+      root: "/Users/dcomesana/proy/factable-test-project",
+    }
+  );
 
-  // FactableEvidencer.registerFunctionCall(
-  //   [str1, str2, arr, obj, funca, booleano, lastvar],
-  //   false,
-  //   {
-  //     name: name,
-  //     params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
-  //     filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
-  //     root: "/Users/dcomesana/proy/factable-test-project",
-  //   }
-  // );
+  FactableEvidencer.registerFunctionCall(
+    [str1, str2, arr, obj, funca, booleano, lastvar],
+    false,
+    {
+      name: name,
+      params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
+      filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
+      root: "/Users/dcomesana/proy/factable-test-project",
+    }
+  );
 }, 50);

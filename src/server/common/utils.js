@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import crypto from "crypto";
 import prettier from "prettier";
 
@@ -104,8 +105,20 @@ export const getFileContent = (path) => {
 export const getRelativeFilePath = (root, filename) =>
   filename.substring(root.length + 1);
 
-export const prettyFormatString = (str) =>
-  prettier.format(str, { semi: true, parser: "babel" });
+export const prettyFormatString = (str) => {
+  let code = false;
+  let error = false;
+  try {
+    code = prettier.format(str, { semi: true, parser: "babel" });
+  } catch (err) {
+    error = err;
+  }
+
+  return {
+    error,
+    code,
+  };
+};
 
 const trim = (str, length) => {
   return str.length > length ? str.substring(0, length - 3) + "..." : str;
@@ -118,3 +131,16 @@ export const getCaseString = (paramNames, args) => {
     })
     .join(" | ");
 };
+
+export const buildInputData = (paramNames, args) => {
+  return paramNames.map((name, i) => {
+    return {
+      name,
+      type: args[i].type,
+      value: args[i].valueString,
+    };
+  });
+};
+
+export const getFilenameForImportFromPath = (pathStr) =>
+  path.basename(pathStr).replace(/\.[^/.]+$/, "");
