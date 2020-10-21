@@ -39,34 +39,32 @@ const CaseViewPrestyled = ({
           ))}
         </ul>
       </div>
-      {outputs.map(({ ioHash, output }) => (
-        <div className={nsClassName(`output`)} key={ioHash}>
-          <div className={nsClassName(`output-title`)}>
-            {"output"}
-            <span
-              className={nsClassName(`output-type`)}
-            >{`(${output.type})`}</span>
-          </div>
-          <div className={nsClassName(`output-value`)}>
-            <pre>
-              <code>{output.valueString}</code>
-            </pre>
-          </div>
+      {outputs.length > 1 && (
+        <div className={nsClassName(`warning`)}>
+          This function registers different outputs from the same input. This
+          could mean your function is not pure.
+          <br />
+          Be aware that factable serializes inputs so complex states in inputs
+          are not being taken into account.
         </div>
-      ))}
-      {/* <div className={nsClassName(`output`)}>
-        <div className={nsClassName(`output-title`)}>
-          {"output"}
-          <span
-            className={nsClassName(`output-type`)}
-          >{`(${output.type})`}</span>
-        </div>
-        <div className={nsClassName(`output-value`)}>
-          <pre>
-            <code>{output.valueString}</code>
-          </pre>
-        </div>
-      </div> */}
+      )}
+      <ul className={nsClassName(`outputs`)}>
+        {outputs.map(({ ioHash, output }) => (
+          <li className={nsClassName(`output-list-item`)} key={ioHash}>
+            <div className={nsClassName(`output-title`)}>
+              {"output"}
+              <span
+                className={nsClassName(`output-type`)}
+              >{`(${output.type})`}</span>
+            </div>
+            <div className={nsClassName(`output-value`)}>
+              <pre>
+                <code>{output.valueString}</code>
+              </pre>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
@@ -168,7 +166,13 @@ export const CaseView = styled(CaseViewPrestyled)`
     }
   }
 
-  .${nsClassName(`output`)} {
+  .${nsClassName(`outputs`)} {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .${nsClassName(`output-list-item`)} {
     margin-bottom: 15px;
     border: 2px solid magenta;
     border-radius: 5px;
@@ -206,6 +210,17 @@ export const CaseView = styled(CaseViewPrestyled)`
       margin: 0;
       padding: 0;
     }
+  }
+
+  .${nsClassName(`warning`)} {
+    background-color: #ff005e;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
   }
 `;
 

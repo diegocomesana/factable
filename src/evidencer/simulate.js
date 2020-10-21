@@ -436,20 +436,29 @@ const interval = setInterval(() => {
     [str1, str2, arr, obj, funca, booleano, lastvar],
     output1,
     {
-      name: "FUNCIONATA",
+      name: name,
       params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
       filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
       root: "/Users/dcomesana/proy/factable-test-project",
     }
   );
 
-  console.log("FUNCIONATA");
-
   FactableEvidencer.registerFunctionCall(
     [str1, str2, arr, obj, funca, booleano, lastvar],
     output2,
     {
-      name: "FUNCIONATA",
+      name: name,
+      params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
+      filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
+      root: "/Users/dcomesana/proy/factable-test-project",
+    }
+  );
+
+  FactableEvidencer.registerFunctionCall(
+    [str1, str2, arr, obj, funca, booleano, lastvar],
+    false,
+    {
+      name: name,
       params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
       filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
       root: "/Users/dcomesana/proy/factable-test-project",
