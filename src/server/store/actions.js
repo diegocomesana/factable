@@ -11,9 +11,7 @@ const getCurrentFunctionValue = (file, key) => {
 const getCurrentInputValue = (func, key) => {
   return (
     func[key] || {
-      outputs: {
-        // algopermanente: "lalalala",
-      },
+      outputs: {},
     }
   );
 };

@@ -22,7 +22,6 @@ export const storeFactory = ({
   const applyState = (newState) => {
     onStateChange(newState);
     // if (debug) console.log("NEW STATE: ", newState);
-    // console.log("NEW STATE: ", newState);
     return onStateGet();
   };
 

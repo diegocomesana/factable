@@ -54,7 +54,7 @@ const msgFactory = (wss, hashtable, store) => {
             c: callInfo.output,
           });
 
-          console.log("LALA:", callInfo.metadata.name, outputHash);
+          // console.log("LALA:", callInfo.metadata.name, outputHash);
 
           const transformedArgs = callInfo.args.map(({ type, valueString }) => {
             // REPARSE STRINGIFIED FUNCTIONS
@@ -143,9 +143,6 @@ const msgFactory = (wss, hashtable, store) => {
               inputInfo.metadata.name
             ].calls[inputInfo.inputHash].outputs;
 
-          console.log("outputsFromState:", outputsFromState);
-          // return;
-
           const outputs = Object.keys(outputsFromState).map((outputHash) => {
             const ioHash = outputsFromState[outputHash].ioHash;
             const { output } = hashtable.get(ioHash);
@@ -160,7 +157,7 @@ const msgFactory = (wss, hashtable, store) => {
             outputs,
           };
 
-          console.log("case INFO: ", caseInfo);
+          // console.log("case INFO: ", caseInfo);
 
           if (ws.readyState === WebSocket.OPEN) {
             ws.send(
