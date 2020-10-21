@@ -69,7 +69,7 @@ const CaseViewPrestyled = ({
                     nsClassName(`build-test-case-btn`),
                     `main-btn`
                   )}
-                  onClick={(e) => onBuildTestCase()}
+                  onClick={(e) => onBuildTestCase({ ioHash, e })}
                 >
                   {"Build Test Case"}
                 </button>

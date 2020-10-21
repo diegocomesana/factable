@@ -12,6 +12,7 @@ import {
   getHash,
   jsonParse,
   getCaseString,
+  prettyFormatString,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -167,6 +168,50 @@ const msgFactory = (wss, hashtable, store) => {
               )
             );
           }
+        }
+
+        if (
+          data.type === SocketMessageType.ON_BUILD_TEST &&
+          data.payload &&
+          data.payload.ioHash
+        ) {
+          const callInfo = hashtable.get(data.payload.ioHash);
+          console.log("ON_BUILD_TEST: ", callInfo);
+
+          const fileTemplate = prettyFormatString(
+            `
+              const givenInput = ${safeJsonStringify(callInfo.args, 2)};
+              const expectedOutput = ${safeJsonStringify(output, 2)};
+            `
+          );
+
+          // const inputInfo = hashtable.get(data.payload.inputHash);
+          // const currentState = store.getState();
+          // const outputsFromState =
+          //   currentState.cases[inputInfo.relativeFilePath][
+          //     inputInfo.metadata.name
+          //   ].calls[inputInfo.inputHash].outputs;
+          // const outputs = Object.keys(outputsFromState).map((outputHash) => {
+          //   const { ioHash, tested } = outputsFromState[outputHash];
+          //   const { output } = hashtable.get(ioHash);
+          //   return {
+          //     ioHash,
+          //     tested,
+          //     output,
+          //   };
+          // });
+          // const caseInfo = {
+          //   inputInfo,
+          //   outputs,
+          // };
+          // // console.log("case INFO: ", caseInfo);
+          // if (ws.readyState === WebSocket.OPEN) {
+          //   ws.send(
+          //     safeJsonStringify(
+          //       msgWrapper(SocketMessageType.CASE_VIEW, caseInfo)
+          //     )
+          //   );
+          // }
         }
       },
     };

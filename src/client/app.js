@@ -109,6 +109,13 @@ const AppPrestyled = ({ className }) => {
     store.dispatch(actions.onBack)();
   };
 
+  const onBuildTestCase = ({ ioHash }) => {
+    console.log("onBuildTestCase: ", ioHash);
+    ws.current.send(
+      JSON.stringify(msgWrapper(SocketMessageType.ON_BUILD_TEST, { ioHash }))
+    );
+  };
+
   const { cases, caseInfo, layoutState } = dataStore;
 
   const isCaseView =
@@ -156,7 +163,7 @@ const AppPrestyled = ({ className }) => {
         >
           <div className={classNames(nsClassName(`main-content`))}>
             {isCaseView ? (
-              <CaseView {...{ ...caseInfo, onBack }} />
+              <CaseView {...{ ...caseInfo, onBack, onBuildTestCase }} />
             ) : hasCases ? (
               <Files {...{ cases, onCaseClick }} />
             ) : (

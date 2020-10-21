@@ -104,7 +104,7 @@ export const getFileContent = (path) => {
 export const getRelativeFilePath = (root, filename) =>
   filename.substring(root.length + 1);
 
-export const prettyPrintString = (str) =>
+export const prettyFormatString = (str) =>
   prettier.format(str, { semi: true, parser: "babel" });
 
 const trim = (str, length) => {
