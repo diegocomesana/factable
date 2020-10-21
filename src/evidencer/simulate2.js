@@ -416,41 +416,19 @@ const interval = setInterval(() => {
     return funcaparam + "tail";
   };
 
-  const lastvar = null;
+  const lachota = null;
 
-  const output1 = {
-    str1,
-    str2,
-    arr,
-    obj,
-    booleano,
-    funca,
-  };
-
-  const output2 = {
+  const output = {
     str1,
     str2,
   };
 
   FactableEvidencer.registerFunctionCall(
-    [str1, str2, arr, obj, funca, booleano, lastvar],
-    output1,
+    [str1, str2, arr, obj, funca, booleano, lachota],
+    output,
     {
-      name: "FUNCIONATA",
-      params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
-      filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
-      root: "/Users/dcomesana/proy/factable-test-project",
-    }
-  );
-
-  console.log("FUNCIONATA");
-
-  FactableEvidencer.registerFunctionCall(
-    [str1, str2, arr, obj, funca, booleano, lastvar],
-    output2,
-    {
-      name: "FUNCIONATA",
-      params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lastvar"],
+      name: name,
+      params: ["str1", "str2", "arr", "obj", "funca", "boleano", "lachota"],
       filename: "/Users/dcomesana/proy/factable-test-project/src/common.js",
       root: "/Users/dcomesana/proy/factable-test-project",
     }

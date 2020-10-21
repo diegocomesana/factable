@@ -5,9 +5,15 @@ const getCurrentFileValue = (state, key) => {
 };
 
 const getCurrentFunctionValue = (file, key) => {
+  return file[key] || { calls: {} };
+};
+
+const getCurrentInputValue = (func, key) => {
   return (
-    file[key] || {
-      calls: [],
+    func[key] || {
+      outputs: {
+        // algopermanente: "lalalala",
+      },
     }
   );
 };
@@ -24,6 +30,13 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
     callInfo.metadata.name
   );
 
+  const currentIntputValue = getCurrentInputValue(
+    currentFunctionValue.calls,
+    callInfo.inputHash
+  );
+
+  console.log("currentIntputValue:", currentIntputValue);
+
   return {
     ...prevState,
     cases: {
@@ -32,10 +45,19 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
         ...currentFileValue,
         [callInfo.metadata.name]: {
           ...currentFunctionValue,
-          calls: [
+          calls: {
             ...currentFunctionValue.calls,
-            { hash: callInfo.hash, caseString: callInfo.caseString },
-          ],
+            [callInfo.inputHash]: {
+              ...currentIntputValue,
+              caseString: callInfo.caseString,
+              outputs: {
+                ...currentIntputValue.outputs,
+                [callInfo.outputHash]: {
+                  ioHash: callInfo.ioHash,
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -43,7 +65,7 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
 };
 
 export const onCaseView = (prevState) => (caseInfo) => {
-  // console.log("caseInfo: ", caseInfo);
+  console.log("caseInfo: ", caseInfo);
   return {
     ...prevState,
     caseInfo,

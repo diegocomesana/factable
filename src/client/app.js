@@ -48,7 +48,7 @@ const AppPrestyled = ({ className }) => {
     if (
       data.type === SocketMessageType.REGISTER_FUNCTION_CALL &&
       data.payload &&
-      data.payload.hash
+      data.payload.inputHash
     ) {
       store.dispatch(actions.onRegisterFunctionCall)(data.payload);
     }
@@ -90,14 +90,21 @@ const AppPrestyled = ({ className }) => {
     ws.current.onmessage = onSocketMessage;
   }, [dataStore]);
 
-  const onCaseClick = ({ e, hash, fileName, functionName }) => {
+  const onCaseClick = ({ e, inputHash, fileName, functionName }) => {
     e.preventDefault();
     ws.current.send(
-      JSON.stringify(msgWrapper(SocketMessageType.ON_CASE_CLICKED, { hash }))
+      JSON.stringify(
+        msgWrapper(SocketMessageType.ON_CASE_CLICKED, { inputHash })
+      )
     );
   };
 
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const onBack = () => {
+    scrollTop();
     store.dispatch(actions.onBack)();
   };
 

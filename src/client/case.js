@@ -8,7 +8,7 @@ const nsClassName = (name) => `${namespace}__${name}`;
 const CasePrestyled = ({
   className,
   caseString,
-  hash,
+  inputHash,
   fileName,
   functionName,
   onCaseClick,
@@ -16,7 +16,7 @@ const CasePrestyled = ({
   return (
     <div
       className={classNames(namespace, className)}
-      onClick={(e) => onCaseClick({ e, hash, fileName, functionName })}
+      onClick={(e) => onCaseClick({ e, inputHash, fileName, functionName })}
     >
       <div className={nsClassName(`caseString`)}>{caseString}</div>
     </div>

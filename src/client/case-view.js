@@ -9,10 +9,8 @@ const nsClassName = (name) => `${namespace}__${name}`;
 const CaseViewPrestyled = ({
   className,
   onBack,
-  metadata,
-  relativeFilePath,
-  args,
-  output,
+  inputInfo: { metadata, relativeFilePath, args },
+  outputs,
 }) => {
   const inputData = buildInputData(metadata.params, args);
   return (
@@ -41,7 +39,22 @@ const CaseViewPrestyled = ({
           ))}
         </ul>
       </div>
-      <div className={nsClassName(`output`)}>
+      {outputs.map(({ ioHash, output }) => (
+        <div className={nsClassName(`output`)} key={ioHash}>
+          <div className={nsClassName(`output-title`)}>
+            {"output"}
+            <span
+              className={nsClassName(`output-type`)}
+            >{`(${output.type})`}</span>
+          </div>
+          <div className={nsClassName(`output-value`)}>
+            <pre>
+              <code>{output.valueString}</code>
+            </pre>
+          </div>
+        </div>
+      ))}
+      {/* <div className={nsClassName(`output`)}>
         <div className={nsClassName(`output-title`)}>
           {"output"}
           <span
@@ -53,7 +66,7 @@ const CaseViewPrestyled = ({
             <code>{output.valueString}</code>
           </pre>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

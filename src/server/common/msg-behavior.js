@@ -48,6 +48,13 @@ const msgFactory = (wss, hashtable, store) => {
 
           const inputHash = getHash(callInfo.args);
           const outputHash = getHash(callInfo.output);
+          const ioHash = getHash({
+            a: callInfo.metadata.name,
+            b: callInfo.args,
+            c: callInfo.output,
+          });
+
+          console.log("LALA:", callInfo.metadata.name, outputHash);
 
           const transformedArgs = callInfo.args.map(({ type, valueString }) => {
             // REPARSE STRINGIFIED FUNCTIONS
@@ -59,7 +66,8 @@ const msgFactory = (wss, hashtable, store) => {
           });
 
           const callInfoWithHash = {
-            hash,
+            // hash,
+            ioHash,
             inputHash,
             outputHash,
             caseString: getCaseString(
@@ -89,9 +97,26 @@ const msgFactory = (wss, hashtable, store) => {
                 },
           };
 
+          const inputInfo = {
+            inputHash,
+            caseString: getCaseString(
+              callInfo.metadata.params,
+              transformedArgs
+            ),
+            metadata: {
+              ...callInfo.metadata,
+            },
+            relativeFilePath: getRelativeFilePath(
+              callInfo.metadata.root,
+              callInfo.metadata.filename
+            ),
+            args: transformedArgs,
+          };
+
           // console.log("callInfoWithHash:", callInfoWithHash);
 
-          hashtable.put(hash, callInfoWithHash);
+          hashtable.put(inputHash, inputInfo);
+          hashtable.put(ioHash, callInfoWithHash);
 
           store.dispatch(actions.onRegisterFunctionCall)(callInfoWithHash);
 
@@ -107,9 +132,33 @@ const msgFactory = (wss, hashtable, store) => {
         if (
           data.type === SocketMessageType.ON_CASE_CLICKED &&
           data.payload &&
-          data.payload.hash
+          data.payload.inputHash
         ) {
-          const caseInfo = hashtable.get(data.payload.hash);
+          const inputInfo = hashtable.get(data.payload.inputHash);
+
+          const currentState = store.getState();
+
+          const outputsFromState =
+            currentState.cases[inputInfo.relativeFilePath][
+              inputInfo.metadata.name
+            ].calls[inputInfo.inputHash].outputs;
+
+          console.log("outputsFromState:", outputsFromState);
+          // return;
+
+          const outputs = Object.keys(outputsFromState).map((outputHash) => {
+            const ioHash = outputsFromState[outputHash].ioHash;
+            const { output } = hashtable.get(ioHash);
+            return {
+              ioHash,
+              output,
+            };
+          });
+
+          const caseInfo = {
+            inputInfo,
+            outputs,
+          };
 
           console.log("case INFO: ", caseInfo);
 
