@@ -92,6 +92,7 @@ const AppPrestyled = ({ className }) => {
 
   const onCaseClick = ({ e, inputHash, fileName, functionName }) => {
     e.preventDefault();
+    scrollTop();
     ws.current.send(
       JSON.stringify(
         msgWrapper(SocketMessageType.ON_CASE_CLICKED, { inputHash })
@@ -100,7 +101,7 @@ const AppPrestyled = ({ className }) => {
   };
 
   const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0 });
   };
 
   const onBack = () => {
@@ -148,17 +149,23 @@ const AppPrestyled = ({ className }) => {
             </div>
           )}
         </div>
-        <div className={nsClassName(`layout`)}>
+        <div
+          className={classNames(nsClassName(`layout`), {
+            ["empty"]: !hasCases,
+          })}
+        >
           <div className={classNames(nsClassName(`main-content`))}>
             {isCaseView ? (
               <CaseView {...{ ...caseInfo, onBack }} />
             ) : hasCases ? (
               <Files {...{ cases, onCaseClick }} />
             ) : (
-              <p>
-                There are no cases yet detected. Please run your application to
-                get some calls feedback!
-              </p>
+              <div className={nsClassName(`empty`)}>
+                <p>
+                  There are no cases yet detected. <br />
+                  Please run your application to get some calls feedback!
+                </p>
+              </div>
             )}
           </div>
         </div>
@@ -174,7 +181,7 @@ export const App = styled(AppPrestyled)`
 
   .main-btn {
     border: 2px solid white;
-    border-radius: 8px;
+    border-radius: 4px;
     box-sizing: border-box;
     text-decoration: none;
     font-family: "Roboto", sans-serif;
@@ -190,6 +197,14 @@ export const App = styled(AppPrestyled)`
       /* border-color: magenta; */
       cursor: pointer;
     }
+  }
+
+  .${nsClassName(`empty`)} {
+    text-align: center;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 200;
+    color: grey;
   }
 
   .buy-me-a-coffee {
@@ -245,6 +260,10 @@ export const App = styled(AppPrestyled)`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &.empty {
+      height: 100%;
+    }
   }
 
   .${nsClassName(`main-content`)} {

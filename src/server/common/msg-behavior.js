@@ -144,10 +144,11 @@ const msgFactory = (wss, hashtable, store) => {
             ].calls[inputInfo.inputHash].outputs;
 
           const outputs = Object.keys(outputsFromState).map((outputHash) => {
-            const ioHash = outputsFromState[outputHash].ioHash;
+            const { ioHash, tested } = outputsFromState[outputHash];
             const { output } = hashtable.get(ioHash);
             return {
               ioHash,
+              tested,
               output,
             };
           });

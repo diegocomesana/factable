@@ -33,7 +33,7 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
     callInfo.inputHash
   );
 
-  console.log("currentIntputValue:", currentIntputValue);
+  // console.log("currentIntputValue:", currentIntputValue);
 
   return {
     ...prevState,
@@ -52,6 +52,8 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
                 ...currentIntputValue.outputs,
                 [callInfo.outputHash]: {
                   ioHash: callInfo.ioHash,
+                  // tested: "src/ladlla/lalal.spec.js",
+                  tested: false,
                 },
               },
             },

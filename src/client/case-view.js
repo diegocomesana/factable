@@ -8,7 +8,7 @@ const nsClassName = (name) => `${namespace}__${name}`;
 
 const CaseViewPrestyled = ({
   className,
-  onBack,
+  onBuildTestCase,
   inputInfo: { metadata, relativeFilePath, args },
   outputs,
 }) => {
@@ -49,13 +49,31 @@ const CaseViewPrestyled = ({
         </div>
       )}
       <ul className={nsClassName(`outputs`)}>
-        {outputs.map(({ ioHash, output }) => (
+        {outputs.map(({ ioHash, output, tested }) => (
           <li className={nsClassName(`output-list-item`)} key={ioHash}>
-            <div className={nsClassName(`output-title`)}>
-              {"output"}
-              <span
-                className={nsClassName(`output-type`)}
-              >{`(${output.type})`}</span>
+            <div className={nsClassName(`output-header`)}>
+              <div className={nsClassName(`output-title`)}>
+                {"output"}
+                <span
+                  className={nsClassName(`output-type`)}
+                >{`(${output.type})`}</span>
+              </div>
+              {typeof tested === "string" ? (
+                <p className={nsClassName(`tested-tag`)}>
+                  {"Tested"}
+                  <span className={nsClassName(`tested-path`)}>({tested})</span>
+                </p>
+              ) : (
+                <button
+                  className={classNames(
+                    nsClassName(`build-test-case-btn`),
+                    `main-btn`
+                  )}
+                  onClick={(e) => onBuildTestCase()}
+                >
+                  {"Build Test Case"}
+                </button>
+              )}
             </div>
             <div className={nsClassName(`output-value`)}>
               <pre>
@@ -74,6 +92,28 @@ export const CaseView = styled(CaseViewPrestyled)`
   margin: 0;
   display: flex;
   flex-direction: column;
+
+  .${nsClassName(`build-test-case-btn`)}.${nsClassName(`build-test-case-btn`)} {
+    color: #ff005e;
+    border-color: #ff005e;
+  }
+
+  .${nsClassName(`tested-tag`)} {
+    border: 2px solid #07de5d;
+    font-size: 14px;
+    color: #04a042;
+    border-radius: 4px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  .${nsClassName(`tested-path`)} {
+    font-size: 11px;
+    margin-left: 5px;
+    font-weight: 400;
+    font-style: italic;
+  }
 
   .${nsClassName(`top`)} {
     padding: 5px 0;
@@ -111,9 +151,6 @@ export const CaseView = styled(CaseViewPrestyled)`
     text-transform: capitalize;
   }
 
-  .${nsClassName(`output-title`)} {
-    text-transform: capitalize;
-  }
   .${nsClassName(`input-value`)} {
     list-style: none;
     margin: 0;
@@ -178,11 +215,15 @@ export const CaseView = styled(CaseViewPrestyled)`
     border-radius: 5px;
   }
 
-  .${nsClassName(`output-title`)} {
+  .${nsClassName(`output-header`)} {
     display: flex;
     align-items: center;
     font-weight: bold;
+    justify-content: space-between;
     padding: 5px;
+  }
+
+  .${nsClassName(`output-title`)} {
     text-transform: capitalize;
   }
 
