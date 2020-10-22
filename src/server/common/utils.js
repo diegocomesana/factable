@@ -126,6 +126,7 @@ const trim = (str, length) => {
 
 export const getCaseString = (paramNames, args) => {
   return paramNames
+    .flat()
     .map((name, i) => {
       return trim(`${name}: ${args[i].valueString}`, 50);
     })
@@ -133,7 +134,7 @@ export const getCaseString = (paramNames, args) => {
 };
 
 export const buildInputData = (paramNames, args) => {
-  return paramNames.map((name, i) => {
+  return paramNames.flat().map((name, i) => {
     return {
       name,
       type: args[i].type,
