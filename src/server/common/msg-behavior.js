@@ -189,6 +189,8 @@ const msgFactory = (wss, hashtable, store) => {
             callInfo.args
           );
 
+          console.log("inputData:", inputData);
+
           const inputConstDeclarations = inputData
             .map(({ name, value }) => `const ${name} = ${value};`)
             .join("\n");
