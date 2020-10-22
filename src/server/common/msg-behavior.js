@@ -195,7 +195,9 @@ const msgFactory = (wss, hashtable, store) => {
 
           const functionCallDeclaration = `const output = ${
             callInfo.metadata.name
-          }(${callInfo.metadata.params.join(", ")});`;
+          }${callInfo.metadata.params
+            .map((call) => `(${call.join(", ")})`)
+            .join("")};`;
 
           const expectedOutputDeclaration = `const expectedOutput = ${callInfo.output.valueString};`;
 
@@ -227,33 +229,6 @@ const msgFactory = (wss, hashtable, store) => {
             console.log(error);
           }
 
-          // const fileTemplate = prettyFormatString(
-          //   `
-          //     const givenInput = ${safeJsonStringify(callInfo.args, 2)};
-          //     const expectedOutput = ${safeJsonStringify(output, 2)};
-          //   `
-          // );
-
-          // const inputInfo = hashtable.get(data.payload.inputHash);
-          // const currentState = store.getState();
-          // const outputsFromState =
-          //   currentState.cases[inputInfo.relativeFilePath][
-          //     inputInfo.metadata.name
-          //   ].calls[inputInfo.inputHash].outputs;
-          // const outputs = Object.keys(outputsFromState).map((outputHash) => {
-          //   const { ioHash, tested } = outputsFromState[outputHash];
-          //   const { output } = hashtable.get(ioHash);
-          //   return {
-          //     ioHash,
-          //     tested,
-          //     output,
-          //   };
-          // });
-          // const caseInfo = {
-          //   inputInfo,
-          //   outputs,
-          // };
-          // // console.log("case INFO: ", caseInfo);
           // if (ws.readyState === WebSocket.OPEN) {
           //   ws.send(
           //     safeJsonStringify(
