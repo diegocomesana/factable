@@ -72,6 +72,19 @@ export const getHash = (input) =>
     .update(`${safeJsonStringify(input)}`)
     .digest("hex");
 
+export const fileExists = (path) => {
+  return new Promise((resolve, reject) => {
+    fs.access(path, (err) => {
+      if (err) {
+        resolve({ exists: false, path, isDir: false });
+        return;
+      }
+      const isDir = fs.statSync(path).isDirectory();
+      resolve({ exists: true, path, isDir });
+    });
+  });
+};
+
 export const ensureDirExists = (path) => {
   return new Promise((resolve, reject) => {
     fs.mkdir(path, { recursive: true }, (err) => {
@@ -94,9 +107,13 @@ export const createFile = (path, content) => {
 };
 
 export const getFileContent = (path) => {
+  console.log("pAAAAATH:", path);
   return new Promise((resolve, reject) => {
     fs.readFile(path, (err, data) => {
-      if (err) reject(err);
+      if (err || !data) {
+        reject(err);
+        return;
+      }
       resolve(data.toString());
     });
   });

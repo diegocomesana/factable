@@ -7,6 +7,7 @@ import WebSocket from "ws";
 import SimpleHashTable from "simple-hashtable";
 import { RunMode } from "./common/types";
 import { buildHtml } from "./common/html";
+import { fileExists, getFileContent } from "./common/utils";
 import { settings } from "./settings";
 
 import msgFactory from "./common/msg-behavior";
@@ -22,19 +23,7 @@ const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
 const IS_TEST = process.env.NODE_ENV === RunMode.TEST;
 
 const resolvePath = (p) => path.resolve(__dirname, p);
-
-const fileExists = (path) => {
-  return new Promise((resolve, reject) => {
-    fs.access(path, (err) => {
-      if (err) {
-        resolve({ exists: false, path, isDir: false });
-        return;
-      }
-      const isDir = fs.statSync(path).isDirectory();
-      resolve({ exists: true, path, isDir });
-    });
-  });
-};
+const resolvePathCWD = (p) => path.resolve(process.cwd(), p);
 
 const getClientConfigScript = (port) =>
   `<script>window.__FACTABLE_CLIENT_CONFIG__ = { port: ${port} }</script>`;
@@ -97,7 +86,7 @@ const createHttpServer = (port) => {
   });
 };
 
-const App = (done, port = settings.APP.PORT) => {
+const App = async (done, port = settings.APP.PORT) => {
   const httpServer = createHttpServer(port);
   const wss = new WebSocket.Server({ server: httpServer });
 
@@ -122,6 +111,15 @@ const App = (done, port = settings.APP.PORT) => {
     DEV: IS_DEV,
     TEST: IS_TEST,
   });
+
+  let factableState;
+  try {
+    factableState = await getFileContent(resolvePathCWD("./factable.json"));
+  } catch (err) {
+    console.log("no factable state file");
+  }
+
+  console.log("factableState:", factableState);
 
   if (IS_DEV && !IS_TEST) {
     console.log("app.js", "STARTING APP!!");

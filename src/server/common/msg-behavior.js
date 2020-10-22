@@ -60,8 +60,6 @@ const msgFactory = (wss, hashtable, store) => {
             c: callInfo.output,
           });
 
-          // console.log("LALA:", callInfo.metadata.name, outputHash);
-
           const transformedArgs = callInfo.args.map(({ type, valueString }) => {
             // REPARSE STRINGIFIED FUNCTIONS
             return {
@@ -189,7 +187,7 @@ const msgFactory = (wss, hashtable, store) => {
             callInfo.args
           );
 
-          console.log("inputData:", inputData);
+          // console.log("inputData:", inputData);
 
           const inputConstDeclarations = inputData
             .map(({ name, value }) => `const ${name} = ${value};`)
