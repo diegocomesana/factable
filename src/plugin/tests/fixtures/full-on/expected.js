@@ -20,7 +20,7 @@ function originalFunc(param1, param2 = "default_value") {
 
   FactableEvidencer.registerFunctionCall([param1, param2], output, {
     name: "originalFunc",
-    params: ["param1", "param2"],
+    params: [["param1", "param2"]],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
@@ -35,7 +35,7 @@ const originalFuncExpresada = (param1, param2) => param3 => {
 
   FactableEvidencer.registerFunctionCall([param1, param2, param3], output, {
     name: "originalFuncExpresada",
-    params: ["param1", "param2", "param3"],
+    params: [["param1", "param2"], ["param3"]],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
@@ -51,7 +51,7 @@ const originalFuncExpresada2 = (param1, param2) => {
 
   FactableEvidencer.registerFunctionCall([param1, param2], output, {
     name: "originalFuncExpresada2",
-    params: ["param1", "param2"],
+    params: [["param1", "param2"]],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
@@ -65,7 +65,7 @@ const exprCurriada = lala => () => {
 
   FactableEvidencer.registerFunctionCall([lala], output, {
     name: "exprCurriada",
-    params: ["lala"],
+    params: [["lala"], []],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
@@ -79,7 +79,7 @@ const exprCurriada2 = lala => otra => diego => {
 
   FactableEvidencer.registerFunctionCall([lala, otra, diego], output, {
     name: "exprCurriada2",
-    params: ["lala", "otra", "diego"],
+    params: [["lala"], ["otra"], ["diego"]],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
@@ -95,7 +95,7 @@ const exprEnroscada = lala => {
 
   FactableEvidencer.registerFunctionCall([lala], output, {
     name: "exprEnroscada",
-    params: ["lala"],
+    params: [["lala"]],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
@@ -109,7 +109,7 @@ const resultDeAnonimQueSeAutoEjecuta = function () {
 
   FactableEvidencer.registerFunctionCall([], output, {
     name: "resultDeAnonimQueSeAutoEjecuta",
-    params: [],
+    params: [[]],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });
@@ -126,7 +126,7 @@ const destructuredProps = ({
 
   FactableEvidencer.registerFunctionCall([{foo, bar}, vamos, meGusta], output, {
     name: "destructuredProps",
-    params: ["{foo, bar}", "vamos", "meGusta"],
+    params: [["{foo, bar}", "vamos"], ["meGusta"]],
     filename: '',
     root: '/Users/dcomesana/proy/factable'
   });

@@ -10,6 +10,27 @@ const isValidPortNumber = (portStr) => {
   );
 };
 
+const safeJsonStringify = (obj, indent = 2) => {
+  let cache = [];
+  const retVal = JSON.stringify(
+    obj,
+    (key, value) => {
+      if (typeof value === "object" && value !== null) {
+        return cache.includes(value)
+          ? undefined // Duplicate reference found, discard key
+          : cache.push(value) && value; // Store value in our collection
+      }
+      if (typeof value === "function" && value !== null) {
+        return value.toString();
+      }
+      return value;
+    },
+    indent
+  );
+  cache = null;
+  return retVal;
+};
+
 const isFactableOn = (path) => {
   const commentLineTokens = path.parent.comments.filter(
     (token) => token.type === "CommentLine"
@@ -75,7 +96,7 @@ const getParamNameFromParamNode = (node) => {
   }
   if (node.type == "ObjectPattern") {
     // If param is a destructured object
-    return `{${node.properties.map((node) => node.key.name).join(', ')}}`;
+    return `{${node.properties.map((node) => node.key.name).join(", ")}}`;
   }
   return node.name;
 };
@@ -92,7 +113,7 @@ const getFunctionParams = (path) => {
     }
     return true;
   });
-  return params.reverse().flat();
+  return params.reverse();
 };
 
 const getFunctionData = (path) => {
@@ -105,19 +126,16 @@ const getFunctionCallExpression = (functionData, filename, root) => {
   const buildExpression = template(`
   FactableEvidencer.registerFunctionCall(ARGUMENTS_ARRAY_EXPRESSION, output, {
     name: NAME_STRING_LITERAL,
-    params: PARAMS_ARRAY_EXPRESSION,
+    params: ${safeJsonStringify(functionData.params)},
     filename: '${filename}',
     root: '${root}',
   });
 `);
   return buildExpression({
     ARGUMENTS_ARRAY_EXPRESSION: types.arrayExpression(
-      functionData.params.map((param) => types.identifier(param))
+      functionData.params.flat().map((param) => types.identifier(param))
     ),
     NAME_STRING_LITERAL: types.stringLiteral(functionData.name),
-    PARAMS_ARRAY_EXPRESSION: types.arrayExpression(
-      functionData.params.map((param) => types.stringLiteral(param))
-    ),
   });
 };
 
