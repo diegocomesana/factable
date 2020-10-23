@@ -12,6 +12,7 @@ import {
   prettyFormatString,
   getTestFileTestBlock,
   saveState,
+  callInfoToTestInfo,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -218,9 +219,11 @@ const msgFactory = (wss, hashtable, store) => {
           `;
           */
 
-          const currentState = store.dispatch(actions.onSaveTest)(callInfo);
+          const testInfo = callInfoToTestInfo(callInfo);
 
-          console.log("store: ", currentState);
+          const currentState = store.dispatch(actions.onSaveTest)(testInfo);
+
+          console.log("store.tests: ", currentState.tests);
 
           saveState(currentState);
 
@@ -229,7 +232,7 @@ const msgFactory = (wss, hashtable, store) => {
           const { code, error } = prettyFormatString(srcStr);
 
           if (code) {
-            console.log(code);
+            // console.log(code);
           } else {
             console.log(error);
           }

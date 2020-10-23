@@ -240,3 +240,23 @@ export const getTestFileSrc = () => {
       ${getTestFileDescribes()}
     `;
 };
+
+export const callInfoToTestInfo = (callInfo) => {
+  const functionName = callInfo.metadata.name;
+  const params = callInfo.metadata.params;
+  const args = callInfo.args;
+  const inputData = buildInputData(params, args);
+  const expectedOutputString = callInfo.output.valueString;
+  const relativeFilePath = callInfo.relativeFilePath;
+  const ioHash = callInfo.ioHash;
+
+  return {
+    relativeFilePath,
+    functionName,
+    ioHash,
+    params,
+    args,
+    inputData,
+    expectedOutputString,
+  };
+};

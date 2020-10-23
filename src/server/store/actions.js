@@ -88,14 +88,14 @@ export const onBack = (prevState) => () => {
   };
 };
 
-export const onSaveTest = (prevState) => (callInfo) => {
+export const onSaveTest = (prevState) => (testInfo) => {
   const currentFileValue = getCurrentFileValue(
     prevState.tests,
-    callInfo.relativeFilePath
+    testInfo.relativeFilePath
   );
   const currentFunctionValue = getCurrentFunctionValue(
     currentFileValue,
-    callInfo.metadata.name,
+    testInfo.functionName,
     {}
   );
 
@@ -103,12 +103,12 @@ export const onSaveTest = (prevState) => (callInfo) => {
     ...prevState,
     tests: {
       ...prevState.tests,
-      [callInfo.relativeFilePath]: {
+      [testInfo.relativeFilePath]: {
         ...currentFileValue,
-        [callInfo.metadata.name]: {
+        [testInfo.functionName]: {
           ...currentFunctionValue,
-          [callInfo.ioHash]: {
-            algo: true,
+          [testInfo.ioHash]: {
+            ...testInfo,
           },
         },
       },
