@@ -223,7 +223,12 @@ const msgFactory = (wss, hashtable, store) => {
 
           const currentState = store.dispatch(actions.onSaveTest)(testInfo);
 
-          console.log("store.tests: ", currentState.tests);
+          const allTestsForFile =
+            currentState.tests[testInfo.relativeFilePath][
+              testInfo.functionName
+            ];
+
+          console.log("current tests for file: ", allTestsForFile);
 
           saveState(currentState);
 
