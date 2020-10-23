@@ -1,4 +1,5 @@
 import WebSocket from "ws";
+import path from "path";
 import { SocketMessageType } from "./types";
 
 import {
@@ -13,6 +14,9 @@ import {
   getTestFileTestBlock,
   saveState,
   callInfoToTestInfo,
+  getTestFileSrc,
+  saveFile,
+  resolvePathCWD,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -175,69 +179,28 @@ const msgFactory = (wss, hashtable, store) => {
           data.payload.ioHash
         ) {
           const callInfo = hashtable.get(data.payload.ioHash);
-
-          /*
-          console.log("callInfo:", callInfo);
-
-          const inputData = buildInputData(
-            callInfo.metadata.params,
-            callInfo.args
-          );
-
-          // console.log("inputData:", inputData);
-
-          const inputConstDeclarations = inputData
-            .map(({ name, value }) => `const ${name} = ${value};`)
-            .join("\n");
-
-          const functionCallDeclaration = `const output = ${
-            callInfo.metadata.name
-          }${callInfo.metadata.params
-            .map((call) => `(${call.join(", ")})`)
-            .join("")};`;
-
-          const expectedOutputDeclaration = `const expectedOutput = ${callInfo.output.valueString};`;
-
-          const fileTemplate = `
-            import { ${
-              callInfo.metadata.name
-            } } from '../${getFilenameForImportFromPath(
-            callInfo.relativeFilePath
-          )}';
-          
-          describe("${callInfo.metadata.name}", () => {
-
-            test("it should not transform", async (done) => {
-              ${inputConstDeclarations}
-              ${expectedOutputDeclaration}
-              ${functionCallDeclaration}
-              expect(output).toEqual(expectedOutput);
-              done();
-            });
-
-          });
-          `;
-          */
-
           const testInfo = callInfoToTestInfo(callInfo);
-
           const currentState = store.dispatch(actions.onSaveTest)(testInfo);
 
+          // GET ALL THE TESTS THAT SHOULD GO IN THE SAME FILE: all the tests for this functionName
           const allTestsForFile =
             currentState.tests[testInfo.relativeFilePath][
               testInfo.functionName
             ];
 
-          console.log("current tests for file: ", allTestsForFile);
-
-          saveState(currentState);
-
-          const srcStr = getTestFileTestBlock(callInfo);
-
+          const srcStr = getTestFileSrc(testInfo.functionName, allTestsForFile);
           const { code, error } = prettyFormatString(srcStr);
 
           if (code) {
-            // console.log(code);
+            console.log(code);
+
+            saveFile(
+              resolvePathCWD(`./${path.dirname(testInfo.relativeFilePath)}`),
+              "nombre-del-test.js",
+              code
+            ).then(() => {
+              console.log("lalalal");
+            });
           } else {
             console.log(error);
           }

@@ -191,8 +191,25 @@ export const getTestFileImports = (data) => {
   // };
   return Object.keys(data).map(
     (key) => `
-            import { ${data[key].join(", ")} } from '../${key}`
+            import { ${data[key].join(", ")} } from '../${key}';`
   );
+};
+
+export const getTestFileTestBlock = ({
+  functionName,
+  params,
+  inputData,
+  expectedOutputString,
+}) => {
+  return `
+            test("it should not transform", async (done) => {
+              ${getInputDeclarations(inputData)}
+              ${getExpectedOutputDeclaration(expectedOutputString)}
+              ${getFunctionCallDeclaration(functionName, params)}
+              expect(output).toEqual(expectedOutput);
+              done();
+            });
+          `;
 };
 
 export const getFunctionDescribeBlock = (functionName, innerStr) => `
@@ -201,8 +218,11 @@ export const getFunctionDescribeBlock = (functionName, innerStr) => `
           });
           `;
 
-export const getTestFileDescribes = (functions) => {
-  return functions.map(getFunctionDescribeBlock);
+export const getTestFileDescribes = (functionName, allTestsArr) => {
+  return getFunctionDescribeBlock(
+    functionName,
+    allTestsArr.map(getTestFileTestBlock).join("")
+  );
 };
 
 export const getInputDeclarations = (inputData) =>
@@ -216,28 +236,26 @@ export const getFunctionCallDeclaration = (functionName, params) =>
     .map((call) => `(${call.join(", ")})`)
     .join("")};`;
 
-export const getTestFileTestBlock = (callInfo) => {
-  const functionName = callInfo.metadata.name;
-  const params = callInfo.metadata.params;
-  const args = callInfo.args;
-  const inputData = buildInputData(params, args);
-  const expectedOutputString = callInfo.output.valueString;
+const allTestArrToFileImport = (allTestsArr) =>
+  allTestsArr.reduce((acc, curr) => {
+    const currFileContent = acc[curr.relativeFilePath] || [];
+    if (currFileContent.includes(curr.functionName)) {
+      return acc;
+    }
+    return {
+      ...acc,
+      [curr.relativeFilePath]: [...currFileContent, curr.functionName],
+    };
+  }, {});
+
+export const getTestFileSrc = (functionName, allTestsForFile) => {
+  const allTestsArr = Object.keys(allTestsForFile).map(
+    (key) => allTestsForFile[key]
+  );
 
   return `
-            test("it should not transform", async (done) => {
-              ${getInputDeclarations(inputData)}
-              ${getExpectedOutputDeclaration(expectedOutputString)}
-              ${getFunctionCallDeclaration(functionName, params)}
-              expect(output).toEqual(expectedOutput);
-              done();
-            });
-          `;
-};
-
-export const getTestFileSrc = () => {
-  return `
-      ${getTestFileImports()}
-      ${getTestFileDescribes()}
+      ${getTestFileImports(allTestArrToFileImport(allTestsArr))}
+      ${getTestFileDescribes(functionName, allTestsArr)}
     `;
 };
 
