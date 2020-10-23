@@ -7,7 +7,12 @@ import WebSocket from "ws";
 import SimpleHashTable from "simple-hashtable";
 import { RunMode } from "./common/types";
 import { buildHtml } from "./common/html";
-import { fileExists, getFileContent } from "./common/utils";
+import {
+  fileExists,
+  getFileContent,
+  jsonParse,
+  resolvePathCWD,
+} from "./common/utils";
 import { settings } from "./settings";
 
 import msgFactory from "./common/msg-behavior";
@@ -16,14 +21,13 @@ import storeFactory from "./store";
 const hashtable = new SimpleHashTable();
 
 const store = storeFactory();
-store.initState({ cases: {} });
 
 const pageTitle = "Factable Admin";
 const IS_DEV = process.env.NODE_ENV !== RunMode.PROD;
 const IS_TEST = process.env.NODE_ENV === RunMode.TEST;
 
 const resolvePath = (p) => path.resolve(__dirname, p);
-const resolvePathCWD = (p) => path.resolve(process.cwd(), p);
+// const resolvePathCWD = (p) => path.resolve(process.cwd(), p);
 
 const getClientConfigScript = (port) =>
   `<script>window.__FACTABLE_CLIENT_CONFIG__ = { port: ${port} }</script>`;
@@ -87,6 +91,25 @@ const createHttpServer = (port) => {
 };
 
 const App = async (done, port = settings.APP.PORT) => {
+  const dafaultPersistentState = {
+    tests: {},
+  };
+  let persistentState = dafaultPersistentState;
+  try {
+    const persistentStateContentStr = await getFileContent(
+      resolvePathCWD("./factable.json")
+    );
+    persistentState = jsonParse(persistentStateContentStr);
+  } catch (err) {
+    console.log("no factable state file");
+  }
+
+  const initialState = { cases: {}, ...persistentState };
+
+  // console.log("initialState:", initialState);
+
+  store.initState(initialState);
+
   const httpServer = createHttpServer(port);
   const wss = new WebSocket.Server({ server: httpServer });
 
@@ -111,15 +134,6 @@ const App = async (done, port = settings.APP.PORT) => {
     DEV: IS_DEV,
     TEST: IS_TEST,
   });
-
-  let factableState;
-  try {
-    factableState = await getFileContent(resolvePathCWD("./factable.json"));
-  } catch (err) {
-    console.log("no factable state file");
-  }
-
-  console.log("factableState:", factableState);
 
   if (IS_DEV && !IS_TEST) {
     console.log("app.js", "STARTING APP!!");

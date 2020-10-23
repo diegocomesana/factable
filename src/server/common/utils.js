@@ -107,7 +107,6 @@ export const createFile = (path, content) => {
 };
 
 export const getFileContent = (path) => {
-  console.log("pAAAAATH:", path);
   return new Promise((resolve, reject) => {
     fs.readFile(path, (err, data) => {
       if (err || !data) {
@@ -137,6 +136,28 @@ export const prettyFormatString = (str) => {
   };
 };
 
+export const resolvePathCWD = (p) => path.resolve(process.cwd(), p);
+
+export const saveFile = (basePath, fileName, content) => {
+  return ensureDirExists(basePath)
+    .then((path) => {
+      return createFile(`${path}/${fileName}`, content);
+    })
+    .then((path) => {
+      console.log(`----- ${path} writen`);
+    })
+    .catch((err) => console.log(err));
+};
+
+export const saveState = (state) =>
+  saveFile(
+    resolvePathCWD("./"),
+    "factable.json",
+    safeJsonStringify({
+      tests: state.tests,
+    })
+  );
+
 const trim = (str, length) => {
   return str.length > length ? str.substring(0, length - 3) + "..." : str;
 };
@@ -162,3 +183,60 @@ export const buildInputData = (paramNames, args) => {
 
 export const getFilenameForImportFromPath = (pathStr) =>
   path.basename(pathStr).replace(/\.[^/.]+$/, "");
+
+export const getTestFileImports = (data) => {
+  // const data = {
+  //   file1_path: ["funcName11", "funcName12"],
+  //   file2_path: ["funcName21", "funcName22"],
+  // };
+  return Object.keys(data).map(
+    (key) => `
+            import { ${data[key].join(", ")} } from '../${key}`
+  );
+};
+
+export const getFunctionDescribeBlock = (functionName, innerStr) => `
+          describe("${functionName}", () => {
+            ${innerStr}
+          });
+          `;
+
+export const getTestFileDescribes = (functions) => {
+  return functions.map(getFunctionDescribeBlock);
+};
+
+export const getInputDeclarations = (inputData) =>
+  inputData.map(({ name, value }) => `const ${name} = ${value};`).join("\n");
+
+export const getExpectedOutputDeclaration = (valueString) =>
+  `const expectedOutput = ${valueString};`;
+
+export const getFunctionCallDeclaration = (functionName, params) =>
+  `const output = ${functionName}${params
+    .map((call) => `(${call.join(", ")})`)
+    .join("")};`;
+
+export const getTestFileTestBlock = (callInfo) => {
+  const functionName = callInfo.metadata.name;
+  const params = callInfo.metadata.params;
+  const args = callInfo.args;
+  const inputData = buildInputData(params, args);
+  const expectedOutputString = callInfo.output.valueString;
+
+  return `
+            test("it should not transform", async (done) => {
+              ${getInputDeclarations(inputData)}
+              ${getExpectedOutputDeclaration(expectedOutputString)}
+              ${getFunctionCallDeclaration(functionName, params)}
+              expect(output).toEqual(expectedOutput);
+              done();
+            });
+          `;
+};
+
+export const getTestFileSrc = () => {
+  return `
+      ${getTestFileImports()}
+      ${getTestFileDescribes()}
+    `;
+};

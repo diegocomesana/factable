@@ -2,19 +2,16 @@ import WebSocket from "ws";
 import { SocketMessageType } from "./types";
 
 import {
-  prettyJson,
   safeJsonStringify,
-  camelToDash,
   parseJson,
   msgWrapper,
-  getCallUniqueId,
   getRelativeFilePath,
   getHash,
   jsonParse,
   getCaseString,
   prettyFormatString,
-  buildInputData,
-  getFilenameForImportFromPath,
+  getTestFileTestBlock,
+  saveState,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -43,10 +40,9 @@ const msgFactory = (wss, hashtable, store) => {
         ) {
           const { payload: callInfo } = data;
 
-          const hash = getCallUniqueId(
-            callInfo.metadata.name,
-            callInfo.args,
-            callInfo.millis
+          const relativeFilePath = getRelativeFilePath(
+            callInfo.metadata.root,
+            callInfo.metadata.filename
           );
 
           const inputHash = getHash({
@@ -55,9 +51,10 @@ const msgFactory = (wss, hashtable, store) => {
           });
           const outputHash = getHash(callInfo.output);
           const ioHash = getHash({
-            a: callInfo.metadata.name,
-            b: callInfo.args,
-            c: callInfo.output,
+            a: relativeFilePath,
+            b: callInfo.metadata.name,
+            c: callInfo.args,
+            d: callInfo.output,
           });
 
           const transformedArgs = callInfo.args.map(({ type, valueString }) => {
@@ -69,23 +66,21 @@ const msgFactory = (wss, hashtable, store) => {
             };
           });
 
+          const caseString = getCaseString(
+            callInfo.metadata.params,
+            transformedArgs
+          );
+
           const callInfoWithHash = {
-            // hash,
             ioHash,
             inputHash,
             outputHash,
-            caseString: getCaseString(
-              callInfo.metadata.params,
-              transformedArgs
-            ),
+            caseString,
             ...callInfo,
             metadata: {
               ...callInfo.metadata,
             },
-            relativeFilePath: getRelativeFilePath(
-              callInfo.metadata.root,
-              callInfo.metadata.filename
-            ),
+            relativeFilePath,
             args: transformedArgs,
             output: callInfo.output
               ? {
@@ -180,7 +175,8 @@ const msgFactory = (wss, hashtable, store) => {
         ) {
           const callInfo = hashtable.get(data.payload.ioHash);
 
-          // console.log("callInfo:", callInfo);
+          /*
+          console.log("callInfo:", callInfo);
 
           const inputData = buildInputData(
             callInfo.metadata.params,
@@ -220,8 +216,17 @@ const msgFactory = (wss, hashtable, store) => {
 
           });
           `;
+          */
 
-          const { code, error } = prettyFormatString(fileTemplate);
+          const currentState = store.dispatch(actions.onSaveTest)(callInfo);
+
+          console.log("store: ", currentState);
+
+          saveState(currentState);
+
+          const srcStr = getTestFileTestBlock(callInfo);
+
+          const { code, error } = prettyFormatString(srcStr);
 
           if (code) {
             console.log(code);

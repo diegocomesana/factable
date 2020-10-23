@@ -1,19 +1,21 @@
 import { LayoutView } from "../common/types";
 
-const getCurrentFileValue = (state, key) => {
-  return state[key] || {};
+const getCurrentFileValue = (state, key, def = {}) => {
+  return state[key] || def;
 };
 
-const getCurrentFunctionValue = (file, key) => {
-  return file[key] || { calls: {} };
+const getCurrentFunctionValue = (file, key, def = { calls: {} }) => {
+  return file[key] || def;
 };
 
-const getCurrentInputValue = (func, key) => {
-  return (
-    func[key] || {
-      outputs: {},
-    }
-  );
+const getCurrentInputValue = (
+  func,
+  key,
+  def = {
+    outputs: {},
+  }
+) => {
+  return func[key] || def;
 };
 
 export const onRegisterFunctionCall = (prevState) => (callInfo) => {
@@ -86,8 +88,37 @@ export const onBack = (prevState) => () => {
   };
 };
 
+export const onSaveTest = (prevState) => (callInfo) => {
+  const currentFileValue = getCurrentFileValue(
+    prevState.tests,
+    callInfo.relativeFilePath
+  );
+  const currentFunctionValue = getCurrentFunctionValue(
+    currentFileValue,
+    callInfo.metadata.name,
+    {}
+  );
+
+  return {
+    ...prevState,
+    tests: {
+      ...prevState.tests,
+      [callInfo.relativeFilePath]: {
+        ...currentFileValue,
+        [callInfo.metadata.name]: {
+          ...currentFunctionValue,
+          [callInfo.ioHash]: {
+            algo: true,
+          },
+        },
+      },
+    },
+  };
+};
+
 export default {
   onRegisterFunctionCall,
   onCaseView,
   onBack,
+  onSaveTest,
 };
