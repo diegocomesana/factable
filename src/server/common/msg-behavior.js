@@ -17,6 +17,7 @@ import {
   getTestFileSrc,
   saveFile,
   resolvePathCWD,
+  camelToDash,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -192,15 +193,23 @@ const msgFactory = (wss, hashtable, store) => {
           const { code, error } = prettyFormatString(srcStr);
 
           if (code) {
-            console.log(code);
+            // console.log(
+            //   resolvePathCWD(
+            //     `./${path.dirname(testInfo.relativeFilePath)}/__tests__`
+            //   )
+            // );
 
             saveFile(
-              resolvePathCWD(`./${path.dirname(testInfo.relativeFilePath)}`),
-              "nombre-del-test.js",
+              resolvePathCWD(
+                `./${path.dirname(testInfo.relativeFilePath)}/__tests__`
+              ),
+              camelToDash(`${testInfo.functionName}.js`),
               code
-            ).then(() => {
-              console.log("lalalal");
-            });
+            )
+              .then(() => saveState(currentState))
+              .then(() => {
+                console.log("lalalal");
+              });
           } else {
             console.log(error);
           }
