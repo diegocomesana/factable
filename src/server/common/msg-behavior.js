@@ -193,17 +193,11 @@ const msgFactory = (wss, hashtable, store) => {
           const { code, error } = prettyFormatString(srcStr);
 
           if (code) {
-            // console.log(
-            //   resolvePathCWD(
-            //     `./${path.dirname(testInfo.relativeFilePath)}/__tests__`
-            //   )
-            // );
-
             saveFile(
               resolvePathCWD(
                 `./${path.dirname(testInfo.relativeFilePath)}/__tests__`
               ),
-              camelToDash(`${testInfo.functionName}.js`),
+              camelToDash(`${testInfo.functionName}.spec.js`),
               code
             )
               .then(() => saveState(currentState))

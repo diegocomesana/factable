@@ -185,10 +185,6 @@ export const getFilenameForImportFromPath = (pathStr) =>
   path.basename(pathStr).replace(/\.[^/.]+$/, "");
 
 export const getTestFileImports = (data) => {
-  // const data = {
-  //   file1_path: ["funcName11", "funcName12"],
-  //   file2_path: ["funcName21", "funcName22"],
-  // };
   return Object.keys(data).map(
     (key) => `
             import { ${data[key].join(", ")} } from '../${key}';`
@@ -202,7 +198,7 @@ export const getTestFileTestBlock = ({
   expectedOutputString,
 }) => {
   return `
-            test("it should not transform", async (done) => {
+            test("it should not transform", (done) => {
               ${getInputDeclarations(inputData)}
               ${getExpectedOutputDeclaration(expectedOutputString)}
               ${getFunctionCallDeclaration(functionName, params)}
@@ -238,13 +234,14 @@ export const getFunctionCallDeclaration = (functionName, params) =>
 
 const allTestArrToFileImport = (allTestsArr) =>
   allTestsArr.reduce((acc, curr) => {
-    const currFileContent = acc[curr.relativeFilePath] || [];
+    const key = getFilenameForImportFromPath(curr.relativeFilePath);
+    const currFileContent = acc[key] || [];
     if (currFileContent.includes(curr.functionName)) {
       return acc;
     }
     return {
       ...acc,
-      [curr.relativeFilePath]: [...currFileContent, curr.functionName],
+      [key]: [...currFileContent, curr.functionName],
     };
   }, {});
 
