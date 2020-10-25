@@ -37,14 +37,14 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
 
   // console.log("currentIntputValue:", currentIntputValue);
 
-  const testedState = getTestedState(
-    prevState,
-    callInfo.relativeFilePath,
-    callInfo.metadata.name,
-    callInfo.ioHash
-  );
+  // const testedState = getTestedState(
+  //   prevState,
+  //   callInfo.relativeFilePath,
+  //   callInfo.metadata.name,
+  //   callInfo.ioHash
+  // );
 
-  console.log("testedState:", callInfo.metadata.name, testedState);
+  // console.log("testedState:", callInfo.metadata.name, testedState);
 
   return {
     ...prevState,
@@ -65,7 +65,7 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
                   ioHash: callInfo.ioHash,
                   // tested: "src/ladlla/lalal.spec.js",
                   // tested: false,
-                  tested: testedState ? testedState.relativeFilePath : false,
+                  // tested: testedState ? testedState.relativeFilePath : false,
                 },
               },
             },

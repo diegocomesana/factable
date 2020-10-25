@@ -5,22 +5,30 @@ import classNames from "classnames";
 const namespace = `ui-case`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
+const getTestedFromOutputs = (outputs, tests) =>
+  Object.keys(outputs)
+    .map((outputHash) => !!tests[outputs[outputHash].ioHash])
+    .find((elem) => elem);
+
 const CasePrestyled = ({
   className,
   caseString,
   inputHash,
   fileName,
   functionName,
+  outputs,
   onCaseClick,
-  tested,
+  tests,
 }) => {
-  console.log("tested: ", tested);
   return (
     <div
       className={classNames(namespace, className)}
       onClick={(e) => onCaseClick({ e, inputHash, fileName, functionName })}
     >
       <div className={nsClassName(`caseString`)}>{caseString}</div>
+      {getTestedFromOutputs(outputs, tests) && (
+        <div className={nsClassName(`tested-tag`)}>tested</div>
+      )}
     </div>
   );
 };
@@ -48,6 +56,18 @@ export const Case = styled(CasePrestyled)`
     font-size: 11px;
     padding: 6px;
     font-family: monospace;
+  }
+
+  .${nsClassName(`tested-tag`)} {
+    border: 2px solid #07de5d;
+    font-size: 11px;
+    color: #07de5d;
+    border-radius: 4px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
   }
 
   .${nsClassName(`menu`)} {

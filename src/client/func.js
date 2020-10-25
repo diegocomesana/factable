@@ -19,23 +19,24 @@ const FuncPrestyled = ({
     <div className={classNames(namespace, className)}>
       <div className={nsClassName(`name`)}>{name}</div>
       <ul className={nsClassName(`calls`)}>
-        {Object.keys(calls).map((inputHash) => (
-          <li key={`${inputHash}`} className={nsClassName(`list-item`)}>
-            <Case
-              {...{
-                inputHash: inputHash,
-                caseString: calls[inputHash].caseString,
-                outputs: calls[inputHash].outputs,
-                tested: tests[calls[inputHash].ioHash]
-                  ? tests[calls[inputHash].ioHash].tested
-                  : false,
-                fileName,
-                functionName: name,
-                onCaseClick,
-              }}
-            />
-          </li>
-        ))}
+        {Object.keys(calls).map((inputHash) => {
+          return (
+            <li key={`${inputHash}`} className={nsClassName(`list-item`)}>
+              <Case
+                {...{
+                  inputHash: inputHash,
+                  ioHash: inputHash,
+                  caseString: calls[inputHash].caseString,
+                  outputs: calls[inputHash].outputs,
+                  tests,
+                  fileName,
+                  functionName: name,
+                  onCaseClick,
+                }}
+              />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
