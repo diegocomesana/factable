@@ -116,7 +116,7 @@ const AppPrestyled = ({ className }) => {
     );
   };
 
-  const { cases, caseInfo, layoutState } = dataStore;
+  const { cases, tests, caseInfo, layoutState } = dataStore;
 
   const isCaseView =
     layoutState && layoutState.currentView === LayoutView.CASE_VIEW && caseInfo;
@@ -165,7 +165,7 @@ const AppPrestyled = ({ className }) => {
             {isCaseView ? (
               <CaseView {...{ ...caseInfo, onBack, onBuildTestCase }} />
             ) : hasCases ? (
-              <Files {...{ cases, onCaseClick }} />
+              <Files {...{ cases, tests, onCaseClick }} />
             ) : (
               <div className={nsClassName(`empty`)}>
                 <p>

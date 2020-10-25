@@ -7,7 +7,7 @@ import File from "./file";
 const namespace = `ui-files`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const FilesPrestyled = ({ className, cases, onCaseClick }) => {
+const FilesPrestyled = ({ className, cases, tests, onCaseClick }) => {
   return (
     <div className={classNames(namespace, className)}>
       <ul className={nsClassName(`list`)}>
@@ -19,6 +19,7 @@ const FilesPrestyled = ({ className, cases, onCaseClick }) => {
                   key,
                   name: key,
                   data: cases[key],
+                  tests: tests[key] || {},
                   onCaseClick,
                 }}
               />

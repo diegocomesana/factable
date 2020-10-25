@@ -12,7 +12,9 @@ const CasePrestyled = ({
   fileName,
   functionName,
   onCaseClick,
+  tested,
 }) => {
+  console.log("tested: ", tested);
   return (
     <div
       className={classNames(namespace, className)}
