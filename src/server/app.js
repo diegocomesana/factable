@@ -92,6 +92,9 @@ const createHttpServer = (port) => {
 
 const App = async (done, port = settings.APP.PORT) => {
   const dafaultPersistentState = {
+    config: {
+      tests_import_style: "commonjs", // or 'es6'
+    },
     tests: {},
   };
   let persistentState = dafaultPersistentState;

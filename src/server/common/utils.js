@@ -184,10 +184,13 @@ export const buildInputData = (paramNames, args) => {
 export const getFilenameForImportFromPath = (pathStr) =>
   path.basename(pathStr).replace(/\.[^/.]+$/, "");
 
-export const getTestFileImports = (data) => {
-  return Object.keys(data).map(
-    (key) => `
+export const getTestFileImports = (data, tests_import_style) => {
+  return Object.keys(data).map((key) =>
+    tests_import_style === "es6"
+      ? `
             import { ${data[key].join(", ")} } from '../${key}';`
+      : `
+            const { ${data[key].join(", ")} } = require('../${key}');`
   );
 };
 
@@ -245,13 +248,20 @@ const allTestArrToFileImport = (allTestsArr) =>
     };
   }, {});
 
-export const getTestFileSrc = (functionName, allTestsForFile) => {
+export const getTestFileSrc = (
+  functionName,
+  allTestsForFile,
+  { tests_import_style }
+) => {
   const allTestsArr = Object.keys(allTestsForFile).map(
     (key) => allTestsForFile[key]
   );
 
   return `
-      ${getTestFileImports(allTestArrToFileImport(allTestsArr))}
+      ${getTestFileImports(
+        allTestArrToFileImport(allTestsArr),
+        tests_import_style
+      )}
       ${getTestFileDescribes(functionName, allTestsArr)}
     `;
 };

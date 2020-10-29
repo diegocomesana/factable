@@ -171,7 +171,7 @@ export const CaseView = styled(CaseViewPrestyled)`
     text-align: right;
     padding: 10px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-end;
   }
 
@@ -196,6 +196,7 @@ export const CaseView = styled(CaseViewPrestyled)`
     padding: 10px;
     flex-grow: 1;
     overflow: auto;
+    max-height: 400px;
     code,
     pre {
       margin: 0;

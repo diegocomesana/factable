@@ -189,7 +189,11 @@ const msgFactory = (wss, hashtable, store) => {
               testInfo.functionName
             ];
 
-          const srcStr = getTestFileSrc(testInfo.functionName, allTestsForFile);
+          const srcStr = getTestFileSrc(
+            testInfo.functionName,
+            allTestsForFile,
+            currentState.config
+          );
           const { code, error } = prettyFormatString(srcStr);
 
           if (code) {
