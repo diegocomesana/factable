@@ -206,19 +206,23 @@ const msgFactory = (wss, hashtable, store) => {
             )
               .then(() => saveState(currentState))
               .then(() => {
-                console.log("lalalal");
+                // TO ALL CLIENTS:
+                wss.clients.forEach(function each(client) {
+                  if (client !== ws && client.readyState === WebSocket.OPEN) {
+                    client.send(
+                      safeJsonStringify(
+                        msgWrapper(
+                          SocketMessageType.ON_BUILD_TEST_CONFIRMED,
+                          testInfo
+                        )
+                      )
+                    );
+                  }
+                });
               });
           } else {
             console.log(error);
           }
-
-          // if (ws.readyState === WebSocket.OPEN) {
-          //   ws.send(
-          //     safeJsonStringify(
-          //       msgWrapper(SocketMessageType.CASE_VIEW, caseInfo)
-          //     )
-          //   );
-          // }
         }
       },
     };

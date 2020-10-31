@@ -149,12 +149,13 @@ export const saveFile = (basePath, fileName, content) => {
     .catch((err) => console.log(err));
 };
 
-export const saveState = (state) =>
+export const saveState = ({ config, tests }) =>
   saveFile(
     resolvePathCWD("./"),
     "factable.json",
     safeJsonStringify({
-      tests: state.tests,
+      config,
+      tests,
     })
   );
 

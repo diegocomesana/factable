@@ -56,6 +56,13 @@ const AppPrestyled = ({ className }) => {
     if (data.type === SocketMessageType.CASE_VIEW && data.payload) {
       store.dispatch(actions.onCaseView)(data.payload);
     }
+
+    if (
+      data.type === SocketMessageType.ON_BUILD_TEST_CONFIRMED &&
+      data.payload
+    ) {
+      store.dispatch(actions.onBuildTestConfirmed)(data.payload);
+    }
   };
 
   const connect = () => {

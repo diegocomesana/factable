@@ -18,9 +18,8 @@ const getCurrentInputValue = (
   return func[key] || def;
 };
 
+// SERVER AND CLIENT
 export const onRegisterFunctionCall = (prevState) => (callInfo) => {
-  // console.log("prevState:", prevState);
-  // console.log("callInfo:", callInfo);
   const currentFileValue = getCurrentFileValue(
     prevState.cases,
     callInfo.relativeFilePath
@@ -34,17 +33,6 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
     currentFunctionValue.calls,
     callInfo.inputHash
   );
-
-  // console.log("currentIntputValue:", currentIntputValue);
-
-  // const testedState = getTestedState(
-  //   prevState,
-  //   callInfo.relativeFilePath,
-  //   callInfo.metadata.name,
-  //   callInfo.ioHash
-  // );
-
-  // console.log("testedState:", callInfo.metadata.name, testedState);
 
   return {
     ...prevState,
@@ -76,6 +64,7 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
   };
 };
 
+// CLIENT
 export const onCaseView = (prevState) => (caseInfo) => {
   console.log("caseInfo: ", caseInfo);
   return {
@@ -88,6 +77,7 @@ export const onCaseView = (prevState) => (caseInfo) => {
   };
 };
 
+// SERVER
 export const onBack = (prevState) => () => {
   return {
     ...prevState,
@@ -98,6 +88,7 @@ export const onBack = (prevState) => () => {
   };
 };
 
+// SERVER
 export const onSaveTest = (prevState) => (testInfo) => {
   const currentFileValue = getCurrentFileValue(
     prevState.tests,
@@ -126,17 +117,48 @@ export const onSaveTest = (prevState) => (testInfo) => {
   };
 };
 
-const getTestedState = (state, relativeFilePath, functionName, ioHash) => {
-  return (
-    state.tests[relativeFilePath] &&
-    state.tests[relativeFilePath][functionName] &&
-    state.tests[relativeFilePath][functionName][ioHash]
+// CLIENT
+export const onBuildTestConfirmed = (prevState) => (testInfo) => {
+  console.log("onBuildTestConfirmed", testInfo);
+  const currentFileValue = getCurrentFileValue(
+    prevState.tests,
+    testInfo.relativeFilePath
   );
+  const currentFunctionValue = getCurrentFunctionValue(
+    currentFileValue,
+    testInfo.functionName,
+    {}
+  );
+
+  return {
+    ...prevState,
+    tests: {
+      ...prevState.tests,
+      [testInfo.relativeFilePath]: {
+        ...currentFileValue,
+        [testInfo.functionName]: {
+          ...currentFunctionValue,
+          [testInfo.ioHash]: {
+            ...testInfo,
+          },
+        },
+      },
+    },
+  };
 };
+
+// const getTestedState = (state, relativeFilePath, functionName, ioHash) => {
+//   return (
+//     state.tests[relativeFilePath] &&
+//     state.tests[relativeFilePath][functionName] &&
+//     state.tests[relativeFilePath][functionName][ioHash]
+//   );
+// };
 
 export default {
   onRegisterFunctionCall,
   onCaseView,
   onBack,
   onSaveTest,
+  onBuildTestConfirmed,
 };
