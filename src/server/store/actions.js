@@ -18,6 +18,35 @@ const getCurrentInputValue = (
   return func[key] || def;
 };
 
+// SERVER
+export const onSaveTest = (prevState) => (testInfo) => {
+  const currentFileValue = getCurrentFileValue(
+    prevState.tests,
+    testInfo.relativeFilePath
+  );
+  const currentFunctionValue = getCurrentFunctionValue(
+    currentFileValue,
+    testInfo.functionName,
+    {}
+  );
+
+  return {
+    ...prevState,
+    tests: {
+      ...prevState.tests,
+      [testInfo.relativeFilePath]: {
+        ...currentFileValue,
+        [testInfo.functionName]: {
+          ...currentFunctionValue,
+          [testInfo.ioHash]: {
+            ...testInfo,
+          },
+        },
+      },
+    },
+  };
+};
+
 // SERVER AND CLIENT
 export const onRegisterFunctionCall = (prevState) => (callInfo) => {
   const currentFileValue = getCurrentFileValue(
@@ -77,42 +106,13 @@ export const onCaseView = (prevState) => (caseInfo) => {
   };
 };
 
-// SERVER
+// CLIENT
 export const onBack = (prevState) => () => {
   return {
     ...prevState,
     layoutState: {
       ...prevState.layoutState,
       currentView: LayoutView.CASES,
-    },
-  };
-};
-
-// SERVER
-export const onSaveTest = (prevState) => (testInfo) => {
-  const currentFileValue = getCurrentFileValue(
-    prevState.tests,
-    testInfo.relativeFilePath
-  );
-  const currentFunctionValue = getCurrentFunctionValue(
-    currentFileValue,
-    testInfo.functionName,
-    {}
-  );
-
-  return {
-    ...prevState,
-    tests: {
-      ...prevState.tests,
-      [testInfo.relativeFilePath]: {
-        ...currentFileValue,
-        [testInfo.functionName]: {
-          ...currentFunctionValue,
-          [testInfo.ioHash]: {
-            ...testInfo,
-          },
-        },
-      },
     },
   };
 };

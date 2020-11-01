@@ -170,7 +170,7 @@ const AppPrestyled = ({ className }) => {
         >
           <div className={classNames(nsClassName(`main-content`))}>
             {isCaseView ? (
-              <CaseView {...{ ...caseInfo, onBack, onBuildTestCase }} />
+              <CaseView {...{ ...caseInfo, tests, onBack, onBuildTestCase }} />
             ) : hasCases ? (
               <Files {...{ cases, tests, onCaseClick }} />
             ) : (

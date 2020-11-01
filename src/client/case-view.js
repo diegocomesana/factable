@@ -6,11 +6,23 @@ import { buildInputData } from "./utils";
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
+const getOutputTest = (tests, relativeFilePath, functionName, ioHash) => {
+  if (
+    tests[relativeFilePath] &&
+    tests[relativeFilePath][functionName] &&
+    tests[relativeFilePath][functionName][ioHash]
+  ) {
+    return tests[relativeFilePath][functionName][ioHash];
+  }
+  return false;
+};
+
 const CaseViewPrestyled = ({
   className,
   onBuildTestCase,
   inputInfo: { metadata, relativeFilePath, args },
   outputs,
+  tests,
 }) => {
   const inputData = buildInputData(metadata.params, args);
   return (
@@ -49,39 +61,50 @@ const CaseViewPrestyled = ({
         </div>
       )}
       <ul className={nsClassName(`outputs`)}>
-        {outputs.map(({ ioHash, output, tested }) => (
-          <li className={nsClassName(`output-list-item`)} key={ioHash}>
-            <div className={nsClassName(`output-header`)}>
-              <div className={nsClassName(`output-title`)}>
-                {"output"}
-                <span
-                  className={nsClassName(`output-type`)}
-                >{`(${output.type})`}</span>
+        {outputs.map(({ ioHash, output }) => {
+          const tested = getOutputTest(
+            tests,
+            relativeFilePath,
+            metadata.name,
+            ioHash
+          );
+
+          return (
+            <li className={nsClassName(`output-list-item`)} key={ioHash}>
+              <div className={nsClassName(`output-header`)}>
+                <div className={nsClassName(`output-title`)}>
+                  {"output"}
+                  <span
+                    className={nsClassName(`output-type`)}
+                  >{`(${output.type})`}</span>
+                </div>
+                {tested ? (
+                  <p className={nsClassName(`tested-tag`)}>
+                    {"Tested"}
+                    <span className={nsClassName(`tested-path`)}>
+                      ({tested.relativeFilePath})
+                    </span>
+                  </p>
+                ) : (
+                  <button
+                    className={classNames(
+                      nsClassName(`build-test-case-btn`),
+                      `main-btn`
+                    )}
+                    onClick={(e) => onBuildTestCase({ ioHash, e })}
+                  >
+                    {"Build Test Case"}
+                  </button>
+                )}
               </div>
-              {typeof tested === "string" ? (
-                <p className={nsClassName(`tested-tag`)}>
-                  {"Tested"}
-                  <span className={nsClassName(`tested-path`)}>({tested})</span>
-                </p>
-              ) : (
-                <button
-                  className={classNames(
-                    nsClassName(`build-test-case-btn`),
-                    `main-btn`
-                  )}
-                  onClick={(e) => onBuildTestCase({ ioHash, e })}
-                >
-                  {"Build Test Case"}
-                </button>
-              )}
-            </div>
-            <div className={nsClassName(`output-value`)}>
-              <pre>
-                <code>{output.valueString}</code>
-              </pre>
-            </div>
-          </li>
-        ))}
+              <div className={nsClassName(`output-value`)}>
+                <pre>
+                  <code>{output.valueString}</code>
+                </pre>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
