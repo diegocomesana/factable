@@ -47,8 +47,8 @@ module.exports = (api) => {
   }
 
   // console.log("BABEL ENV: ", env);
-  console.log("PRESETS: ", presets);
-  console.log("PLUGINS: ", plugins);
+  // console.log("PRESETS: ", presets);
+  // console.log("PLUGINS: ", plugins);
 
   return {
     comments: false,

@@ -1,3 +1,6 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 import open from "open";
 import app from "./app";
 import { RunMode } from "./common/types";
