@@ -26,10 +26,16 @@ module.exports = (api) => {
     "@babel/preset-env",
     {
       useBuiltIns: web ? "entry" : undefined,
-      corejs: web ? "core-js@3" : false,
-      targets: !web ? { node: "current" } : undefined,
+      corejs: "core-js@3",
+      targets: !web ? { node: 10 } : undefined,
       modules: webpack ? false : "commonjs",
     },
+    // {
+    //   useBuiltIns: web ? "entry" : undefined,
+    //   corejs: web ? "core-js@3" : false,
+    //   targets: !web ? { node: "current" } : undefined,
+    //   modules: webpack ? false : "commonjs",
+    // },
   ]);
 
   const FACTABLE_TRANSPILE = process.env.FACTABLE_TRANSPILE;
@@ -41,6 +47,8 @@ module.exports = (api) => {
   }
 
   // console.log("BABEL ENV: ", env);
+  console.log("PRESETS: ", presets);
+  console.log("PLUGINS: ", plugins);
 
   return {
     comments: false,
