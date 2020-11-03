@@ -28,8 +28,8 @@ export const storeFactory = ({
   return {
     getState: () => onStateGet(),
     initState: (initialState) => applyState(initialState),
-    dispatch: (action) => (payload) =>
-      applyState(action(onStateGet())(payload)),
+    dispatch: (action) => (...payload) =>
+      applyState(action(onStateGet())(...payload)),
   };
 };
 

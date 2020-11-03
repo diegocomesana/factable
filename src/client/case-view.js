@@ -56,8 +56,10 @@ const CaseViewPrestyled = ({
           This function registers different outputs from the same input. This
           could mean your function is not pure.
           <br />
-          Be aware that factable serializes inputs so complex states in inputs
-          are not being taken into account.
+          If you have changed the source code recently, discard this warning.
+          <br />
+          Also, please be aware that factable serializes inputs so complex
+          states in inputs are not being taken into account.
         </div>
       )}
       <ul className={nsClassName(`outputs`)}>
