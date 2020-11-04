@@ -200,9 +200,10 @@ export const getTestFileTestBlock = ({
   params,
   inputData,
   expectedOutputString,
+  caseDescription,
 }) => {
   return `
-            test("it should not transform", (done) => {
+            test("${caseDescription}", (done) => {
               ${getInputDeclarations(inputData)}
               ${getExpectedOutputDeclaration(expectedOutputString)}
               ${getFunctionCallDeclaration(functionName, params)}
@@ -267,7 +268,7 @@ export const getTestFileSrc = (
     `;
 };
 
-export const callInfoToTestInfo = (callInfo) => {
+export const callInfoToTestInfo = (callInfo, caseDescription) => {
   const functionName = callInfo.metadata.name;
   const params = callInfo.metadata.params;
   const args = callInfo.args;
@@ -280,6 +281,7 @@ export const callInfoToTestInfo = (callInfo) => {
   const ioHash = callInfo.ioHash;
 
   return {
+    caseDescription,
     relativeFilePath,
     testRelativeFilePath,
     testRelativePath,

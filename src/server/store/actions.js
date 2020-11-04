@@ -129,6 +129,10 @@ export const onBuildTestConfirmed = (prevState) => (testInfo) => {
 
   return {
     ...prevState,
+    testCaseModal: {
+      ...prevState.testCaseModal,
+      visible: false,
+    },
     tests: {
       ...prevState.tests,
       [testInfo.relativeFilePath]: {

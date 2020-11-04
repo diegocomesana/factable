@@ -177,10 +177,12 @@ const msgFactory = (wss, hashtable, store) => {
         if (
           data.type === SocketMessageType.ON_BUILD_TEST &&
           data.payload &&
-          data.payload.ioHash
+          data.payload.ioHash &&
+          data.payload.caseDescription
         ) {
+          const caseDescription = data.payload.caseDescription;
           const callInfo = hashtable.get(data.payload.ioHash);
-          const testInfo = callInfoToTestInfo(callInfo);
+          const testInfo = callInfoToTestInfo(callInfo, caseDescription);
           const currentState = store.dispatch(actions.onSaveTest)(testInfo);
 
           // GET ALL THE TESTS THAT SHOULD GO IN THE SAME FILE: all the tests for this functionName

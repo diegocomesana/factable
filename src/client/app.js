@@ -132,7 +132,16 @@ const AppPrestyled = ({ className }) => {
 
   const onTestActionConfirmed = ({ ioHash, type }) => {
     console.log("onTestActionConfirmed: ", ioHash, type);
-    store.dispatch(actions.onTestCaseModalConfirmed)({ type, ioHash });
+
+    const {
+      testCaseModal: {
+        inputs: { description },
+      },
+    } = dataStore;
+    if (description && description !== "") {
+      onBuildTestCase({ ioHash, caseDescription: description });
+      // store.dispatch(actions.onTestCaseModalConfirmed)({ type, ioHash }); // creo que no hace falta
+    }
   };
 
   const onTestActionDismissed = ({ ioHash, type, payload }) => {
@@ -311,6 +320,10 @@ export const App = styled(AppPrestyled)`
     font-family: Righteous;
     padding: 0;
     color: magenta;
+
+    h2 {
+      font-size: 24px;
+    }
   }
 
   .${nsClassName(`layout`)} {

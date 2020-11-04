@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
-import { buildInputData } from "./utils";
+// import { buildInputData } from "./utils";
 
 import {
   Button,
@@ -27,8 +27,6 @@ const TestCaseModalPrestyled = ({
   onDescriptionChange,
 }) => {
   // const inputData = buildInputData(metadata.params, args);
-
-  console.log("MODAL: ", ioHash, caseInfo);
   const hasData = Boolean(ioHash && caseInfo && inputs);
   if (!hasData) {
     return null;
@@ -61,10 +59,10 @@ const TestCaseModalPrestyled = ({
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={() => onConfirm({ ioHash, type })}>
-            Do Something
-          </Button>{" "}
+            {"Build Test"}
+          </Button>
           <Button color="secondary" onClick={() => onDismiss({ ioHash, type })}>
-            Cancel
+            {"Cancel"}
           </Button>
         </ModalFooter>
       </Modal>

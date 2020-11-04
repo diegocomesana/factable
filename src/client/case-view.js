@@ -225,7 +225,7 @@ export const CaseView = styled(CaseViewPrestyled)`
     code,
     pre {
       color: white;
-      font-size: 12px;
+      font-size: 10px;
       margin: 0;
       padding: 0;
     }
@@ -276,6 +276,8 @@ export const CaseView = styled(CaseViewPrestyled)`
     overflow: auto;
     code,
     pre {
+      color: white;
+      font-size: 10px;
       margin: 0;
       padding: 0;
     }
