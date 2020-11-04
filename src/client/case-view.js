@@ -224,8 +224,9 @@ export const CaseView = styled(CaseViewPrestyled)`
     max-height: 400px;
     code,
     pre {
+      font-family: monospace;
       color: white;
-      font-size: 10px;
+      font-size: 11px;
       margin: 0;
       padding: 0;
     }
@@ -276,8 +277,9 @@ export const CaseView = styled(CaseViewPrestyled)`
     overflow: auto;
     code,
     pre {
+      font-family: monospace;
       color: white;
-      font-size: 10px;
+      font-size: 11px;
       margin: 0;
       padding: 0;
     }
