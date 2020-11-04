@@ -274,10 +274,16 @@ export const callInfoToTestInfo = (callInfo) => {
   const inputData = buildInputData(params, args);
   const expectedOutputString = callInfo.output.valueString;
   const relativeFilePath = callInfo.relativeFilePath;
+  const testRelativePath = `${path.dirname(relativeFilePath)}/__tests__`;
+  const testFileName = camelToDash(`${functionName}.spec.js`);
+  const testRelativeFilePath = `${testRelativePath}/${testFileName}`;
   const ioHash = callInfo.ioHash;
 
   return {
     relativeFilePath,
+    testRelativeFilePath,
+    testRelativePath,
+    testFileName,
     functionName,
     ioHash,
     params,

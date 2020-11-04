@@ -198,17 +198,15 @@ const msgFactory = (wss, hashtable, store) => {
 
           if (code) {
             saveFile(
-              resolvePathCWD(
-                `./${path.dirname(testInfo.relativeFilePath)}/__tests__`
-              ),
-              camelToDash(`${testInfo.functionName}.spec.js`),
+              resolvePathCWD(`./${testInfo.testRelativePath}`),
+              testInfo.testFileName,
               code
             )
               .then(() => saveState(currentState))
               .then(() => {
                 // TO ALL CLIENTS:
                 wss.clients.forEach(function each(client) {
-                  if (client !== ws && client.readyState === WebSocket.OPEN) {
+                  if (client.readyState === WebSocket.OPEN) {
                     client.send(
                       safeJsonStringify(
                         msgWrapper(

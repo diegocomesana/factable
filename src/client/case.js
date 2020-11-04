@@ -20,7 +20,6 @@ const CasePrestyled = ({
   onCaseClick,
   tests,
 }) => {
-  console.log("lalala: ", getTestedFromOutputs(outputs, tests));
   return (
     <div
       className={classNames(namespace, className)}

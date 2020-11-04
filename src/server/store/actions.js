@@ -80,9 +80,6 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
                 ...currentIntputValue.outputs,
                 [callInfo.outputHash]: {
                   ioHash: callInfo.ioHash,
-                  // tested: "src/ladlla/lalal.spec.js",
-                  // tested: false,
-                  // tested: testedState ? testedState.relativeFilePath : false,
                 },
               },
             },
@@ -95,7 +92,7 @@ export const onRegisterFunctionCall = (prevState) => (callInfo) => {
 
 // CLIENT
 export const onCaseView = (prevState) => (caseInfo) => {
-  console.log("caseInfo: ", caseInfo);
+  // console.log("caseInfo: ", caseInfo);
   return {
     ...prevState,
     caseInfo,
@@ -119,7 +116,7 @@ export const onBack = (prevState) => () => {
 
 // CLIENT
 export const onBuildTestConfirmed = (prevState) => (testInfo) => {
-  console.log("onBuildTestConfirmed", testInfo);
+  // console.log("onBuildTestConfirmed", testInfo);
   const currentFileValue = getCurrentFileValue(
     prevState.tests,
     testInfo.relativeFilePath

@@ -84,7 +84,7 @@ const CaseViewPrestyled = ({
                   <p className={nsClassName(`tested-tag`)}>
                     {"Tested"}
                     <span className={nsClassName(`tested-path`)}>
-                      ({tested.relativeFilePath})
+                      ({tested.testRelativeFilePath})
                     </span>
                   </p>
                 ) : (

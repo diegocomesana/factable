@@ -117,7 +117,7 @@ const AppPrestyled = ({ className }) => {
   };
 
   const onBuildTestCase = ({ ioHash }) => {
-    console.log("onBuildTestCase: ", ioHash);
+    // console.log("onBuildTestCase: ", ioHash);
     ws.current.send(
       JSON.stringify(msgWrapper(SocketMessageType.ON_BUILD_TEST, { ioHash }))
     );
