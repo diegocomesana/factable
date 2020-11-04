@@ -45,6 +45,9 @@ const createHttpServer = (port) => {
           title: pageTitle,
           bundles: ["vendors.js", "main.js"],
           scriptElements: [getClientConfigScript(port)],
+          styleTags: [
+            '<link href="vendors.css" rel="stylesheet" type="text/css">',
+          ],
         })
       );
       res.end();

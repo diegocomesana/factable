@@ -144,13 +144,53 @@ export const onBuildTestConfirmed = (prevState) => (testInfo) => {
   };
 };
 
-// const getTestedState = (state, relativeFilePath, functionName, ioHash) => {
-//   return (
-//     state.tests[relativeFilePath] &&
-//     state.tests[relativeFilePath][functionName] &&
-//     state.tests[relativeFilePath][functionName][ioHash]
-//   );
-// };
+export const onTestCaseModalShow = (prevState) => ({ type, ioHash }) => {
+  return {
+    ...prevState,
+    testCaseModal: {
+      ...prevState.testCaseModal,
+      visible: true,
+      ioHash,
+      type,
+      inputs: {
+        description: "",
+      },
+    },
+  };
+};
+
+export const onTestCaseModalDismiss = (prevState) => () => {
+  return {
+    ...prevState,
+    testCaseModal: {
+      ...prevState.testCaseModal,
+      visible: false,
+    },
+  };
+};
+
+export const onTestCaseModalDescriptionChange = (prevState) => ({ value }) => {
+  return {
+    ...prevState,
+    testCaseModal: {
+      ...prevState.testCaseModal,
+      inputs: {
+        ...prevState.testCaseModal.inputs,
+        description: value,
+      },
+    },
+  };
+};
+
+export const onTestCaseModalConfirmed = (prevState) => ({ type, ioHash }) => {
+  return {
+    ...prevState,
+    testCaseModal: {
+      ...prevState.testCaseModal,
+      visible: false,
+    },
+  };
+};
 
 export default {
   onRegisterFunctionCall,
@@ -158,4 +198,8 @@ export default {
   onBack,
   onSaveTest,
   onBuildTestConfirmed,
+  onTestCaseModalShow,
+  onTestCaseModalDismiss,
+  onTestCaseModalConfirmed,
+  onTestCaseModalDescriptionChange,
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-// import { Normalize } from "styled-normalize";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Style = createGlobalStyle`
   

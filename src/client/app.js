@@ -8,6 +8,7 @@ import { SocketMessageType, LayoutView } from "../server/common/types";
 import { msgWrapper, parseJson } from "./utils";
 import Files from "./files";
 import CaseView from "./case-view";
+import TestCaseModal from "./test-case-modal";
 
 const namespace = `ui-app`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -41,6 +42,13 @@ const AppPrestyled = ({ className }) => {
           currentView: "cases",
         },
         caseInfo: false,
+        testCaseModal: {
+          visible: false,
+          type: "edit",
+          inputs: {
+            description: "",
+          },
+        },
         ...data.payload,
       });
     }
@@ -116,14 +124,40 @@ const AppPrestyled = ({ className }) => {
     store.dispatch(actions.onBack)();
   };
 
-  const onBuildTestCase = ({ ioHash }) => {
-    // console.log("onBuildTestCase: ", ioHash);
+  const onTestAction = ({ ioHash, type }) => {
+    console.log("onTestAction: ", ioHash, type);
+
+    store.dispatch(actions.onTestCaseModalShow)({ type, ioHash });
+  };
+
+  const onTestActionConfirmed = ({ ioHash, type }) => {
+    console.log("onTestActionConfirmed: ", ioHash, type);
+    store.dispatch(actions.onTestCaseModalConfirmed)({ type, ioHash });
+  };
+
+  const onTestActionDismissed = ({ ioHash, type, payload }) => {
+    store.dispatch(actions.onTestCaseModalDismiss)();
+  };
+
+  const onTestActionDescriptionChange = (e) => {
+    store.dispatch(actions.onTestCaseModalDescriptionChange)({
+      value: e.target.value,
+    });
+  };
+
+  const onBuildTestCase = ({ ioHash, caseDescription }) => {
+    // console.log("onBuildTestCase: ", ioHash, caseDescription);
     ws.current.send(
-      JSON.stringify(msgWrapper(SocketMessageType.ON_BUILD_TEST, { ioHash }))
+      JSON.stringify(
+        msgWrapper(SocketMessageType.ON_BUILD_TEST, {
+          ioHash,
+          caseDescription,
+        })
+      )
     );
   };
 
-  const { cases, tests, caseInfo, layoutState } = dataStore;
+  const { cases, tests, caseInfo, layoutState, testCaseModal } = dataStore;
 
   const isCaseView =
     layoutState && layoutState.currentView === LayoutView.CASE_VIEW && caseInfo;
@@ -169,8 +203,17 @@ const AppPrestyled = ({ className }) => {
           })}
         >
           <div className={classNames(nsClassName(`main-content`))}>
+            <TestCaseModal
+              {...{
+                ...testCaseModal,
+                caseInfo,
+                onConfirm: onTestActionConfirmed,
+                onDismiss: onTestActionDismissed,
+                onDescriptionChange: onTestActionDescriptionChange,
+              }}
+            />
             {isCaseView ? (
-              <CaseView {...{ ...caseInfo, tests, onBack, onBuildTestCase }} />
+              <CaseView {...{ ...caseInfo, tests, onBack, onTestAction }} />
             ) : hasCases ? (
               <Files {...{ cases, tests, onCaseClick }} />
             ) : (

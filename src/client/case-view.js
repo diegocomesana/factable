@@ -19,7 +19,7 @@ const getOutputTest = (tests, relativeFilePath, functionName, ioHash) => {
 
 const CaseViewPrestyled = ({
   className,
-  onBuildTestCase,
+  onTestAction,
   inputInfo: { metadata, relativeFilePath, args },
   outputs,
   tests,
@@ -93,7 +93,7 @@ const CaseViewPrestyled = ({
                       nsClassName(`build-test-case-btn`),
                       `main-btn`
                     )}
-                    onClick={(e) => onBuildTestCase({ ioHash, e })}
+                    onClick={(e) => onTestAction({ ioHash, type: "edit", e })}
                   >
                     {"Build Test Case"}
                   </button>
@@ -224,6 +224,8 @@ export const CaseView = styled(CaseViewPrestyled)`
     max-height: 400px;
     code,
     pre {
+      color: white;
+      font-size: 12px;
       margin: 0;
       padding: 0;
     }
