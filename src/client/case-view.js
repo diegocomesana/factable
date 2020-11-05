@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 import { buildInputData } from "./utils";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
+import ActionsDropdown from "./actions-dropdown";
 
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -25,6 +32,7 @@ const CaseViewPrestyled = ({
   tests,
 }) => {
   const inputData = buildInputData(metadata.params, args);
+
   return (
     <div className={classNames(namespace, className)}>
       <div className={nsClassName(`name`)}>
@@ -80,24 +88,21 @@ const CaseViewPrestyled = ({
                     className={nsClassName(`output-type`)}
                   >{`(${output.type})`}</span>
                 </div>
-                {tested ? (
-                  <p className={nsClassName(`tested-tag`)}>
-                    {"Tested"}
-                    <span className={nsClassName(`tested-path`)}>
-                      ({tested.testRelativeFilePath})
-                    </span>
-                  </p>
-                ) : (
-                  <button
-                    className={classNames(
-                      nsClassName(`build-test-case-btn`),
-                      `main-btn`
-                    )}
-                    onClick={(e) => onTestAction({ ioHash, type: "edit", e })}
-                  >
-                    {"Build Test Case"}
-                  </button>
-                )}
+                <div className={nsClassName(`test-info`)}>
+                  {tested && (
+                    <p className={nsClassName(`tested-tag`)}>
+                      {"Tested"}
+                      <span className={nsClassName(`tested-path`)}>
+                        ({tested.testRelativeFilePath})
+                      </span>
+                    </p>
+                  )}
+                  <ActionsDropdown
+                    onTestAction={({ type, e }) =>
+                      onTestAction({ ioHash, type, e })
+                    }
+                  />
+                </div>
               </div>
               <div className={nsClassName(`output-value`)}>
                 <pre>
@@ -125,12 +130,15 @@ export const CaseView = styled(CaseViewPrestyled)`
 
   .${nsClassName(`tested-tag`)} {
     border: 2px solid #07de5d;
-    font-size: 14px;
+    font-size: 13px;
     color: #04a042;
     border-radius: 4px;
-    padding: 4px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    padding: 3px 8px;
+    line-height: 1.2;
+    margin-right: 6px;
   }
 
   .${nsClassName(`tested-path`)} {
@@ -138,6 +146,9 @@ export const CaseView = styled(CaseViewPrestyled)`
     margin-left: 5px;
     font-weight: 400;
     font-style: italic;
+    display: inline-block;
+    padding: 0;
+    line-height: 1.2;
   }
 
   .${nsClassName(`top`)} {
@@ -294,6 +305,11 @@ export const CaseView = styled(CaseViewPrestyled)`
     font-size: 13px;
     font-weight: 300;
     text-align: center;
+  }
+
+  .${nsClassName(`test-info`)} {
+    display: flex;
+    align-items: center;
   }
 `;
 

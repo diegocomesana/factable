@@ -44,7 +44,7 @@ const TestCaseModalPrestyled = ({
           backdrop: true,
           keyboard: true,
           isOpen,
-          fade: true,
+          fade: false,
         }}
       >
         <ModalHeader>{`Create teset for ${caseInfo.inputInfo.metadata.name}`}</ModalHeader>

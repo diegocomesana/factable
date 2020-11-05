@@ -105,14 +105,14 @@ const AppPrestyled = ({ className }) => {
     ws.current.onmessage = onSocketMessage;
   }, [dataStore]);
 
+  const socketSend = (type, payload) => {
+    ws.current.send(JSON.stringify(msgWrapper(type, payload)));
+  };
+
   const onCaseClick = ({ e, inputHash, fileName, functionName }) => {
     e.preventDefault();
     scrollTop();
-    ws.current.send(
-      JSON.stringify(
-        msgWrapper(SocketMessageType.ON_CASE_CLICKED, { inputHash })
-      )
-    );
+    socketSend(SocketMessageType.ON_CASE_CLICKED, { inputHash });
   };
 
   const scrollTop = () => {
@@ -127,7 +127,9 @@ const AppPrestyled = ({ className }) => {
   const onTestAction = ({ ioHash, type }) => {
     console.log("onTestAction: ", ioHash, type);
 
-    store.dispatch(actions.onTestCaseModalShow)({ type, ioHash });
+    if (["build", "edit", "discard"].includes(type)) {
+      store.dispatch(actions.onTestCaseModalShow)({ type, ioHash });
+    }
   };
 
   const onTestActionConfirmed = ({ ioHash, type }) => {
@@ -154,16 +156,23 @@ const AppPrestyled = ({ className }) => {
     });
   };
 
+  const onEditTestCase = ({ ioHash, caseDescription }) => {
+    socketSend(SocketMessageType.ON_EDIT_TEST, {
+      ioHash,
+      caseDescription,
+    });
+  };
+  const onDiscardTestCase = ({ ioHash }) => {
+    socketSend(SocketMessageType.ON_DISCARD_TEST, {
+      ioHash,
+    });
+  };
+
   const onBuildTestCase = ({ ioHash, caseDescription }) => {
-    // console.log("onBuildTestCase: ", ioHash, caseDescription);
-    ws.current.send(
-      JSON.stringify(
-        msgWrapper(SocketMessageType.ON_BUILD_TEST, {
-          ioHash,
-          caseDescription,
-        })
-      )
-    );
+    socketSend(SocketMessageType.ON_BUILD_TEST, {
+      ioHash,
+      caseDescription,
+    });
   };
 
   const { cases, tests, caseInfo, layoutState, testCaseModal } = dataStore;
