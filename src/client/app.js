@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Style from "./style";
 import classNames from "classnames";
+import { Button } from "reactstrap";
 import storeFactory from "../server/store";
 import actions from "../server/store/actions";
 import { SocketMessageType, LayoutView } from "../server/common/types";
@@ -208,9 +209,13 @@ const AppPrestyled = ({ className }) => {
           {isCaseView && (
             <div className={nsClassName(`wrapper-submenu`)}>
               <div className={nsClassName(`submenu-content`)}>
-                <button className={`main-btn`} onClick={(e) => onBack()}>
+                <Button
+                  className={`inverted`}
+                  color="primary"
+                  onClick={(e) => onBack()}
+                >
                   {"< Back"}
-                </button>
+                </Button>
               </div>
             </div>
           )}
@@ -253,26 +258,6 @@ export const App = styled(AppPrestyled)`
   width: 100%;
   margin: 0;
   padding: 0;
-
-  .main-btn {
-    border: 2px solid white;
-    border-radius: 4px;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    color: white;
-    text-align: center;
-    font-size: 12px;
-    outline: none;
-    padding: 4px 8px;
-    background-color: transparent;
-
-    &:hover {
-      /* border-color: magenta; */
-      cursor: pointer;
-    }
-  }
 
   .${nsClassName(`empty`)} {
     text-align: center;
@@ -351,6 +336,7 @@ export const App = styled(AppPrestyled)`
     flex-grow: 1;
     padding: 70px 20px 20px 20px;
   }
+
   .${nsClassName(`submenu-content`)} {
     max-width: 1100px;
     overflow: hidden;

@@ -47,12 +47,13 @@ const TestCaseModalPrestyled = ({
           fade: false,
         }}
       >
-        <ModalHeader>{`Create teset for ${caseInfo.inputInfo.metadata.name}`}</ModalHeader>
+        <ModalHeader
+          className={nsClassName(`header`)}
+        >{`Create teset for ${caseInfo.inputInfo.metadata.name}`}</ModalHeader>
         <ModalBody>
           <Input
-            type="textarea"
+            type="text"
             placeholder="Write the test description"
-            rows={5}
             value={description}
             onChange={onDescriptionChange}
           />
@@ -71,16 +72,13 @@ const TestCaseModalPrestyled = ({
 };
 
 export const TestCaseModal = styled(TestCaseModalPrestyled)`
-  /* padding-top: 50px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-
-  .${nsClassName(`input-type`)} {
-    margin-left: 6px;
-    font-style: italic;
-    color: magenta;
-  } */
+  .${nsClassName(`header`)} {
+    background-color: pink;
+    /* .modal-title.modal-title {
+      font-size: 18px;
+      color: orange;
+    } */
+  }
 `;
 
 export default TestCaseModal;
