@@ -66,15 +66,24 @@ const Style = createGlobalStyle`
       &:hover {
         background-color: inherit;
       }
-      &:focus {
+
+      &:focus, &:active {
         outline: 5px auto magenta;
+        box-shadow: 0 0 0 0.2rem rgba(255, 0, 255, 0.5);
       }
+
   }
 
   .btn-primary {
     color: white;
     background-color: magenta;
     border-color: transparent;
+
+    &:focus {
+      color: white;
+      background-color: magenta;
+      border-color: transparent;
+    }
 
     &:hover {
       color: magenta;
@@ -93,6 +102,12 @@ const Style = createGlobalStyle`
     color: white;
     background-color: transparent;
     border-color: white;
+
+    &:focus {
+      color: white;
+      background-color: transparent;
+      border-color: white;
+    }
 
     &:hover {
       color: white;
@@ -129,6 +144,10 @@ const Style = createGlobalStyle`
       color: #16181b;
       text-decoration: none;
       background-color: magenta;
+  }
+
+  .dropdown-item:hover {
+      color: white;
   }
 
   

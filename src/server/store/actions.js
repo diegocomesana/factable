@@ -1,4 +1,4 @@
-import { LayoutView } from "../common/types";
+import { LayoutView, TestAction } from "../common/types";
 
 const getCurrentFileValue = (state, key, def = {}) => {
   return state[key] || def;
@@ -148,7 +148,31 @@ export const onBuildTestConfirmed = (prevState) => (testInfo) => {
   };
 };
 
-export const onTestCaseModalShow = (prevState) => ({ type, ioHash }) => {
+export const onTestCaseModalShow = (prevState) => ({
+  type,
+  ioHash,
+  relativeFilePath,
+  functionName,
+}) => {
+  const currentFileValue = getCurrentFileValue(
+    prevState.tests,
+    relativeFilePath
+  );
+  const currentFunctionValue = getCurrentFunctionValue(
+    currentFileValue,
+    functionName,
+    {}
+  );
+
+  let caseDescription = "";
+  if (
+    type === TestAction.EDIT &&
+    currentFunctionValue[ioHash] &&
+    currentFunctionValue[ioHash].caseDescription
+  ) {
+    caseDescription = currentFunctionValue[ioHash].caseDescription;
+  }
+
   return {
     ...prevState,
     testCaseModal: {
@@ -157,7 +181,7 @@ export const onTestCaseModalShow = (prevState) => ({ type, ioHash }) => {
       ioHash,
       type,
       inputs: {
-        description: "",
+        description: caseDescription,
       },
     },
   };

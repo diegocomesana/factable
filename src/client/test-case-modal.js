@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
 // import { buildInputData } from "./utils";
+import { TestAction } from "../server/common/types";
 
 import {
   Button,
@@ -36,6 +37,47 @@ const TestCaseModalPrestyled = ({
 
   const { description } = inputs;
 
+  const getContentByType = (type) => {
+    const obj = {
+      [TestAction.BUILD]: {
+        headerText: `Create test for ${caseInfo.inputInfo.metadata.name}`,
+        confirmText: `Build test`,
+        dismissText: `Cancel`,
+        body: (
+          <Input
+            type="text"
+            placeholder="Write the test description"
+            value={description}
+            onChange={onDescriptionChange}
+          />
+        ),
+      },
+      [TestAction.EDIT]: {
+        headerText: `Edit test for ${caseInfo.inputInfo.metadata.name}`,
+        confirmText: `Edit test`,
+        dismissText: `Cancel`,
+        body: (
+          <Input
+            type="text"
+            placeholder="Write the test description"
+            value={description}
+            onChange={onDescriptionChange}
+          />
+        ),
+      },
+      [TestAction.DISCARD]: {
+        headerText: `Discard test for ${caseInfo.inputInfo.metadata.name}`,
+        confirmText: `Discard test`,
+        dismissText: `Cancel`,
+        body: <p>{`Are you sure you want to discard the test?`}</p>,
+      },
+    };
+
+    return obj[type];
+  };
+
+  const content = getContentByType(type);
+
   return (
     <div className={classNames(namespace, className)}>
       <Modal
@@ -47,23 +89,16 @@ const TestCaseModalPrestyled = ({
           fade: false,
         }}
       >
-        <ModalHeader
-          className={nsClassName(`header`)}
-        >{`Create teset for ${caseInfo.inputInfo.metadata.name}`}</ModalHeader>
-        <ModalBody>
-          <Input
-            type="text"
-            placeholder="Write the test description"
-            value={description}
-            onChange={onDescriptionChange}
-          />
-        </ModalBody>
+        <ModalHeader className={nsClassName(`header`)}>
+          {content.headerText}
+        </ModalHeader>
+        <ModalBody>{content.body}</ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={() => onConfirm({ ioHash, type })}>
-            {"Build Test"}
+            {content.confirmText}
           </Button>
           <Button color="secondary" onClick={() => onDismiss({ ioHash, type })}>
-            {"Cancel"}
+            {content.dismissText}
           </Button>
         </ModalFooter>
       </Modal>

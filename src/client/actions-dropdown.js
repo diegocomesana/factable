@@ -63,11 +63,6 @@ const ActionsDropdownPrestyled = ({ className, onTestAction }) => {
 };
 
 export const ActionsDropdown = styled(ActionsDropdownPrestyled)`
-  /* .${nsClassName(`toggle`)} {
-    padding: 3px 8px;
-    font-size: 12px;
-  } */
-
   .${nsClassName(`item`)} {
     padding: 3px 8px;
     font-size: 12px;

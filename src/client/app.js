@@ -5,7 +5,11 @@ import classNames from "classnames";
 import { Button } from "reactstrap";
 import storeFactory from "../server/store";
 import actions from "../server/store/actions";
-import { SocketMessageType, LayoutView } from "../server/common/types";
+import {
+  SocketMessageType,
+  LayoutView,
+  TestAction,
+} from "../server/common/types";
 import { msgWrapper, parseJson } from "./utils";
 import Files from "./files";
 import CaseView from "./case-view";
@@ -37,7 +41,6 @@ const AppPrestyled = ({ className }) => {
 
     if (data.type === SocketMessageType.INIT && data.payload && !stateInited) {
       setInited(true);
-      // console.log();
       store.initState({
         layoutState: {
           currentView: "cases",
@@ -45,7 +48,7 @@ const AppPrestyled = ({ className }) => {
         caseInfo: false,
         testCaseModal: {
           visible: false,
-          type: "edit",
+          type: TestAction.EDIT,
           inputs: {
             description: "",
           },
@@ -125,17 +128,20 @@ const AppPrestyled = ({ className }) => {
     store.dispatch(actions.onBack)();
   };
 
-  const onTestAction = ({ ioHash, type }) => {
-    console.log("onTestAction: ", ioHash, type);
-
+  const onTestAction = ({ ioHash, relativeFilePath, functionName, type }) => {
+    // console.log("onTestAction: ", ioHash, type);
     if (["build", "edit", "discard"].includes(type)) {
-      store.dispatch(actions.onTestCaseModalShow)({ type, ioHash });
+      store.dispatch(actions.onTestCaseModalShow)({
+        type,
+        ioHash,
+        relativeFilePath,
+        functionName,
+      });
     }
   };
 
   const onTestActionConfirmed = ({ ioHash, type }) => {
-    console.log("onTestActionConfirmed: ", ioHash, type);
-
+    // console.log("onTestActionConfirmed: ", ioHash, type);
     const {
       testCaseModal: {
         inputs: { description },
@@ -143,7 +149,6 @@ const AppPrestyled = ({ className }) => {
     } = dataStore;
     if (description && description !== "") {
       onBuildTestCase({ ioHash, caseDescription: description });
-      // store.dispatch(actions.onTestCaseModalConfirmed)({ type, ioHash }); // creo que no hace falta
     }
   };
 

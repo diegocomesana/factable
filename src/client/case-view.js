@@ -99,7 +99,13 @@ const CaseViewPrestyled = ({
                   )}
                   <ActionsDropdown
                     onTestAction={({ type, e }) =>
-                      onTestAction({ ioHash, type, e })
+                      onTestAction({
+                        ioHash,
+                        relativeFilePath,
+                        functionName: metadata.name,
+                        type,
+                        e,
+                      })
                     }
                   />
                 </div>

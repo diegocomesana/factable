@@ -5,10 +5,17 @@ import classNames from "classnames";
 const namespace = `ui-case`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const getTestedFromOutputs = (outputs, tests) =>
+// const getTestedFromOutputs = (outputs, tests) =>
+//   Object.keys(outputs)
+//     .map((outputHash) => !!tests[outputs[outputHash].ioHash])
+//     .find((elem) => elem);
+
+const getCaseDescriptionsFromOutputs = (outputs, tests) =>
   Object.keys(outputs)
-    .map((outputHash) => !!tests[outputs[outputHash].ioHash])
-    .find((elem) => elem);
+    .map((outputHash) => tests[outputs[outputHash].ioHash])
+    .filter((elem) => elem)
+    .map((elem) => elem.caseDescription)
+    .join(" | ");
 
 const CasePrestyled = ({
   className,
@@ -20,13 +27,18 @@ const CasePrestyled = ({
   onCaseClick,
   tests,
 }) => {
+  const caseDescriptionsFromOutputs = getCaseDescriptionsFromOutputs(
+    outputs,
+    tests
+  );
+  const finalCaseString = caseDescriptionsFromOutputs || caseString;
   return (
     <div
       className={classNames(namespace, className)}
       onClick={(e) => onCaseClick({ e, inputHash, fileName, functionName })}
     >
-      <div className={nsClassName(`caseString`)}>{caseString}</div>
-      {getTestedFromOutputs(outputs, tests) && (
+      <div className={nsClassName(`caseString`)}>{finalCaseString}</div>
+      {caseDescriptionsFromOutputs && (
         <div className={nsClassName(`tested-tag`)}>tested</div>
       )}
     </div>
