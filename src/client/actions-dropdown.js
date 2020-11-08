@@ -13,7 +13,11 @@ import {
 const namespace = `ui-dropdown`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const ActionsDropdownPrestyled = ({ className, onTestAction }) => {
+const ActionsDropdownPrestyled = ({
+  className,
+  onTestAction,
+  enabledActions = [],
+}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropDown = () => setDropdownOpen((prevState) => !prevState);
 
@@ -24,38 +28,46 @@ const ActionsDropdownPrestyled = ({ className, onTestAction }) => {
           Test File Actions
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem
-            {...{
-              className: nsClassName(`item`),
-              onClick: (e) => onTestAction({ e, type: TestAction.BUILD }),
-            }}
-          >
-            Build Test File
-          </DropdownItem>
-          <DropdownItem
-            {...{
-              className: nsClassName(`item`),
-              onClick: (e) => onTestAction({ e, type: TestAction.DISCARD }),
-            }}
-          >
-            Discard Test File
-          </DropdownItem>
-          <DropdownItem
-            {...{
-              className: nsClassName(`item`),
-              onClick: (e) => onTestAction({ e, type: TestAction.EDIT }),
-            }}
-          >
-            Edit Test File
-          </DropdownItem>
-          <DropdownItem
-            {...{
-              className: nsClassName(`item`),
-              onClick: (e) => onTestAction({ e, type: TestAction.EJECT }),
-            }}
-          >
-            Eject Test File
-          </DropdownItem>
+          {enabledActions.includes(TestAction.BUILD) && (
+            <DropdownItem
+              {...{
+                className: nsClassName(`item`),
+                onClick: (e) => onTestAction({ e, type: TestAction.BUILD }),
+              }}
+            >
+              Build Test File
+            </DropdownItem>
+          )}
+          {enabledActions.includes(TestAction.DISCARD) && (
+            <DropdownItem
+              {...{
+                className: nsClassName(`item`),
+                onClick: (e) => onTestAction({ e, type: TestAction.DISCARD }),
+              }}
+            >
+              Discard Test File
+            </DropdownItem>
+          )}
+          {enabledActions.includes(TestAction.EDIT) && (
+            <DropdownItem
+              {...{
+                className: nsClassName(`item`),
+                onClick: (e) => onTestAction({ e, type: TestAction.EDIT }),
+              }}
+            >
+              Edit Test File
+            </DropdownItem>
+          )}
+          {enabledActions.includes(TestAction.EJECT) && (
+            <DropdownItem
+              {...{
+                className: nsClassName(`item`),
+                onClick: (e) => onTestAction({ e, type: TestAction.EJECT }),
+              }}
+            >
+              Eject Test File
+            </DropdownItem>
+          )}
         </DropdownMenu>
       </Dropdown>
     </div>

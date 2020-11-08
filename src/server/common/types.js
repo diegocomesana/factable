@@ -30,3 +30,8 @@ export const TestAction = {
   EDIT: "edit",
   EJECT: "eject",
 };
+
+export const AllowedActions = {
+  TESTED: [TestAction.EDIT, TestAction.DISCARD],
+  UNTESTED: [TestAction.BUILD],
+};

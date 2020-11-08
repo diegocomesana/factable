@@ -3,6 +3,7 @@ import styled from "styled-components";
 import classNames from "classnames";
 import ActionsDropdown from "./actions-dropdown";
 import { buildInputData, getTestFromOutput } from "./utils";
+import { AllowedActions } from "../server/common/types";
 
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
@@ -62,6 +63,10 @@ const CaseViewPrestyled = ({
             ioHash
           );
 
+          const otputAllowedActions = test
+            ? AllowedActions.TESTED
+            : AllowedActions.UNTESTED;
+
           return (
             <li className={nsClassName(`output-list-item`)} key={ioHash}>
               <div className={nsClassName(`output-header`)}>
@@ -84,15 +89,17 @@ const CaseViewPrestyled = ({
                     </p>
                   )}
                   <ActionsDropdown
-                    onTestAction={({ type, e }) =>
-                      onTestAction({
-                        ioHash,
-                        relativeFilePath,
-                        functionName: metadata.name,
-                        type,
-                        e,
-                      })
-                    }
+                    {...{
+                      enabledActions: otputAllowedActions,
+                      onTestAction: ({ type, e }) =>
+                        onTestAction({
+                          ioHash,
+                          relativeFilePath,
+                          functionName: metadata.name,
+                          type,
+                          e,
+                        }),
+                    }}
                   />
                 </div>
               </div>
