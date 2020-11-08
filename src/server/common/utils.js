@@ -144,7 +144,7 @@ export const saveFile = (basePath, fileName, content) => {
       return createFile(`${path}/${fileName}`, content);
     })
     .then((path) => {
-      console.log(`----- ${path} writen`);
+      console.log(`Test written in ${path}`);
     })
     .catch((err) => console.log(err));
 };
@@ -189,9 +189,9 @@ export const getTestFileImports = (data, tests_import_style) => {
   return Object.keys(data).map((key) =>
     tests_import_style === "es6"
       ? `
-            import { ${data[key].join(", ")} } from '../${key}';`
+            import { ${data[key].join(", ")} } from '../../${key}';`
       : `
-            const { ${data[key].join(", ")} } = require('../${key}');`
+            const { ${data[key].join(", ")} } = require('../../${key}');`
   );
 };
 
@@ -275,7 +275,13 @@ export const callInfoToTestInfo = (callInfo, caseDescription) => {
   const inputData = buildInputData(params, args);
   const expectedOutputString = callInfo.output.valueString;
   const relativeFilePath = callInfo.relativeFilePath;
-  const testRelativePath = `${path.dirname(relativeFilePath)}/__tests__`;
+  const filenameWithoutExt = path.basename(
+    relativeFilePath,
+    path.extname(relativeFilePath)
+  );
+  const testRelativePath = `${path.dirname(
+    relativeFilePath
+  )}/__tests__/${filenameWithoutExt}/`;
   const testFileName = camelToDash(`${functionName}.spec.js`);
   const testRelativeFilePath = `${testRelativePath}/${testFileName}`;
   const ioHash = callInfo.ioHash;
