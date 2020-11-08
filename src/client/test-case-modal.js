@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useEffect, createRef } from "react";
+// import styled from "styled-components";
 import classNames from "classnames";
 import { TestAction } from "../server/common/types";
 
@@ -15,8 +15,7 @@ import {
 const namespace = `ui-test-case-modal`;
 const nsClassName = (name) => `${namespace}__${name}`;
 
-const TestCaseModalPrestyled = ({
-  className,
+const TestCaseModal = ({
   visible = false,
   caseInfo,
   ioHash,
@@ -31,11 +30,19 @@ const TestCaseModalPrestyled = ({
     return null;
   }
 
+  const modalRef = createRef(null);
+
+  const onRefCallback = (el) => {
+    if (el) {
+      el.focus();
+    }
+  };
+
   const isOpen = visible && hasData;
 
   const { description } = inputs;
 
-  const getContentByType = (type) => {
+  const getContentByType = (type, onRefCallback) => {
     const obj = {
       [TestAction.BUILD]: {
         headerText: `Create test for ${caseInfo.inputInfo.metadata.name}`,
@@ -43,6 +50,7 @@ const TestCaseModalPrestyled = ({
         dismissText: `Cancel`,
         body: (
           <Input
+            innerRef={onRefCallback}
             type="text"
             placeholder="Write the test description"
             value={description}
@@ -56,6 +64,7 @@ const TestCaseModalPrestyled = ({
         dismissText: `Cancel`,
         body: (
           <Input
+            innerRef={onRefCallback}
             type="text"
             placeholder="Write the test description"
             value={description}
@@ -74,17 +83,23 @@ const TestCaseModalPrestyled = ({
     return obj[type];
   };
 
-  const content = getContentByType(type);
+  const content = getContentByType(type, onRefCallback);
 
   return (
-    <div className={classNames(namespace, className)}>
+    <>
+      <div className={nsClassName(`modal`)} ref={modalRef}></div>
       <Modal
         {...{
           className: nsClassName(`modal`),
           backdrop: true,
-          keyboard: true,
+          keyboard: false,
           isOpen,
           fade: false,
+          centered: true,
+          autoFocus: false,
+          unmountOnClose: true,
+          zIndex: 9999,
+          container: modalRef,
         }}
       >
         <ModalHeader className={nsClassName(`header`)}>
@@ -100,18 +115,8 @@ const TestCaseModalPrestyled = ({
           </Button>
         </ModalFooter>
       </Modal>
-    </div>
+    </>
   );
 };
-
-export const TestCaseModal = styled(TestCaseModalPrestyled)`
-  .${nsClassName(`header`)} {
-    background-color: pink;
-    /* .modal-title.modal-title {
-      font-size: 18px;
-      color: orange;
-    } */
-  }
-`;
 
 export default TestCaseModal;

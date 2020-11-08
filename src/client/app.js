@@ -137,6 +137,12 @@ const AppPrestyled = ({ className }) => {
         relativeFilePath,
         functionName,
       });
+
+      // console.log("uuuuuueeeee");
+      // if (modalInputRef.current) {
+      //   console.log("existe hago focus");
+      //   modalInputRef.current.focus();
+      // }
     }
   };
 
