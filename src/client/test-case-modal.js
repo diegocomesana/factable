@@ -38,6 +38,14 @@ const TestCaseModal = ({
     }
   };
 
+  const onKeyDown = (e) => {
+    if (e.keyCode == 27) {
+      onDismiss({ ioHash, type });
+    } else if (e.keyCode == 13) {
+      onConfirm({ ioHash, type });
+    }
+  };
+
   const isOpen = visible && hasData;
 
   const { description } = inputs;
@@ -55,6 +63,7 @@ const TestCaseModal = ({
             placeholder="Write the test description"
             value={description}
             onChange={onDescriptionChange}
+            onKeyDown={onKeyDown}
           />
         ),
       },
@@ -69,6 +78,7 @@ const TestCaseModal = ({
             placeholder="Write the test description"
             value={description}
             onChange={onDescriptionChange}
+            onKeyDown={onKeyDown}
           />
         ),
       },
