@@ -24,3 +24,26 @@ export const buildInputData = (paramNames, args) => {
     };
   });
 };
+
+export const getCaseDescriptionsFromOutputs = (outputs, tests) =>
+  Object.keys(outputs)
+    .map((outputHash) => tests[outputs[outputHash].ioHash])
+    .filter((elem) => elem)
+    .map((elem) => elem.caseDescription)
+    .join(" | ");
+
+export const getTestFromOutput = (
+  tests,
+  relativeFilePath,
+  functionName,
+  ioHash
+) => {
+  if (
+    tests[relativeFilePath] &&
+    tests[relativeFilePath][functionName] &&
+    tests[relativeFilePath][functionName][ioHash]
+  ) {
+    return tests[relativeFilePath][functionName][ioHash];
+  }
+  return false;
+};

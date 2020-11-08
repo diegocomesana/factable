@@ -1,21 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
+import { getCaseDescriptionsFromOutputs } from "./utils";
 
 const namespace = `ui-case`;
 const nsClassName = (name) => `${namespace}__${name}`;
-
-// const getTestedFromOutputs = (outputs, tests) =>
-//   Object.keys(outputs)
-//     .map((outputHash) => !!tests[outputs[outputHash].ioHash])
-//     .find((elem) => elem);
-
-const getCaseDescriptionsFromOutputs = (outputs, tests) =>
-  Object.keys(outputs)
-    .map((outputHash) => tests[outputs[outputHash].ioHash])
-    .filter((elem) => elem)
-    .map((elem) => elem.caseDescription)
-    .join(" | ");
 
 const CasePrestyled = ({
   className,
@@ -37,7 +26,15 @@ const CasePrestyled = ({
       className={classNames(namespace, className)}
       onClick={(e) => onCaseClick({ e, inputHash, fileName, functionName })}
     >
-      <div className={nsClassName(`caseString`)}>{finalCaseString}</div>
+      <div
+        className={classNames(nsClassName(`caseString`), {
+          [nsClassName(
+            `caseString--with-description`
+          )]: !!caseDescriptionsFromOutputs,
+        })}
+      >
+        {finalCaseString}
+      </div>
       {caseDescriptionsFromOutputs && (
         <div className={nsClassName(`tested-tag`)}>tested</div>
       )}
@@ -68,6 +65,11 @@ export const Case = styled(CasePrestyled)`
     font-size: 11px;
     padding: 6px;
     font-family: monospace;
+  }
+
+  .${nsClassName(`caseString--with-description`)} {
+    font-size: 12px;
+    color: #07de5d;
   }
 
   .${nsClassName(`tested-tag`)} {

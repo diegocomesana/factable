@@ -1,28 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
-import { buildInputData } from "./utils";
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
 import ActionsDropdown from "./actions-dropdown";
+import { buildInputData, getTestFromOutput } from "./utils";
 
 const namespace = `ui-case-view`;
 const nsClassName = (name) => `${namespace}__${name}`;
-
-const getOutputTest = (tests, relativeFilePath, functionName, ioHash) => {
-  if (
-    tests[relativeFilePath] &&
-    tests[relativeFilePath][functionName] &&
-    tests[relativeFilePath][functionName][ioHash]
-  ) {
-    return tests[relativeFilePath][functionName][ioHash];
-  }
-  return false;
-};
 
 const CaseViewPrestyled = ({
   className,
@@ -72,7 +55,7 @@ const CaseViewPrestyled = ({
       )}
       <ul className={nsClassName(`outputs`)}>
         {outputs.map(({ ioHash, output }) => {
-          const tested = getOutputTest(
+          const test = getTestFromOutput(
             tests,
             relativeFilePath,
             metadata.name,
@@ -89,11 +72,14 @@ const CaseViewPrestyled = ({
                   >{`(${output.type})`}</span>
                 </div>
                 <div className={nsClassName(`test-info`)}>
-                  {tested && (
+                  {test && (
                     <p className={nsClassName(`tested-tag`)}>
-                      {"Tested"}
+                      {"Case Description:"}
+                      <span className={nsClassName(`tested-case-description`)}>
+                        {test.caseDescription}
+                      </span>
                       <span className={nsClassName(`tested-path`)}>
-                        ({tested.testRelativeFilePath})
+                        ({test.testRelativeFilePath})
                       </span>
                     </p>
                   )}
@@ -136,7 +122,7 @@ export const CaseView = styled(CaseViewPrestyled)`
 
   .${nsClassName(`tested-tag`)} {
     border: 2px solid #07de5d;
-    font-size: 13px;
+    font-size: 12px;
     color: #04a042;
     border-radius: 4px;
     display: flex;
@@ -145,6 +131,18 @@ export const CaseView = styled(CaseViewPrestyled)`
     padding: 3px 8px;
     line-height: 1.2;
     margin-right: 6px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .${nsClassName(`tested-case-description`)} {
+    font-size: 13px;
+    margin-left: 5px;
+    font-weight: bold;
+    font-style: normal;
+    display: inline-block;
+    padding: 0;
+    line-height: 1.2;
   }
 
   .${nsClassName(`tested-path`)} {
@@ -299,6 +297,9 @@ export const CaseView = styled(CaseViewPrestyled)`
       font-size: 11px;
       margin: 0;
       padding: 0;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
     }
   }
 

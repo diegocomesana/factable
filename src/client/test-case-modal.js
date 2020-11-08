@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import classNames from "classnames";
-// import { buildInputData } from "./utils";
 import { TestAction } from "../server/common/types";
 
 import {
@@ -27,7 +26,6 @@ const TestCaseModalPrestyled = ({
   inputs,
   onDescriptionChange,
 }) => {
-  // const inputData = buildInputData(metadata.params, args);
   const hasData = Boolean(ioHash && caseInfo && inputs);
   if (!hasData) {
     return null;
