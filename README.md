@@ -30,8 +30,8 @@ Factable saves its state in "factable.json" file in the root of your project. Ev
 
 # Facts about Factable
 
-- Factable helps you understand better your functions.
-- Factable pretends to help you build tests as soo as possible.
+- Factable helps you understand your functions better.
+- Factable pretends to help you build tests as soon as possible.
 - Factable likes and promotes TDD and BDD.
-- Factable loves Funcional Programming (pure functions, inmutability) and pretends to be a tool that promotes its best practices and help be aware of its benefits.
+- Factable loves Funcional Programming (pure functions, inmutability) and aims to be a tool that promotes its best practices and increase awareness about its benefits.
 - Factable tests are not perfect and not always pass
