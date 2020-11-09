@@ -10,15 +10,23 @@ Even if you dont't care about test generation, Factable is a great tool to be aw
 
 # Why?
 
-Have you ever found yourself running your app and logging your function call inputs and outputs just to use then for your test mocks and assertions?
+Have you ever found yourself running your app and logging your function call inputs and outputs just to use them for your test mocks and assertions?
 
 Have you ever wanted a way to register your runtime function calls to help you build your tests?
 
+We are lazy. Every time we find ourselves doing stuff that could be automated or at least assisted, we go for it. Thats why Factable exists.
+
 # How does it work?
 
-First, your function body is wrapped through a babel plugin that registers all relevant runtime information.
+First, your function body is wrapped (at transpiling time) through a babel plugin that registers all relevant runtime information.
 
-That information is sent to a local server which serves it to a browser client UI resides.
+Then, that information is sent to a local server which serves it to the browser, where the client UI resides.
+
+Lastly, UI client connects to the server through websockets to manage user interaction.
+
+Factable server can register function calls and write and erase test files.
+
+Factable saves its state in "factable.json" file in the root of your project. Every test written is saved there. You should include it in your git tracked files.
 
 # Facts about Factable
 
@@ -26,3 +34,4 @@ That information is sent to a local server which serves it to a browser client U
 - Factable pretends to help you build tests as soo as possible.
 - Factable likes and promotes TDD and BDD.
 - Factable loves Funcional Programming (pure functions, inmutability) and pretends to be a tool that promotes its best practices and help be aware of its benefits.
+- Factable tests are not perfect and not always pass
