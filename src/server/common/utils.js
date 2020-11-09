@@ -290,7 +290,7 @@ export const callInfoToTestInfo = (callInfo, caseDescription) => {
   );
   const testRelativePath = `${path.dirname(
     relativeFilePath
-  )}/__tests__/${filenameWithoutExt}/`;
+  )}/__tests__/${filenameWithoutExt}`;
   const testFileName = camelToDash(`${functionName}.spec.js`);
   const testRelativeFilePath = `${testRelativePath}/${testFileName}`;
   const ioHash = callInfo.ioHash;
