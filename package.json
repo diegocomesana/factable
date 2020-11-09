@@ -1,7 +1,7 @@
 {
   "name": "factable",
-  "version": "1.0.0-alpha.15",
-  "description": "A test case generation managment tool for nodejs babel transpiled projects",
+  "version": "1.0.0-beta.1",
+  "description": "A test case generation tool for nodejs babel transpiled projects",
   "main": "./src/index.js",
   "scripts": {
     "clean": "./clean.sh",
@@ -32,7 +32,12 @@
     "generation",
     "management",
     "tool",
-    "nodejs"
+    "nodejs",
+    "testing",
+    "functional",
+    "mocking",
+    "generator",
+    "pure"
   ],
   "author": "Diego Manuel Comesaña",
   "license": "GPL-3.0",
