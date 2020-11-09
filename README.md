@@ -1,4 +1,4 @@
-![Factable Logo](misc/logo.svg =200x)
+<center><img src="misc/logo.svg" alt="Factable Logo" width="200"/></center>
 
 # Factable
 
