@@ -1,6 +1,6 @@
 <p align="center"><img src="misc/logo.svg" alt="Factable Logo" width="200"/></p>
 
-## Factable
+# Factable
 
 A test case generation and managment tool for nodejs babel transpiled projects.
 
