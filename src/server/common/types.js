@@ -15,6 +15,7 @@ export const SocketMessageType = {
   ON_EDIT_TEST: "onEdigTest",
   ON_DISCARD_TEST: "onDiscardTest",
   ON_BUILD_TEST_CONFIRMED: "onBuildTestConfirmed",
+  ON_DISCARD_TEST_CONFIRMED: "onDiscardTestConfirmed",
   CASE_VIEW: "caseView",
   INIT: "init",
 };

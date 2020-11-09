@@ -106,6 +106,15 @@ export const createFile = (path, content) => {
   });
 };
 
+export const removeFile = (path) => {
+  return new Promise((resolve, reject) => {
+    fs.unlink(path, (err) => {
+      if (err) reject(err);
+      resolve(path);
+    });
+  });
+};
+
 export const getFileContent = (path) => {
   return new Promise((resolve, reject) => {
     fs.readFile(path, (err, data) => {
@@ -298,5 +307,6 @@ export const callInfoToTestInfo = (callInfo, caseDescription) => {
     args,
     inputData,
     expectedOutputString,
+    removeFile,
   };
 };

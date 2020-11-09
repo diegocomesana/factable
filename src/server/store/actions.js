@@ -1,5 +1,14 @@
 import { LayoutView, TestAction } from "../common/types";
 
+const omit = (obj, omitKey) => {
+  return Object.keys(obj).reduce((result, key) => {
+    if (key !== omitKey) {
+      result[key] = obj[key];
+    }
+    return result;
+  }, {});
+};
+
 const getCurrentFileValue = (state, key, def = {}) => {
   return state[key] || def;
 };
@@ -41,6 +50,37 @@ export const onSaveTest = (prevState) => (testInfo) => {
           [testInfo.ioHash]: {
             ...testInfo,
           },
+        },
+      },
+    },
+  };
+};
+
+// SERVER
+export const onDiscardTest = (prevState) => (testInfo) => {
+  const currentFileValue = getCurrentFileValue(
+    prevState.tests,
+    testInfo.relativeFilePath
+  );
+  const currentFunctionValue = getCurrentFunctionValue(
+    currentFileValue,
+    testInfo.functionName,
+    {}
+  );
+
+  const currentFunctionValueWithoutKey = omit(
+    currentFunctionValue,
+    testInfo.ioHash
+  );
+
+  return {
+    ...prevState,
+    tests: {
+      ...prevState.tests,
+      [testInfo.relativeFilePath]: {
+        ...currentFileValue,
+        [testInfo.functionName]: {
+          ...currentFunctionValueWithoutKey,
         },
       },
     },
@@ -148,6 +188,42 @@ export const onBuildTestConfirmed = (prevState) => (testInfo) => {
   };
 };
 
+// CLIENT
+export const onDiscardTestConfirmed = (prevState) => (testInfo) => {
+  // console.log("onDiscardTestConfirmed", testInfo);
+  const currentFileValue = getCurrentFileValue(
+    prevState.tests,
+    testInfo.relativeFilePath
+  );
+  const currentFunctionValue = getCurrentFunctionValue(
+    currentFileValue,
+    testInfo.functionName,
+    {}
+  );
+
+  const currentFunctionValueWithoutKey = omit(
+    currentFunctionValue,
+    testInfo.ioHash
+  );
+
+  return {
+    ...prevState,
+    testCaseModal: {
+      ...prevState.testCaseModal,
+      visible: false,
+    },
+    tests: {
+      ...prevState.tests,
+      [testInfo.relativeFilePath]: {
+        ...currentFileValue,
+        [testInfo.functionName]: {
+          ...currentFunctionValueWithoutKey,
+        },
+      },
+    },
+  };
+};
+
 export const onTestCaseModalShow = (prevState) => ({
   type,
   ioHash,
@@ -225,7 +301,9 @@ export default {
   onCaseView,
   onBack,
   onSaveTest,
+  onDiscardTest,
   onBuildTestConfirmed,
+  onDiscardTestConfirmed,
   onTestCaseModalShow,
   onTestCaseModalDismiss,
   onTestCaseModalConfirmed,

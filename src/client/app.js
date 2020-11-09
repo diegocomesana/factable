@@ -75,6 +75,13 @@ const AppPrestyled = ({ className }) => {
     ) {
       store.dispatch(actions.onBuildTestConfirmed)(data.payload);
     }
+
+    if (
+      data.type === SocketMessageType.ON_DISCARD_TEST_CONFIRMED &&
+      data.payload
+    ) {
+      store.dispatch(actions.onDiscardTestConfirmed)(data.payload);
+    }
   };
 
   const connect = () => {
@@ -137,35 +144,7 @@ const AppPrestyled = ({ className }) => {
         relativeFilePath,
         functionName,
       });
-
-      // console.log("uuuuuueeeee");
-      // if (modalInputRef.current) {
-      //   console.log("existe hago focus");
-      //   modalInputRef.current.focus();
-      // }
     }
-  };
-
-  const onTestActionConfirmed = ({ ioHash, type }) => {
-    // console.log("onTestActionConfirmed: ", ioHash, type);
-    const {
-      testCaseModal: {
-        inputs: { description },
-      },
-    } = dataStore;
-    if (description && description !== "") {
-      onBuildTestCase({ ioHash, caseDescription: description });
-    }
-  };
-
-  const onTestActionDismissed = ({ ioHash, type, payload }) => {
-    store.dispatch(actions.onTestCaseModalDismiss)();
-  };
-
-  const onTestActionDescriptionChange = (e) => {
-    store.dispatch(actions.onTestCaseModalDescriptionChange)({
-      value: e.target.value,
-    });
   };
 
   const onEditTestCase = ({ ioHash, caseDescription }) => {
@@ -184,6 +163,40 @@ const AppPrestyled = ({ className }) => {
     socketSend(SocketMessageType.ON_BUILD_TEST, {
       ioHash,
       caseDescription,
+    });
+  };
+
+  const onTestActionConfirmed = ({ ioHash, type }) => {
+    const {
+      testCaseModal: {
+        inputs: { description },
+      },
+    } = dataStore;
+
+    switch (type) {
+      case TestAction.BUILD:
+        if (description && description !== "") {
+          onBuildTestCase({ ioHash, caseDescription: description });
+        }
+        break;
+      case TestAction.EDIT:
+        if (description && description !== "") {
+          onEditTestCase({ ioHash, caseDescription: description });
+        }
+        break;
+      case TestAction.DISCARD:
+        onDiscardTestCase({ ioHash });
+        break;
+    }
+  };
+
+  const onTestActionDismissed = ({ ioHash, type, payload }) => {
+    store.dispatch(actions.onTestCaseModalDismiss)();
+  };
+
+  const onTestActionDescriptionChange = (e) => {
+    store.dispatch(actions.onTestCaseModalDescriptionChange)({
+      value: e.target.value,
     });
   };
 

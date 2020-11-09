@@ -18,6 +18,7 @@ import {
   saveFile,
   resolvePathCWD,
   camelToDash,
+  removeFile,
 } from "./utils";
 
 import actions from "../store/actions";
@@ -175,7 +176,8 @@ const msgFactory = (wss, hashtable, store) => {
         }
 
         if (
-          data.type === SocketMessageType.ON_BUILD_TEST &&
+          (data.type === SocketMessageType.ON_BUILD_TEST ||
+            data.type === SocketMessageType.ON_EDIT_TEST) &&
           data.payload &&
           data.payload.ioHash &&
           data.payload.caseDescription
@@ -222,6 +224,83 @@ const msgFactory = (wss, hashtable, store) => {
               });
           } else {
             console.log(error);
+          }
+        }
+
+        if (
+          data.type === SocketMessageType.ON_DISCARD_TEST &&
+          data.payload &&
+          data.payload.ioHash
+        ) {
+          const callInfo = hashtable.get(data.payload.ioHash);
+          const testInfo = callInfoToTestInfo(callInfo, "");
+
+          const currentState = store.dispatch(actions.onDiscardTest)(testInfo);
+
+          // GET ALL THE TESTS THAT SHOULD GO IN THE SAME FILE: all the tests for this functionName
+          const allTestsForFile =
+            currentState.tests[testInfo.relativeFilePath][
+              testInfo.functionName
+            ];
+
+          const isEmptyObject =
+            Object.keys(allTestsForFile).length === 0 &&
+            allTestsForFile.constructor === Object;
+
+          if (isEmptyObject) {
+            // NO TESTS FOR FILE: REMOVE IT
+            removeFile(
+              resolvePathCWD(
+                `./${testInfo.testRelativePath}/${testInfo.testFileName}`
+              )
+            ).then(() => {
+              // TO ALL CLIENTS:
+              wss.clients.forEach(function each(client) {
+                if (client.readyState === WebSocket.OPEN) {
+                  client.send(
+                    safeJsonStringify(
+                      msgWrapper(
+                        SocketMessageType.ON_DISCARD_TEST_CONFIRMED,
+                        testInfo
+                      )
+                    )
+                  );
+                }
+              });
+            });
+          } else {
+            const srcStr = getTestFileSrc(
+              testInfo.functionName,
+              allTestsForFile,
+              currentState.config
+            );
+            const { code, error } = prettyFormatString(srcStr);
+
+            if (code) {
+              saveFile(
+                resolvePathCWD(`./${testInfo.testRelativePath}`),
+                testInfo.testFileName,
+                code
+              )
+                .then(() => saveState(currentState))
+                .then(() => {
+                  // TO ALL CLIENTS:
+                  wss.clients.forEach(function each(client) {
+                    if (client.readyState === WebSocket.OPEN) {
+                      client.send(
+                        safeJsonStringify(
+                          msgWrapper(
+                            SocketMessageType.ON_BUILD_TEST_CONFIRMED,
+                            testInfo
+                          )
+                        )
+                      );
+                    }
+                  });
+                });
+            } else {
+              console.log(error);
+            }
           }
         }
       },
