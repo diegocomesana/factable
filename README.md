@@ -56,9 +56,9 @@ npm install -D factable
 
 Add factable babel plugin to your current babel config:
 
-**_.babelrc_** (notice "_module:_" prefix is required)
+**_.babelrc_**:
 
-```
+<pre lang="json">
 {
     "presets": [
         [
@@ -66,27 +66,29 @@ Add factable babel plugin to your current babel config:
         ]
     ],
     "plugins": [
-        "module:factable"
+        <b>"module:factable"</b>
     ]
 }
-```
+</pre>
 
-or to **_babel.config.js_**
+> Notice "_module:_" prefix is required
 
-```
-const factablePlugin = require("factable");
+or to **_babel.config.js_**:
+
+<pre lang="json">
+<b>const factablePlugin = require("factable");</b>
 
 module.exports = function (api) {
   api.cache(true);
   const presets = [];
-  const plugins = [factablePlugin];
+  <b>const plugins = [factablePlugin];</b>
 
   return {
     presets,
     plugins,
   };
 };
-```
+</pre>
 
 Add factable to your scripts:
 
