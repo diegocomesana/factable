@@ -80,7 +80,7 @@ or to **_babel.config.js_**:
 
 module.exports = function (api) {
   api.cache(true);
-  const presets = [];
+  const presets = ["@babel/preset-env"];
   <b>const plugins = [factablePlugin];</b> // new
 
   return {
@@ -143,6 +143,6 @@ Add factable comment at the top of any file where you want Factable to intercept
 // FACTABLE
 
 export const someFancyFunc = () => {
-    
+
 }
 </pre>
