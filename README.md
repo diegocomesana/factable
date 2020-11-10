@@ -90,7 +90,7 @@ module.exports = function (api) {
 };
 </pre>
 
-Add factable to your scripts:
+Add Factable to your scripts:
 
 > **Factable** is just a **dev-tool** and should only be used in your **_development_** process.
 >
