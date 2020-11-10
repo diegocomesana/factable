@@ -10,7 +10,7 @@ A test case generation and managment tool for nodejs babel transpiled projects.
 - [Why?](#why)
 - [How does it work?](#how-does-it-work)
 - [Quick start](#quick-start)
-- [Factable UI usage]()
+- [Factable UI usage](./docs/factable-ui-usage.md)
 - [Facts about Factable](#facts-about-factable)
 
 ## What is Factable?

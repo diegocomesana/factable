@@ -1,5 +1,7 @@
 # **Factable UI** Usage
 
+<p align="center"><img src="misc/ui/01.png" alt="Step 1"/></p>
+
 This is should create this test file:
 
 <pre lang="js">
