@@ -1,19 +1,16 @@
 <p align="center"><img src="misc/logo.svg" alt="Factable Logo" width="200"/></p>
 
-<br />
-<br />
-
 # Factable
 
 A test case generation and managment tool for nodejs babel transpiled projects.
-
-<br />
 
 ## What is Factable?
 
 Factable intercepts your runtime function calls, lets you visualize and define your relevant test cases and then writes tests for them.
 
 Even if you dont't care about test generation, Factable is a great tool to be aware of what's really happening with your functions.
+
+---
 
 <br />
 
@@ -62,15 +59,11 @@ Factable saves its state in "factable.json" file in the root of your project. Ev
 
 ## Quick start
 
-<br />
-
 1. Install factable as dev dependency:
 
 ```
 npm install -D factable
 ```
-
-<br />
 
 2. Add factable babel plugin to your current babel config:
 
@@ -107,8 +100,6 @@ npm install -D factable
         };
     };
     </pre>
-
-<br />
 
 3. Add Factable to your scripts:
 
@@ -157,8 +148,6 @@ npm install -D factable
    > `factable-server-run 8888` is the cli command that launches **_Factable Server_** on port `8888`
    > Make sure to put the same port value in both build and **_Factable Server_** scripts.
 
-<br />
-
 4. Add factable comment at the top of any file where you want Factable to intercept function calls:
 
 <pre lang="js">
@@ -169,8 +158,6 @@ export const someFancyFunc = () => {
 }
 </pre>
 
-<br />
-
 5. Start **_Factable Server_**:
 
    ```
@@ -179,14 +166,10 @@ export const someFancyFunc = () => {
 
    > This will launch a browser window with the UI.
 
-<br />
-
 6. Run your app with Factable flag:
 
    ```
    npm run dev:factable
    ```
-
-<br />
 
 7. Play with **_Factable Server_** UI and find your function and its call.
