@@ -10,10 +10,6 @@ Factable intercepts your runtime function calls, lets you visualize and define y
 
 Even if you dont't care about test generation, Factable is a great tool to be aware of what's really happening with your functions.
 
----
-
-<br />
-
 ## Why?
 
 Have you ever found yourself running your app and logging your function call inputs and outputs just to use them for your test mocks and assertions?
