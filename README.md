@@ -163,6 +163,16 @@ export const someFancyFunc = ({ foo, bar, dontshowthis }, second = "hello") => (
 
 ---
 
+<br />
+
+## Factable Test Project
+
+You can also test factable just cloning [Factable Test Project](https://github.com/diegocomesana/factable-test-project) and following its instructions.
+
+---
+
+<br />
+
 ## Facts about Factable
 
 - Factable helps you understand your functions better.
