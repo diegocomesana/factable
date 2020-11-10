@@ -30,7 +30,7 @@ Then, that information is sent to a local server which serves it to the browser,
 
 Lastly, UI client connects to the server through websockets to manage user interaction.
 
-Factable server can register function calls and write and erase test files.
+**_Factable Server_** can register function calls and write and erase test files.
 
 Factable saves its state in "factable.json" file in the root of your project. Every test written is saved there. You should include it in your git tracked files.
 
@@ -120,7 +120,7 @@ npm install -D factable
    },
    </pre>
 
-   > `FACTABLE_TRANSPILE=8888` tells factable to transpile and set Factable server port to `8888`.
+   > `FACTABLE_TRANSPILE=8888` tells factable to transpile and set **_Factable Server_** port to `8888`.
 
    - Add a script to start **_Factable Server_**:
 
@@ -134,8 +134,8 @@ npm install -D factable
    },
    </pre>
 
-   > `factable-server-run 8888` is the cli command that launches Factable Server on port `8888`
-   > Make sure to put the same port value in both build and Factable server scripts.
+   > `factable-server-run 8888` is the cli command that launches **_Factable Server_** on port `8888`
+   > Make sure to put the same port value in both build and **_Factable Server_** scripts.
 
 4. Add factable comment at the top of any file where you want Factable to intercept function calls:
 
@@ -147,7 +147,7 @@ export const someFancyFunc = () => {
 }
 </pre>
 
-5. Start Factable Server:
+5. Start **_Factable Server_**:
 
    ```
    npm run factable
@@ -161,4 +161,4 @@ export const someFancyFunc = () => {
    npm run dev:factable
    ```
 
-   7. Play with Factable Server UI and find your function and its call.
+7. Play with **_Factable Server_** UI and find your function and its call.
