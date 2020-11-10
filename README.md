@@ -18,10 +18,6 @@ Have you ever wanted a way to register your runtime function calls to help you b
 
 We are lazy. Every time we find ourselves doing stuff that could be automated or at least assisted, we go for it. Thats why Factable exists.
 
----
-
-<br />
-
 ## How does it work?
 
 First, your function body is wrapped (at transpiling time) through a babel plugin that registers all relevant runtime information.
@@ -33,10 +29,6 @@ Lastly, UI client connects to the server through websockets to manage user inter
 **_Factable Server_** can register function calls and write and erase test files.
 
 Factable saves its state in "factable.json" file in the root of your project. Every test written is saved there. You should include it in your git tracked files.
-
----
-
-<br />
 
 ## Facts about Factable
 
