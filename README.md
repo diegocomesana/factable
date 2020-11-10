@@ -24,22 +24,11 @@ First, your function body is wrapped (at transpiling time) through a babel plugi
 
 Then, that information is sent to a local server which serves it to the browser, where the client UI resides.
 
-Lastly, UI client connects to the server through websockets to manage user interaction.
+Lastly, UI client connects to the server through http and websockets to manage user interaction.
 
-**_Factable Server_** can register function calls and write and erase test files.
+**_Factable Server_** can register function calls and write and delete test files.
 
-Factable saves its state in "factable.json" file in the root of your project. Every test written is saved there. You should include it in your git tracked files.
-
-## Facts about Factable
-
-- Factable helps you understand your functions better.
-- Factable pretends to help you build tests as soon as possible.
-- Factable likes and promotes **_TDD_** and **_BDD_**.
-- Factable loves **_Funcional Programming_** (pure functions, inmutability) and aims to be a tool that promotes its best practices and increases awareness about its benefits.
-- Factable **_tests are not perfect and will not always pass_**: It's up to you to make them work and pass! There are many cases (examples later) where factable can't build your function call, but it is still very usefull as it takes care of all the boilerplate. For now, you can freely manually edit and fix test files, just remember not to 'Edit' or 'Discard' it from Factable UI
-- Factable is intended to be used with **Git**: we write, update, and also eventually delete test files, so we rely on git for recovering any previous file state.
-- Factable only captures function calls server-side. Client-side is still a work in progress.
-- Remember **Factable** is just a **dev-tool** and should only be used in your **_development_** process. Please don't use it in your **production** builds!
+Factable saves its state in "**factable.json**" file in the root of your project. Every test written is saved there. You should include it in your git tracked files.
 
 ---
 
@@ -161,3 +150,16 @@ export const someFancyFunc = () => {
    ```
 
 7. Play with **_Factable Server_** UI and find your function and its call.
+
+---
+
+## Facts about Factable
+
+- Factable helps you understand your functions better.
+- Factable pretends to help you build tests as soon as possible.
+- Factable likes and promotes **_TDD_** and **_BDD_**.
+- Factable loves **_Funcional Programming_** (pure functions, inmutability) and aims to be a tool that promotes its best practices and increases awareness about its benefits.
+- Factable **_tests are not perfect and will not always pass_**: It's up to you to make them work and pass! There are many cases (examples later) where factable can't build your function call, but it is still very usefull as it takes care of all the boilerplate. For now, you can freely manually edit and fix test files, just remember not to 'Edit' or 'Discard' it from Factable UI
+- Factable is intended to be used with **Git**: we write, update, and also eventually delete test files, so we rely on git for recovering any previous file state.
+- Factable only captures function calls server-side. Client-side is still a work in progress.
+- Remember **Factable** is just a **dev-tool** and should only be used in your **_development_** process. Please don't use it in your **production** builds!
