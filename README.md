@@ -48,96 +48,96 @@ Factable saves its state in "factable.json" file in the root of your project. Ev
 
 ## Quick start
 
-Install factable as dev dependency:
+1. Install factable as dev dependency:
 
 ```
 npm install -D factable
 ```
 
-Add factable babel plugin to your current babel config:
+2. Add factable babel plugin to your current babel config:
 
-**_.babelrc_**:
+   **_.babelrc_**:
 
-<pre lang="...">
-{
-    "presets": [
-        [
-            "@babel/preset-env"
-        ]
-    ],
-    "plugins": [
-        <b>"module:factable"</b> // new
-    ]
-}
-</pre>
+   <pre lang="...">
+   {
+       "presets": [
+           [
+               "@babel/preset-env"
+           ]
+       ],
+       "plugins": [
+           <b>"module:factable"</b> // new
+       ]
+   }
+   </pre>
 
-> Notice "_module:_" prefix is required
+   > Notice "_module:_" prefix is required
 
-or to **_babel.config.js_**:
+   or to **_babel.config.js_**:
 
-<pre lang="js">
-<b>const factablePlugin = require("factable");</b> // new
+    <pre lang="js">
+    <b>const factablePlugin = require("factable");</b> // new
+   
+    module.exports = function (api) {
+    api.cache(true);
+    const presets = ["@babel/preset-env"];
+    <b>const plugins = [factablePlugin];</b> // new
+   
+    return {
+        presets,
+        plugins,
+    };
+    };
+    </pre>
 
-module.exports = function (api) {
-  api.cache(true);
-  const presets = ["@babel/preset-env"];
-  <b>const plugins = [factablePlugin];</b> // new
+3. Add Factable to your scripts:
 
-  return {
-    presets,
-    plugins,
-  };
-};
-</pre>
+   > **Factable** is just a **dev-tool** and should only be used in your **_development_** process.
+   >
+   > Please don't use it in your **production** builds!
 
-Add Factable to your scripts:
+   - Set env variable **_FACTABLE_TRANSPILE={PORT}_** in every development (babel related) build script:
 
-> **Factable** is just a **dev-tool** and should only be used in your **_development_** process.
->
-> Please don't use it in your **production** builds!
+   **_package.json_**
 
-- Set env variable **_FACTABLE_TRANSPILE={PORT}_** in every development (babel related) build script:
+   <pre lang="...">
+   "scripts": {
+   
+       "dev": "babel-node ./src",
+       <b>"dev:factable": "cross-env FACTABLE_TRANSPILE=8888 babel-node ./src",</b> // new
+   
+   },
+   </pre>
 
-**_package.json_**
+   or:
 
-<pre lang="...">
-"scripts": {
+   <pre lang="...">
+   "scripts": {
+   
+       "build": "babel -d ./build ./src",
+       <b>"build:factable": "cross-env FACTABLE_TRANSPILE=8888 babel -d ./build ./src",</b> // new
+   
+   },
+   </pre>
 
-    "dev": "babel-node ./src",
-    <b>"dev:factable": "cross-env FACTABLE_TRANSPILE=8888 babel-node ./src",</b> // new
+   > `FACTABLE_TRANSPILE=8888` tells factable to transpile and set Factable server port to `8888`.
 
-},
-</pre>
+   - Add a script to start **_Factable Server_**:
 
-or:
+   **_package.json_**
 
-<pre lang="...">
-"scripts": {
+   <pre lang="...">
+   "scripts": {
+   
+       <b>"factable": "factable-server-run 8888</b>",
+   
+   },
+   </pre>
 
-    "build": "babel -d ./build ./src",
-    <b>"build:factable": "cross-env FACTABLE_TRANSPILE=8888 babel -d ./build ./src",</b> // new
+   > `factable-server-run 8888` is the cli command that launches Factable Server on port `8888`
+   > Make sure to put the same port value in both build and Factable server scripts.
 
-},
-</pre>
-
-> `FACTABLE_TRANSPILE=8888` tells factable to transpile and set Factable server port to `8888`.
-
-- Add a script to start **_Factable Server_**:
-
-**_package.json_**
-
-<pre lang="...">
-"scripts": {
-
-    <b>"factable": "factable-server-run 8888</b>",
-
-},
-</pre>
-
-> `factable-server-run 8888` is the cli command that launches Factable Server on port `8888`
-> Make sure to put the same port value in both build and Factable server scripts.
-
-Add factable comment at the top of any file where you want Factable to intercept function calls:
+4. Add factable comment at the top of any file where you want Factable to intercept function calls:
 
 <pre lang="js">
 // FACTABLE
@@ -146,3 +146,19 @@ export const someFancyFunc = () => {
 
 }
 </pre>
+
+5. Start Factable Server:
+
+   ```
+   npm run factable
+   ```
+
+   > This will launch a browser window with the UI.
+
+6. Run your app with Factable flag:
+
+   ```
+   npm run dev:factable
+   ```
+
+   7. Play with Factable Server UI and find your function and its call.
