@@ -75,7 +75,7 @@ Add factable babel plugin to your current babel config:
 
 or to **_babel.config.js_**:
 
-<pre lang="json">
+<pre lang="js">
 <b>const factablePlugin = require("factable");</b>
 
 module.exports = function (api) {
@@ -96,7 +96,7 @@ Add factable to your scripts:
 
 **_package.json_**
 
-<pre lang="...">
+<pre lang="json">
 "scripts": {
     ...
     "dev": "babel-node ./src",
@@ -107,7 +107,7 @@ Add factable to your scripts:
 
 or:
 
-<pre lang="...">
+<pre lang="json">
 "scripts": {
     ...
     "build": "babel -d ./build ./src",
@@ -122,7 +122,7 @@ or:
 
 **_package.json_**
 
-<pre lang="...">
+<pre lang="json">
 "scripts": {
     ...
     <b>"factable": "factable-server-run 8888</b>",
