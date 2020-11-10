@@ -94,7 +94,7 @@ Add factable to your scripts:
 
 > **Factable** is just a **dev-tool** and should only be used in your **_development_** process.
 >
-> ### Please don't use it in your **production** builds!
+> Please don't use it in your **production** builds!
 
 - Set env variable **_FACTABLE_TRANSPILE={PORT}_** in every development (babel related) build script:
 
