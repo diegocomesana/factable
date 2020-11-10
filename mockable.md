@@ -1,0 +1,186 @@
+<p align="center"><img src="misc/logo.svg" alt="Moccable Logo" width="200"/></p>
+<p align="center"><img src="https://github.com/diegocomesana/Moccable/raw/main/misc/ui/Moccable-ui.gif" alt="Moccable UI" width="500"/></p>
+
+# Moccable
+
+A test case generation and managment tool for nodejs babel transpiled projects.
+
+## Contents
+
+- [What is Moccable?](#what-is-Moccable)
+- [Why?](#why)
+- [How does it work?](#how-does-it-work)
+- [Quick start](#quick-start)
+- [Moccable UI usage](./docs/Moccable-ui-usage.md)
+- [Try Moccable with **_Moccable Test Project_**](#try-Moccable-with-Moccable-test-project)
+- [Facts about Moccable](#facts-about-Moccable)
+
+## What is Moccable?
+
+Moccable intercepts your runtime function calls, lets you visualize and define your relevant test cases and then writes tests for them.
+
+Even if you dont't care about test generation, Moccable is a great tool to be aware of what's really happening with your functions.
+
+## Why?
+
+Have you ever found yourself running your app and logging your function call inputs and outputs just to use them for your test mocks and assertions?
+
+Have you ever wanted a way to register your runtime function calls to help you build your tests?
+
+We are lazy. Every time we find ourselves doing stuff that could be automated or at least assisted, we go for it. Thats why Moccable exists.
+
+## How does it work?
+
+First, your function body is wrapped (at transpiling time) through a babel plugin that registers all relevant runtime information.
+
+Then, that information is sent to a local server which serves it to the browser, where the client UI resides.
+
+Lastly, UI client connects to the server through http and websockets to manage user interaction.
+
+**_Moccable Server_** can register function calls and write and delete test files.
+
+Moccable saves its state in "**Moccable.json**" file in the root of your project. Every test metadata is saved there. You should include it in your git tracked files.
+
+---
+
+<br />
+
+## Quick start
+
+1. Install Moccable as dev dependency:
+
+```
+npm install -D Moccable
+```
+
+2. Add Moccable babel plugin to your current babel config:
+
+   **_.babelrc_**:
+
+   <pre lang="...">
+   {
+       "presets": [
+           [
+               "@babel/preset-env"
+           ]
+       ],
+       "plugins": [
+           <b>"module:Moccable"</b> // new
+       ]
+   }
+   </pre>
+
+   > Notice "_module:_" prefix is required
+
+   or to **_babel.config.js_**:
+
+    <pre lang="js">
+    <b>const MoccablePlugin = require("Moccable");</b> // new
+   
+    module.exports = function (api) {
+        api.cache(true);
+        const presets = ["@babel/preset-env"];
+        <b>const plugins = [MoccablePlugin];</b> // new
+    
+        return {
+            presets,
+            plugins,
+        };
+    };
+    </pre>
+
+3. Add Moccable to your scripts:
+
+   > Remember **Moccable** is just a **dev-tool** and should only be used in your **_development_** process.
+   >
+   > Please don't use it in your **production** builds!
+
+   - Set env variable **_Moccable_TRANSPILE={PORT}_** in every development (babel related) build script:
+
+   **_package.json_**
+
+   <pre lang="...">
+   "scripts": {
+   
+       "dev": "babel-node ./src",
+       <b>"dev:Moccable": "cross-env Moccable_TRANSPILE=8888 babel-node ./src",</b> // new
+   
+   },
+   </pre>
+
+   or:
+
+   <pre lang="...">
+   "scripts": {
+   
+       "build": "babel -d ./build ./src",
+       <b>"build:Moccable": "cross-env Moccable_TRANSPILE=8888 babel -d ./build ./src",</b> // new
+   
+   },
+   </pre>
+
+   > `Moccable_TRANSPILE=8888` tells Moccable to transpile and set **_Moccable Server_** port to `8888`.
+
+   - Add a script to start **_Moccable Server_**:
+
+   **_package.json_**
+
+   <pre lang="...">
+   "scripts": {
+   
+       <b>"Moccable": "Moccable-server-run 8888</b>",
+   
+   },
+   </pre>
+
+   > `Moccable-server-run 8888` is the cli command that launches **_Moccable Server_** on port `8888`
+   > Make sure to put the same port value in both build and **_Moccable Server_** scripts.
+
+4. Add Moccable comment at the top of any file where you want Moccable to intercept function calls:
+
+<pre lang="js">
+// Moccable
+
+export const someFancyFunc = ({ foo, bar, dontshowthis }, second = "hello") => (baz) => {
+  return `${dontshowthis ? "" : foo + bar}${second}${baz}`;
+};
+</pre>
+
+5. Start **_Moccable Server_**:
+
+   ```
+   npm run Moccable
+   ```
+
+   > This will launch a browser window with the UI.
+
+6. Run your app with Moccable flag:
+
+   ```
+   npm run dev:Moccable
+   ```
+
+7. Play with **_Moccable Server_** UI and find your function and its calls. Please, refer to _[Moccable UI usage](./docs/Moccable-ui-usage.md)_ for more information.
+
+---
+
+<br />
+
+## Try Moccable with **_Moccable Test Project_**
+
+You can also try Moccable just cloning [Moccable Test Project](https://github.com/diegocomesana/Moccable-test-project) and following its instructions.
+
+---
+
+<br />
+
+## Facts about Moccable
+
+- Moccable helps you understand your functions better.
+- Moccable pretends to help you build tests as soon as possible.
+- Moccable likes and promotes **_TDD_** and **_BDD_**.
+- Moccable loves **_Funcional Programming_** (pure functions, inmutability) and aims to be a tool that promotes its best practices and increases awareness about its benefits.
+- Moccable **_tests are not perfect and will not always pass_**: It's up to you to make them work and pass! There are many cases (examples later) where Moccable can't build your function call, but it is still very usefull as it takes care of all the boilerplate. For now, you can freely manually edit and fix test files, just remember not to 'Edit' or 'Discard' it from Moccable UI
+- Moccable is intended to be used with **Git**: we write, update, and also eventually delete test files, so we rely on git for recovering any previous file state.
+- Moccable only captures function calls server-side. Client-side is still a work in progress.
+- Remember **Moccable** is just a **dev-tool** and should only be used in your **_development_** process. Please don't use it in your **production** builds!
