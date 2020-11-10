@@ -80,14 +80,14 @@ npm install -D factable
     <b>const factablePlugin = require("factable");</b> // new
    
     module.exports = function (api) {
-    api.cache(true);
-    const presets = ["@babel/preset-env"];
-    <b>const plugins = [factablePlugin];</b> // new
-   
-    return {
-        presets,
-        plugins,
-    };
+        api.cache(true);
+        const presets = ["@babel/preset-env"];
+        <b>const plugins = [factablePlugin];</b> // new
+    
+        return {
+            presets,
+            plugins,
+        };
     };
     </pre>
 
