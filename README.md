@@ -92,7 +92,7 @@ module.exports = function (api) {
 
 Add factable to your scripts:
 
-- Set env variable **_FACTABLE_TRANSPILE=8888_** in every (babel related) build script:
+- Set env variable **_FACTABLE_TRANSPILE={PORT}_** in every (babel related) build script:
 
 **_package.json_**
 
