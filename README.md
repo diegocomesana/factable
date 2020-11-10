@@ -158,7 +158,7 @@ export const someFancyFunc = ({ foo, bar, dontshowthis }, second = "hello") => (
    npm run dev:factable
    ```
 
-7. Play with **_Factable Server_** UI and find your function and its call.
+7. Play with **_Factable Server_** UI and find your function and its call. Please, refer to _[Factable UI usage](./docs/factable-ui-usage.md)_ for more information.
 
 ---
 
