@@ -37,7 +37,7 @@ Lastly, UI client connects to the server through http and websockets to manage u
 
 **_Factable Server_** can register function calls and write and delete test files.
 
-Factable saves its state in "**factable.json**" file in the root of your project. Every test written is saved there. You should include it in your git tracked files.
+Factable saves its state in "**factable.json**" file in the root of your project. Every test metadata is saved there. You should include it in your git tracked files.
 
 ---
 
