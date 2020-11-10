@@ -1,6 +1,6 @@
 {
   "name": "factable",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A test case generation tool for nodejs babel transpiled projects",
   "main": "./src/index.js",
   "scripts": {
