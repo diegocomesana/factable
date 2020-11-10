@@ -137,4 +137,12 @@ or:
 > `factable-server-run 8888` is the cli command that lauches Factable Server on port `8888`
 > Make sure to put the same port value in both build and Factable server scripts.
 
-Add factable comment to any file where you want Factable to intercept function calls:
+Add factable comment at the top of any file where you want Factable to intercept function calls:
+
+<pre lang="js">
+// FACTABLE
+
+export const someFancyFunc = () => {
+    
+}
+</pre>
