@@ -45,6 +45,7 @@ Factable saves its state in "factable.json" file in the root of your project. Ev
 - Factable **_tests are not perfect and will not always pass_**: It's up to you to make them work and pass! There are many cases (examples later) where factable can't build your function call, but it is still very usefull as it takes care of all the boilerplate. For now, you can freely manually edit and fix test files, just remember not to 'Edit' or 'Discard' it from Factable UI
 - Factable is intended to be used with **Git**: we write, update, and also eventually delete test files, so we rely on git for recovering any previous file state.
 - Factable only captures function calls server-side. Client-side is still a work in progress.
+- Remember **Factable** is just a **dev-tool** and should only be used in your **_development_** process. Please don't use it in your **production** builds!
 
 ## Quick start
 
@@ -92,7 +93,7 @@ npm install -D factable
 
 3. Add Factable to your scripts:
 
-   > **Factable** is just a **dev-tool** and should only be used in your **_development_** process.
+   > Remember **Factable** is just a **dev-tool** and should only be used in your **_development_** process.
    >
    > Please don't use it in your **production** builds!
 
