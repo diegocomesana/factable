@@ -1,16 +1,19 @@
 <p align="center"><img src="misc/logo.svg" alt="Factable Logo" width="200"/></p>
 
+<br />
+<br />
+
 # Factable
 
 A test case generation and managment tool for nodejs babel transpiled projects.
+
+<br />
 
 ## What is Factable?
 
 Factable intercepts your runtime function calls, lets you visualize and define your relevant test cases and then writes tests for them.
 
 Even if you dont't care about test generation, Factable is a great tool to be aware of what's really happening with your functions.
-
----
 
 <br />
 
