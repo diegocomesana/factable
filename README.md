@@ -130,9 +130,9 @@ npm install -D factable
 <pre lang="js">
 // FACTABLE
 
-export const someFancyFunc = () => {
-
-}
+export const someFancyFunc = ({ foo, bar, dontshowthis }, second = "hello") => (baz) => {
+  return `${dontshowthis ? "" : foo + bar}${second}${baz}`;
+};
 </pre>
 
 5. Start **_Factable Server_**:
