@@ -12,6 +12,7 @@ A test case generation and managment tool for nodejs babel transpiled projects.
 - [How does it work?](#how-does-it-work)
 - [Quick start](#quick-start)
 - [Factable UI usage](./docs/factable-ui-usage.md)
+- [Try Factable with **_Factable Test Project_**](#factable-test-project)
 - [Facts about Factable](#facts-about-factable)
 
 ## What is Factable?
@@ -165,7 +166,7 @@ export const someFancyFunc = ({ foo, bar, dontshowthis }, second = "hello") => (
 
 <br />
 
-## Factable Test Project
+## Try Factable with **_Factable Test Project_**
 
 You can also test factable just cloning [Factable Test Project](https://github.com/diegocomesana/factable-test-project) and following its instructions.
 
