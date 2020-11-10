@@ -1,5 +1,5 @@
 <p align="center"><img src="misc/logo.svg" alt="Factable Logo" width="200"/></p>
-<p align="center"><img src="misc/ui/factable-ui.gif" alt="Factable UI" width="500"/></p>
+<p align="center"><img src="https://github.com/diegocomesana/factable/raw/main/misc/ui/factable-ui.gif" alt="Factable UI" width="500"/></p>
 
 # Factable
 
