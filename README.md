@@ -107,7 +107,7 @@ Add factable to your scripts:
 
 or:
 
-<pre lang="json">
+<pre lang="...">
 "scripts": {
     ...
     "build": "babel -d ./build ./src",
@@ -122,7 +122,7 @@ or:
 
 **_package.json_**
 
-<pre lang="json">
+<pre lang="...">
 "scripts": {
     ...
     <b>"factable": "factable-server-run 8888</b>",
