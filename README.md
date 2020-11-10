@@ -92,7 +92,10 @@ module.exports = function (api) {
 
 Add factable to your scripts:
 
-- Set env variable **_FACTABLE_TRANSPILE={PORT}_** in every (babel related) build script:
+> **Factable** is just a **dev-tool** and should only be used in your **_development_** process.
+> Please don't use it in your **production** builds!
+
+- Set env variable **_FACTABLE_TRANSPILE={PORT}_** in every development (babel related) build script:
 
 **_package.json_**
 
@@ -132,3 +135,5 @@ or:
 
 > `factable-server-run 8888` is the cli command that lauches Factable Server on port `8888`
 > Make sure to put the same port value in both build and Factable server scripts.
+
+Add factable comment to any file where you want Factable to intercept function calls:
