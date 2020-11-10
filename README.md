@@ -58,7 +58,7 @@ Add factable babel plugin to your current babel config:
 
 **_.babelrc_**:
 
-<pre lang="json">
+<pre lang="...">
 {
     "presets": [
         [
@@ -66,7 +66,7 @@ Add factable babel plugin to your current babel config:
         ]
     ],
     "plugins": [
-        <b>"module:factable"</b>
+        <b>"module:factable"</b> // new
     ]
 }
 </pre>
@@ -76,12 +76,12 @@ Add factable babel plugin to your current babel config:
 or to **_babel.config.js_**:
 
 <pre lang="js">
-<b>const factablePlugin = require("factable");</b>
+<b>const factablePlugin = require("factable");</b> // new
 
 module.exports = function (api) {
   api.cache(true);
   const presets = [];
-  <b>const plugins = [factablePlugin];</b>
+  <b>const plugins = [factablePlugin];</b> // new
 
   return {
     presets,
@@ -96,7 +96,7 @@ Add factable to your scripts:
 
 **_package.json_**
 
-<pre lang="json">
+<pre lang="...">
 "scripts": {
     ...
     "dev": "babel-node ./src",
