@@ -98,10 +98,10 @@ Add factable to your scripts:
 
 <pre lang="...">
 "scripts": {
-    ...
+
     "dev": "babel-node ./src",
     <b>"dev:factable": "cross-env FACTABLE_TRANSPILE=8888 babel-node ./src",</b> // new
-    ...
+
 },
 </pre>
 
@@ -109,10 +109,10 @@ or:
 
 <pre lang="...">
 "scripts": {
-    ...
+
     "build": "babel -d ./build ./src",
     <b>"build:factable": "cross-env FACTABLE_TRANSPILE=8888 babel -d ./build ./src",</b> // new
-    ...
+
 },
 </pre>
 
@@ -124,9 +124,9 @@ or:
 
 <pre lang="...">
 "scripts": {
-    ...
+
     <b>"factable": "factable-server-run 8888</b>",
-    ...
+
 },
 </pre>
 
