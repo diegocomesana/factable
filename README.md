@@ -12,6 +12,8 @@ Even if you dont't care about test generation, Factable is a great tool to be aw
 
 ---
 
+<br />
+
 ## Why?
 
 Have you ever found yourself running your app and logging your function call inputs and outputs just to use them for your test mocks and assertions?
@@ -21,6 +23,8 @@ Have you ever wanted a way to register your runtime function calls to help you b
 We are lazy. Every time we find ourselves doing stuff that could be automated or at least assisted, we go for it. Thats why Factable exists.
 
 ---
+
+<br />
 
 ## How does it work?
 
@@ -36,6 +40,8 @@ Factable saves its state in "factable.json" file in the root of your project. Ev
 
 ---
 
+<br />
+
 ## Facts about Factable
 
 - Factable helps you understand your functions better.
@@ -47,13 +53,21 @@ Factable saves its state in "factable.json" file in the root of your project. Ev
 - Factable only captures function calls server-side. Client-side is still a work in progress.
 - Remember **Factable** is just a **dev-tool** and should only be used in your **_development_** process. Please don't use it in your **production** builds!
 
+---
+
+<br />
+
 ## Quick start
+
+<br />
 
 1. Install factable as dev dependency:
 
 ```
 npm install -D factable
 ```
+
+<br />
 
 2. Add factable babel plugin to your current babel config:
 
@@ -90,6 +104,8 @@ npm install -D factable
         };
     };
     </pre>
+
+<br />
 
 3. Add Factable to your scripts:
 
@@ -138,6 +154,8 @@ npm install -D factable
    > `factable-server-run 8888` is the cli command that launches **_Factable Server_** on port `8888`
    > Make sure to put the same port value in both build and **_Factable Server_** scripts.
 
+<br />
+
 4. Add factable comment at the top of any file where you want Factable to intercept function calls:
 
 <pre lang="js">
@@ -148,6 +166,8 @@ export const someFancyFunc = () => {
 }
 </pre>
 
+<br />
+
 5. Start **_Factable Server_**:
 
    ```
@@ -156,10 +176,14 @@ export const someFancyFunc = () => {
 
    > This will launch a browser window with the UI.
 
+<br />
+
 6. Run your app with Factable flag:
 
    ```
    npm run dev:factable
    ```
+
+<br />
 
 7. Play with **_Factable Server_** UI and find your function and its call.
